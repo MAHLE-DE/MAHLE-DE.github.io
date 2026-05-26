@@ -1,7 +1,6 @@
-
 let dados = {};
 
-// CONFIG FIREBASE (SEU CONFIG)
+// CONFIG FIREBASE
 const firebaseConfig = {
   apiKey: "AIzaSyBreppRJPaHXwz3K_QB_79EU2C4rGEF9Gk",
   authDomain: "site-mahle.firebaseapp.com",
@@ -32,28 +31,57 @@ function logout() {
 firebase.auth().onAuthStateChanged(user => {
 
   if (user) {
-    // entrou
     document.getElementById("login-container").style.display = "none";
     document.getElementById("app").style.display = "block";
 
-    iniciarSite(); // inicia seu código atual
+    iniciarSite(); // chama Firestore agora
   } else {
-    // bloqueado
     document.getElementById("login-container").style.display = "block";
     document.getElementById("app").style.display = "none";
   }
 
 });
 
-// SISTEMA ORIGINAL (SEM ALTERAÇÃO)
+// ✅ NOVO: CARREGAR DO FIRESTORE (SUBSTITUI FETCH)
 function iniciarSite() {
 
-  fetch("/dados.json?v=" + Date.now())
-    .then(res => res.json())
-    .then(json => {
-      console.log("Chaves:", Object.keys(json));
-      dados = json;
+  firebase.firestore().collection("projetos").get()
+    .then(snapshot => {
+
+      dados = {};
+
+      snapshot.forEach(doc => {
+
+        const item = doc.data();
+
+        const DE = item.DE;
+        const projeto = item.projeto;
+
+        // JSON salvo pelo VBA
+        let jsonCompleto;
+        try {
+          jsonCompleto = JSON.parse(item.jsonCompleto);
+        } catch (e) {
+          console.error("Erro ao parsear JSON:", e);
+          return;
+        }
+
+        if (!dados[DE]) {
+          dados[DE] = { projetos: {} };
+        }
+
+        dados[DE].projetos[projeto] = {
+          documentos: jsonCompleto.documentos
+        };
+
+      });
+
+      console.log("Dados carregados do Firestore:", dados);
+
       preencherLista();
+    })
+    .catch(err => {
+      console.error("Erro ao carregar Firestore:", err);
     });
 
 }
@@ -72,7 +100,7 @@ function preencherLista() {
   });
 }
 
-// SUA LÓGICA ORIGINAL DE EVENTO
+// EVENTO ORIGINAL (INALTERADO)
 document.addEventListener("change", function (e) {
 
   if (e.target.id !== "lista") return;
