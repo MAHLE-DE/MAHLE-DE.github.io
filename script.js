@@ -153,6 +153,7 @@ document.addEventListener("change", function (e) {
 
 });
 
+
 document.addEventListener("keydown", function (e) {
 
   if (e.key === "Enter") {
@@ -160,16 +161,13 @@ document.addEventListener("keydown", function (e) {
     const email = document.getElementById("email");
     const senha = document.getElementById("senha");
 
-    // só executa se estiver na tela de login
-    if (document.getElementById("login-container").style.display !== "none") {
-      
-      // verifica se está digitando nos campos corretos
-      if (document.activeElement === email || document.activeElement === senha) {
-        login();
-      }
-
+    // se o campo ativo for email ou senha → faz login
+    if (document.activeElement === email || document.activeElement === senha) {
+      e.preventDefault(); // evita comportamento padrão
+      login();
     }
 
   }
 
 });
+
