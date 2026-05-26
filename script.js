@@ -59,12 +59,19 @@ function iniciarSite() {
 
         // JSON salvo pelo VBA
         let jsonCompleto;
+        
         try {
-          jsonCompleto = JSON.parse(item.jsonCompleto);
+        
+          const textoCorrigido = item.jsonCompleto
+            .replace(/'/g, '"'); // corrige aspas simples
+        
+          jsonCompleto = JSON.parse(textoCorrigido);
+        
         } catch (e) {
-          console.error("Erro ao parsear JSON:", e);
+          console.error("Erro ao parsear JSON:", item.jsonCompleto);
           return;
         }
+
 
         if (!dados[DE]) {
           dados[DE] = { projetos: {} };
