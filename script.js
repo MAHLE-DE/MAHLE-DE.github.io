@@ -1,13 +1,64 @@
+
 let dados = {};
 
-fetch("/dados.json?v=" + Date.now())
-  .then(res => res.json())
-  .then(json => {
-    console.log("Chaves:", Object.keys(json));
-    dados = json;
-    preencherLista();
-  });
+// CONFIG FIREBASE (SEU CONFIG)
+const firebaseConfig = {
+  apiKey: "AIzaSyBreppRJPaHXwz3K_QB_79EU2C4rGEF9Gk",
+  authDomain: "site-mahle.firebaseapp.com",
+  projectId: "site-mahle",
+  storageBucket: "site-mahle.firebasestorage.app",
+  messagingSenderId: "726211952088",
+  appId: "1:726211952088:web:383864b51bc9f703b406ad"
+};
 
+// INICIA FIREBASE
+firebase.initializeApp(firebaseConfig);
+
+// LOGIN
+function login() {
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
+
+  firebase.auth().signInWithEmailAndPassword(email, senha)
+    .catch(error => alert(error.message));
+}
+
+// LOGOUT
+function logout() {
+  firebase.auth().signOut();
+}
+
+// CONTROLE DE ACESSO
+firebase.auth().onAuthStateChanged(user => {
+
+  if (user) {
+    // entrou
+    document.getElementById("login-container").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    iniciarSite(); // inicia seu código atual
+  } else {
+    // bloqueado
+    document.getElementById("login-container").style.display = "block";
+    document.getElementById("app").style.display = "none";
+  }
+
+});
+
+// SISTEMA ORIGINAL (SEM ALTERAÇÃO)
+function iniciarSite() {
+
+  fetch("/dados.json?v=" + Date.now())
+    .then(res => res.json())
+    .then(json => {
+      console.log("Chaves:", Object.keys(json));
+      dados = json;
+      preencherLista();
+    });
+
+}
+
+// LISTA ORIGINAL
 function preencherLista() {
   const select = document.getElementById("lista");
 
@@ -21,8 +72,12 @@ function preencherLista() {
   });
 }
 
-document.getElementById("lista").addEventListener("change", function () {
-  const de = this.value;
+// SUA LÓGICA ORIGINAL DE EVENTO
+document.addEventListener("change", function (e) {
+
+  if (e.target.id !== "lista") return;
+
+  const de = e.target.value;
   const container = document.getElementById("projetos");
 
   container.innerHTML = "";
@@ -66,4 +121,5 @@ document.getElementById("lista").addEventListener("change", function () {
 
     container.appendChild(card);
   });
+
 });
