@@ -149,5 +149,27 @@ document.addEventListener("change", function (e) {
 
     container.appendChild(card);
   });
+  
+
+});
+
+document.addEventListener("keydown", function (e) {
+
+  if (e.key === "Enter") {
+
+    const email = document.getElementById("email");
+    const senha = document.getElementById("senha");
+
+    // só executa se estiver na tela de login
+    if (document.getElementById("login-container").style.display !== "none") {
+      
+      // verifica se está digitando nos campos corretos
+      if (document.activeElement === email || document.activeElement === senha) {
+        login();
+      }
+
+    }
+
+  }
 
 });
