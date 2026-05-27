@@ -173,7 +173,7 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* REMOVE HERANÇA BUGADA */
+/* Remove herança */
 .input-group i {
   position: static;
   transform: none;
@@ -256,18 +256,22 @@ body {
 }
 
 /* ===========================
-   LOGO
+   LOGO NO CANTO INFERIOR DIREITO
 =========================== */
 
 .logo-fixed {
   position: fixed;
-  right: 30px;
-  bottom: 30px;
+
+  right: 35px;
+  bottom: 25px;
+
   z-index: 100;
 
   transition:
     opacity 0.4s ease,
     visibility 0.4s ease;
+
+  pointer-events: none;
 }
 
 .logo-fixed img {
