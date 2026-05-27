@@ -1,54 +1,113 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Pendências de Projetos</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendências de Projetos</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- ÍCONES -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div id="login-container" style="text-align:center; margin-top:100px;">
-  <h2>Login</h2>
+    <!-- BACKGROUND LOGIN -->
+    <div id="login-background" class="background-slider">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 
-  <input type="email" id="email" placeholder="Email"><br><br>
-  <input type="password" id="senha" placeholder="Senha"><br><br>
+    <!-- LOGIN -->
+    <div id="login-container">
 
-  <button onclick="login()">Entrar</button>
-</div>
+        <div class="login-box">
 
-<!-- APP -->
-<div id="app" style="display:none;">
+            <h2>Login</h2>
 
-  <!-- LOGO -->
-  <div class="logo-container">
-    <img src="logo.png">
-  </div>
+            <!-- EMAIL -->
+            <div class="input-group">
 
-  <!-- LISTA DE -->
-  <div class="filtro">
-    <select id="lista"></select>
-  </div>
+                <i class="fa-regular fa-envelope left-icon"></i>
 
-  <!-- PROJETOS -->
-  <div id="projetos" class="grid"></div>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="EMAIL">
 
-  <div style="text-align:center; margin-top:20px;">
-    <button onclick="logout()">Sair</button>
-  </div>
+            </div>
 
-</div>
+            <!-- SENHA -->
+            <div class="input-group">
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+                <i class="fa-solid fa-lock left-icon"></i>
 
-<!-- SEU SCRIPT -->
-<script src="script.js"></script
+                <input
+                    type="password"
+                    id="senha"
+                    placeholder="SENHA">
 
+                <i
+                    id="toggleSenha"
+                    class="fa-regular fa-eye-slash password-toggle">
+                </i>
+
+            </div>
+
+            <!-- BOTÃO LOGIN -->
+            <button
+                class="login-btn"
+                onclick="login()">
+
+                Entrar
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- LOGO FIXA -->
+    <div id="login-logo" class="logo-fixed">
+        <img src="logo.png" alt="Logo">
+    </div>
+
+    <!-- APP -->
+    <div id="app" style="display:none;">
+
+        <!-- LOGO -->
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo">
+        </div>
+
+        <!-- FILTRO -->
+        <div class="filtro">
+            <select id="lista"></select>
+        </div>
+
+        <!-- PROJETOS -->
+        <div id="projetos" class="grid"></div>
+
+        <div style="text-align:center; margin-top:20px;">
+            <button onclick="logout()">
+                Sair
+            </button>
+        </div>
+
+    </div>
+
+    <!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <!-- SCRIPT -->
+    <script src="script.js"></script>
 
 </body>
-</html>
 
+</html>

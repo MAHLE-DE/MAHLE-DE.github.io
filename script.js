@@ -30,14 +30,49 @@ function logout() {
 // CONTROLE DE ACESSO
 firebase.auth().onAuthStateChanged(user => {
 
-  if (user) {
-    document.getElementById("login-container").style.display = "none";
-    document.getElementById("app").style.display = "block";
+  const loginContainer =
+    document.getElementById("login-container");
 
-    iniciarSite(); // chama Firestore agora
+  const loginBackground =
+    document.getElementById("login-background");
+
+  const loginLogo =
+    document.getElementById("login-logo");
+
+  const app =
+    document.getElementById("app");
+
+  if (user) {
+
+    // ESCONDE LOGIN
+    loginContainer.classList.add("hidden");
+
+    loginBackground.style.display = "block";
+    loginBackground.classList.add("hidden");
+
+    loginLogo.style.display = "block";
+    loginLogo.classList.add("hidden");
+
+    // MOSTRA APP
+    app.style.display = "block";
+
+    iniciarSite();
+
   } else {
-    document.getElementById("login-container").style.display = "block";
-    document.getElementById("app").style.display = "none";
+
+    // MOSTRA LOGIN
+    loginContainer.classList.remove("hidden");
+
+    // RELIGA SLIDESHOW
+    loginBackground.style.display = "block";
+    loginBackground.classList.remove("hidden");
+
+    // RELIGA LOGO
+    loginLogo.style.display = "block";
+    loginLogo.classList.remove("hidden");
+
+    // ESCONDE APP
+    app.style.display = "none";
   }
 
 });
@@ -178,3 +213,29 @@ document.addEventListener("keydown", function (e) {
 
 });
 
+// MOSTRAR/ESCONDER SENHA
+document.addEventListener("DOMContentLoaded", () => {
+
+  const senhaInput =
+    document.getElementById("senha");
+
+  const toggleSenha =
+    document.getElementById("toggleSenha");
+
+  if (!senhaInput || !toggleSenha) return;
+
+  toggleSenha.addEventListener("click", () => {
+
+    const senhaVisivel =
+      senhaInput.type === "text";
+
+    senhaInput.type =
+      senhaVisivel ? "password" : "text";
+
+    toggleSenha.className =
+      senhaVisivel
+        ? "fa-regular fa-eye-slash password-toggle"
+        : "fa-regular fa-eye password-toggle";
+  });
+
+});
