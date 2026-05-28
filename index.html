@@ -4,16 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendências de Projetos</title>
+    <title>MAHLE Project Dashboard</title>
 
     <link rel="stylesheet" href="style.css">
 
-    <!-- ÍCONES -->
+    <!-- FONT AWESOME -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
+
+    <!-- ==========================
+         LOGIN (MANTIDO)
+    =========================== -->
 
     <!-- BACKGROUND LOGIN -->
     <div id="login-background" class="background-slider">
@@ -58,7 +62,7 @@
 
             </div>
 
-            <!-- BOTÃO LOGIN -->
+            <!-- LOGIN -->
             <button
                 class="login-btn"
                 onclick="login()">
@@ -71,32 +75,215 @@
 
     </div>
 
-    <!-- LOGO FIXA -->
+    <!-- LOGO LOGIN -->
     <div id="login-logo" class="logo-fixed">
-        <img src="logo.png" alt="Logo">
+        <img src="logo.png" alt="MAHLE Logo">
     </div>
 
-    <!-- APP -->
+    <!-- ==========================
+         APP PÓS LOGIN
+    =========================== -->
+
     <div id="app" style="display:none;">
 
-        <!-- LOGO -->
-        <div class="logo-container">
-            <img src="logo.png" alt="Logo">
-        </div>
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
 
-        <!-- FILTRO -->
-        <div class="filtro">
-            <select id="lista"></select>
-        </div>
+            <!-- TOPO -->
+            <div class="sidebar-top">
 
-        <!-- PROJETOS -->
-        <div id="projetos" class="grid"></div>
+                <div class="brand-container">
 
-        <div style="text-align:center; margin-top:20px;">
-            <button onclick="logout()">
-                Sair
-            </button>
-        </div>
+                    <img
+                        src="logo.png"
+                        alt="MAHLE"
+                        class="sidebar-logo">
+
+                </div>
+
+                <div class="menu-title">
+                    MENU
+                </div>
+
+            </div>
+
+            <!-- MENU -->
+            <nav class="sidebar-menu">
+
+                <button
+                    class="menu-item active"
+                    data-section="pendencias">
+
+                    <i class="fa-solid fa-list-check"></i>
+
+                    <span>Pendências</span>
+
+                </button>
+
+                <button
+                    class="menu-item"
+                    data-section="kpis">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    <span>KPIs</span>
+
+                </button>
+
+                <button
+                    class="menu-item"
+                    data-section="auditorias">
+
+                    <i class="fa-solid fa-clipboard-check"></i>
+
+                    <span>Auditorias</span>
+
+                </button>
+
+            </nav>
+
+            <!-- FOOTER -->
+            <div class="sidebar-footer">
+
+                <button class="logout-btn" onclick="logout()">
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    <span>Sair</span>
+
+                </button>
+
+            </div>
+
+        </aside>
+
+        <!-- MAIN -->
+        <main class="main-content">
+
+            <!-- TOPBAR -->
+            <header class="topbar">
+
+                <div>
+
+                    <h1 id="section-title">
+                        Pendências de Projetos
+                    </h1>
+
+                    <p class="subtitle">
+                        Dashboard corporativo de auditorias MAHLE
+                    </p>
+
+                </div>
+
+            </header>
+
+            <!-- ==========================
+                 PENDÊNCIAS
+            =========================== -->
+
+            <section
+                id="pendencias-section"
+                class="page-section active-section">
+
+                <!-- CONTROLS -->
+                <div class="controls-container">
+
+                    <!-- SELECT DE -->
+                    <div class="control-box">
+
+                        <label>
+                            Responsável (DE)
+                        </label>
+
+                        <select id="lista"></select>
+
+                    </div>
+
+                    <!-- SEARCH -->
+                    <div class="control-box search-box">
+
+                        <label>
+                            Buscar Projeto
+                        </label>
+
+                        <div class="search-input-container">
+
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <input
+                                type="text"
+                                id="searchProjeto"
+                                placeholder="Digite o nome do projeto...">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- GRID -->
+                <div
+                    id="projetos"
+                    class="projects-grid">
+
+                </div>
+
+            </section>
+
+            <!-- ==========================
+                 KPIs
+            =========================== -->
+
+            <section
+                id="kpis-section"
+                class="page-section">
+
+                <div class="coming-soon-card">
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                    <h2>
+                        KPIs em desenvolvimento
+                    </h2>
+
+                    <p>
+                        Esta área será dedicada aos
+                        dashboards de performance,
+                        score dos projetos e indicadores
+                        gerais das auditorias.
+                    </p>
+
+                </div>
+
+            </section>
+
+            <!-- ==========================
+                 AUDITORIAS
+            =========================== -->
+
+            <section
+                id="auditorias-section"
+                class="page-section">
+
+                <div class="coming-soon-card">
+
+                    <i class="fa-solid fa-folder-open"></i>
+
+                    <h2>
+                        Auditorias
+                    </h2>
+
+                    <p>
+                        Em breve esta seção reunirá
+                        histórico, comparativos e
+                        análises detalhadas.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </main>
 
     </div>
 

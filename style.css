@@ -1,22 +1,44 @@
-/* RESET */
+/* ==========================
+   RESET
+========================== */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* BODY */
-body {
-  font-family: 'Segoe UI', sans-serif;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-  background: black;
+:root {
+
+  --mahle-blue: #002a8f;
+  --mahle-dark: #001b5a;
+  --sidebar: #07152e;
+  --background: #eef3fb;
+  --card: #ffffff;
+  --text: #16213e;
+  --text-soft: #6f7d96;
+  --border: #dce5f5;
+
+  --shadow:
+    0 10px 30px rgba(0,0,0,0.08);
+
+  --transition:
+    0.28s cubic-bezier(.4,0,.2,1);
 }
 
-/* ===========================
-   SLIDESHOW DE FUNDO
-=========================== */
+/* ==========================
+   BODY
+========================== */
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--background);
+  overflow: hidden;
+}
+
+/* ==========================
+   LOGIN (MANTIDO)
+========================== */
 
 .background-slider {
   position: fixed;
@@ -38,7 +60,6 @@ body {
   animation: fadeBackground 30s infinite;
 }
 
-/* Overlay escuro */
 .background-slider span::after {
   content: "";
   position: absolute;
@@ -46,7 +67,6 @@ body {
   background: rgba(0,0,0,0.35);
 }
 
-/* Imagens */
 .background-slider span:nth-child(1) {
   background-image: url('fundo_login.jpg');
   animation-delay: 0s;
@@ -62,54 +82,30 @@ body {
   animation-delay: 20s;
 }
 
-/* Fade suave */
 @keyframes fadeBackground {
 
-  0% {
-    opacity: 0;
-  }
-
-  8% {
-    opacity: 1;
-  }
-
-  33% {
-    opacity: 1;
-  }
-
-  41% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 0;
-  }
+  0% { opacity: 0; }
+  8% { opacity: 1; }
+  33% { opacity: 1; }
+  41% { opacity: 0; }
+  100% { opacity: 0; }
 }
-
-/* ===========================
-   LOGIN
-=========================== */
 
 #login-container {
   position: fixed;
   inset: 0;
 
-  width: 100vw;
-  height: 100vh;
-
   display: flex;
   justify-content: center;
   align-items: center;
 
-  z-index: 10;
+  z-index: 100;
 
-  transition:
-    opacity 0.4s ease,
-    visibility 0.4s ease;
+  transition: .4s ease;
 }
 
-/* Caixa login */
 .login-box {
+
   width: 420px;
   padding: 50px 40px;
 
@@ -118,203 +114,974 @@ body {
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 
-  border: 1px solid rgba(255,255,255,0.18);
   border-radius: 28px;
-
-  box-shadow:
-    0 10px 40px rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.18);
 
   color: white;
 }
 
-/* Título */
 .login-box h2 {
   text-align: center;
-  margin-bottom: 35px;
-
   font-size: 42px;
-  font-weight: 700;
-  letter-spacing: 1px;
+  margin-bottom: 35px;
 }
-
-/* ===========================
-   INPUTS
-=========================== */
 
 .input-group {
   position: relative;
   margin-bottom: 18px;
 }
 
-/* INPUT */
 .input-group input {
+
   width: 100%;
   height: 58px;
 
   border: none;
   outline: none;
 
+  border-radius: 12px;
+
   padding-left: 55px;
   padding-right: 55px;
 
-  background: rgba(255,255,255,0.82);
-  border-radius: 10px;
+  background: rgba(255,255,255,0.85);
 
   font-size: 15px;
   font-weight: 600;
-
-  color: #555;
 }
 
-/* Placeholder */
-.input-group input::placeholder {
-  color: #8a8a8a;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-/* Remove herança */
-.input-group i {
-  position: static;
-  transform: none;
-}
-
-/* Ícone esquerdo */
 .left-icon {
-  position: absolute !important;
+
+  position: absolute;
 
   left: 18px;
   top: 50%;
 
-  transform: translateY(-50%) !important;
-
+  transform: translateY(-50%);
   color: #6d6d6d;
-  font-size: 18px;
-
-  pointer-events: none;
 }
 
-/* Olho senha */
 .password-toggle {
-  position: absolute !important;
 
-  right: 18px !important;
-  left: auto !important;
+  position: absolute;
 
+  right: 18px;
   top: 50%;
-  transform: translateY(-50%) !important;
 
-  width: 22px;
-  height: 22px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transform: translateY(-50%);
 
   cursor: pointer;
-
-  color: #7a7a7a;
-  font-size: 18px;
-
-  z-index: 20;
+  color: #666;
 }
-
-.password-toggle:hover {
-  color: #3f3f3f;
-}
-
-/* ===========================
-   BOTÃO LOGIN
-=========================== */
 
 .login-btn {
+
   width: 100%;
   height: 56px;
 
   border: none;
   border-radius: 12px;
 
-  margin-top: 15px;
-
-  background: #002a8f;
+  background: var(--mahle-blue);
   color: white;
 
   font-size: 18px;
   font-weight: 700;
 
   cursor: pointer;
-  transition: 0.25s ease;
+  transition: var(--transition);
 }
 
 .login-btn:hover {
-  transform: translateY(-2px);
 
   background: #0038c2;
 
-  box-shadow:
-    0 10px 25px rgba(0,42,143,0.35);
+  transform: translateY(-2px);
 }
 
-/* ===========================
-   LOGO NO CANTO INFERIOR DIREITO
-=========================== */
-
 .logo-fixed {
+
   position: fixed;
 
   right: 35px;
   bottom: 25px;
 
   z-index: 100;
-
-  transition:
-    opacity 0.4s ease,
-    visibility 0.4s ease;
-
-  pointer-events: none;
 }
 
 .logo-fixed img {
   width: 180px;
-  opacity: 0.95;
 }
 
-/* ===========================
+/* ==========================
    APP
-=========================== */
+========================== */
 
 #app {
-  padding: 20px;
+
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
 }
 
-/* ===========================
-   ESCONDER
-=========================== */
+/* ==========================
+   SIDEBAR
+========================== */
+
+.sidebar {
+
+  position: relative;
+
+  width: 90px;
+  height: 100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      #07152e,
+      #001735
+    );
+
+  transition:
+    width .35s ease;
+
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+  z-index: 20;
+}
+
+/* ==========================
+   TOPO SIDEBAR
+========================== */
+
+.sidebar-top {
+
+  padding: 24px 12px 18px;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.08);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* CONTAINER DA MARCA */
+
+.brand-container {
+
+  width: 100%;
+  height: 82px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: visible;
+}
+
+.sidebar-logo {
+
+  width: 160px;
+  height: auto;
+
+  object-fit: contain;
+
+  transform-origin: center;
+
+  transition:
+    transform .38s cubic-bezier(.22,1,.36,1);
+}
+
+/* FECHADA */
+
+.sidebar:not(:hover) .sidebar-logo {
+
+  transform: scale(0.48);
+}
+
+/* ABERTA */
+
+.sidebar:hover .sidebar-logo {
+
+  transform: scale(1);
+}
+
+
+.menu-title {
+
+  margin-top: 20px;
+
+  color: rgba(255,255,255,.45);
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.sidebar-menu {
+
+  padding: 20px 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-item {
+
+  height: 58px;
+
+  border: none;
+  border-radius: 16px;
+
+  background: transparent;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  padding: 0 22px;
+
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.menu-item:hover {
+
+  background:
+    rgba(255,255,255,0.08);
+}
+
+.menu-item.active {
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--mahle-blue),
+      #0037bd
+    );
+}
+
+.menu-item i {
+
+  font-size: 24px;
+  min-width: 30px;
+}
+
+.menu-item span {
+
+  opacity: 0;
+  white-space: nowrap;
+
+  transition: .2s ease;
+}
+
+.sidebar:hover .menu-item span {
+  opacity: 1;
+}
+
+/* ==========================
+   FOOTER SIDEBAR
+========================== */
+
+.sidebar {
+  position: relative;
+}
+
+.sidebar-footer {
+
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+
+  width: 100%;
+  padding: 0 12px;
+}
+
+/* BOTÃO */
+
+.logout-btn {
+
+  width: 100%;
+  height: 58px;
+
+  border: none;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.08);
+  color: white;
+
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  padding: 0 20px;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  transition:
+    background .3s ease,
+    padding .35s ease,
+    border-radius .35s ease;
+}
+
+.logout-btn:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+/* ÍCONE */
+
+.logout-btn i {
+
+  font-size: 22px;
+  min-width: 28px;
+  flex-shrink: 0;
+}
+
+/* TEXTO */
+
+.logout-btn span {
+
+  white-space: nowrap;
+
+  opacity: 1;
+  transform: translateX(0);
+
+  transition:
+    opacity .18s ease,
+    transform .25s ease;
+}
+
+/* SIDEBAR FECHADA */
+
+.sidebar:not(:hover) .logout-btn {
+
+  justify-content: center;
+  padding: 0;
+}
+
+/* ESCONDE TEXTO SUAVEMENTE */
+
+.sidebar:not(:hover) .logout-btn span {
+
+  opacity: 0;
+  transform: translateX(-10px);
+
+  width: 0;
+  overflow: hidden;
+}
+
+/* ==========================
+   MAIN
+========================== */
+
+.main-content {
+
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+/* ==========================
+   TOPBAR
+========================== */
+
+.topbar {
+
+  height: 95px;
+
+  background: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 45px;
+
+  box-shadow: var(--shadow);
+}
+
+.topbar h1 {
+
+  font-size: 30px;
+  color: var(--text);
+}
+
+.subtitle {
+
+  margin-top: 5px;
+  color: var(--text-soft);
+}
+
+/* ==========================
+   CONTENT
+========================== */
+
+.page-section {
+
+  flex: 1;
+
+  padding: 35px;
+
+  overflow-y: auto;
+
+  display: none;
+
+  animation:
+    fadePage .35s ease;
+}
+
+.active-section {
+  display: block;
+}
+
+@keyframes fadePage {
+
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================
+   CONTROLS
+========================== */
+
+.controls-container {
+
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.control-box {
+
+  background: white;
+  padding: 20px;
+
+  border-radius: 15px;
+
+  box-shadow: var(--shadow);
+}
+
+.control-box label {
+
+  display: block;
+  margin-bottom: 16px;
+  font-size: 20px;
+  color: var(--text-soft);
+}
+
+#lista,
+#searchProjeto {
+
+  height: 76px;
+
+  border-radius: 16px;
+  border: 1px solid #dce5f5;
+
+  padding: 0 20px;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  color: #203554;
+
+  background: white;
+
+  outline: none;
+
+  transition: .55s ease;
+}
+
+/* ==========================
+   GRID
+========================== */
+
+.projects-grid {
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 22px;
+}
+
+/* ==========================
+   CARDS
+========================== */
+
+.card {
+
+  background: white;
+
+  border-radius: 24px;
+  padding: 26px;
+
+  box-shadow: var(--shadow);
+
+  transition: var(--transition);
+
+  animation:
+    fadeUp .5s ease;
+}
+
+.card:hover {
+
+  transform: translateY(-6px);
+}
+
+@keyframes fadeUp {
+
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================
+   COMING SOON
+========================== */
+
+.coming-soon-card {
+
+  width: 100%;
+  max-width: 700px;
+
+  margin: auto;
+
+  background: white;
+
+  border-radius: 30px;
+  padding: 60px;
+
+  text-align: center;
+
+  box-shadow: var(--shadow);
+}
+
+.coming-soon-card i {
+
+  font-size: 60px;
+  color: var(--mahle-blue);
+
+  margin-bottom: 20px;
+}
+
+.coming-soon-card h2 {
+
+  margin-bottom: 15px;
+  color: var(--text);
+}
+
+.coming-soon-card p {
+
+  color: var(--text-soft);
+}
+
+/* ==========================
+   HIDDEN
+========================== */
 
 .hidden {
+
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
 }
 
-/* ===========================
-   RESPONSIVO
-=========================== */
+/* ==========================
+   PROJECT HEADER
+========================== */
 
-@media (max-width: 500px) {
+.project-header {
 
-  .login-box {
-    width: 90%;
-    padding: 35px 25px;
-    border-radius: 22px;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 
-  .login-box h2 {
-    font-size: 34px;
-  }
+  gap: 16px;
 
-  .logo-fixed img {
-    width: 130px;
-  }
+  margin-bottom: 22px;
+  padding-bottom: 18px;
 
+  border-bottom:
+    1px solid #e7edf8;
 }
+
+.project-title {
+
+  font-size: 24px;
+  font-weight: 700;
+
+  color: #10233f;
+
+  line-height: 1.35;
+}
+
+/* SCORE */
+
+.project-score {
+
+  min-width: 86px;
+  height: 86px;
+
+  border-radius: 24px;
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 28px;
+  font-weight: 800;
+
+  box-shadow:
+    0 14px 28px rgba(0,0,0,0.18);
+
+  flex-shrink: 0;
+
+  transition: .35s ease;
+}
+
+/* ==========================
+   GATES
+========================== */
+
+.gate {
+
+  margin-bottom: 14px;
+
+  border:
+    1px solid #e8eef8;
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  background:
+    #f8fbff;
+
+  transition:
+    var(--transition);
+}
+
+.gate:hover {
+
+  border-color:
+    #cfdcf7;
+}
+
+/* HEADER */
+
+.gate-header {
+
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  padding: 20px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+
+  font-size: 24px;
+  font-weight: 800;
+
+  color: #0f2342;
+
+  transition: var(--transition);
+}
+
+.gate-header:hover {
+
+  background:
+    rgba(0,42,143,0.04);
+}
+
+.gate-header i {
+
+  transition:
+    transform .35s ease;
+
+  color:
+    var(--mahle-blue);
+}
+
+/* ROTACIONA */
+
+.gate.open .gate-header i {
+
+  transform:
+    rotate(180deg);
+}
+
+/* ==========================
+   GATE CONTENT
+========================== */
+
+.gate-content {
+
+  max-height: 0;
+
+  overflow: hidden;
+
+  transition:
+    max-height .45s ease,
+    padding .35s ease;
+
+  padding:
+    0 22px;
+}
+
+/* ABERTO */
+
+.gate.open .gate-content {
+
+  max-height: 3000px;
+
+  padding:
+    0 22px 22px;
+}
+
+/* ==========================
+   DOCUMENTOS
+========================== */
+
+.documento {
+
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 22px;
+
+  margin-top: 16px;
+
+  border:
+    1px solid #e5ebf5;
+
+  transition:
+    var(--transition);
+}
+
+.documento:hover {
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 8px 18px rgba(0,0,0,0.06);
+}
+
+/* TOPO DOC */
+
+.documento-topo {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 12px;
+}
+
+.documento-topo strong {
+
+  color: #182b49;
+
+  font-size: 22px;
+  font-weight: 720;
+
+  line-height: 1.45;
+}
+
+/* NOTA */
+
+.nota {
+
+  padding:
+    10px 14px;
+
+  border-radius:
+    999px;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  white-space: nowrap;
+
+  color: white;
+
+  min-width: 110px;
+  text-align: center;
+}
+
+/* ==========================
+   PENDÊNCIAS
+========================== */
+
+.documento ul {
+
+  list-style: none;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.documento li {
+
+  position: relative;
+
+  padding-left: 22px;
+
+  color: #33455f;
+
+  line-height: 1.7;
+
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.documento li::before {
+
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 11px;
+
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background:
+    var(--mahle-blue);
+}
+
+/* ==========================
+   SCROLLBAR PREMIUM
+========================== */
+
+::-webkit-scrollbar {
+
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+
+  background:
+    #edf2fb;
+}
+
+::-webkit-scrollbar-thumb {
+
+  background:
+    rgba(0,42,143,0.25);
+
+  border-radius:
+    999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+  background:
+    rgba(0,42,143,0.45);
+}
+
+/* ==========================
+   RESPONSIVO
+========================== */
+
+@media (max-width: 1400px) {
+
+  .projects-grid {
+
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+
+  .projects-grid {
+
+    grid-template-columns:
+      1fr;
+  }
+
+  .controls-container {
+
+    flex-direction:
+      column;
+  }
+
+  #lista,
+  #searchProjeto {
+
+    width:
+      100%;
+  }
+}
+
+.sidebar-item {
+
+  height: 62px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  padding: 0 22px;
+
+  border-radius: 18px;
+
+  cursor: pointer;
+
+  transition: .5s ease;
+
+  color: rgba(255,255,255,0.82);
+
+  font-size: 17px;
+  font-weight: 600;
+}
+.sidebar-item i {
+
+  font-size: 22px;
+  min-width: 28px;
+}
+
+  .sidebar:hover {
+
+    width:
+      220px;
+  }

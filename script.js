@@ -1,6 +1,9 @@
 let dados = {};
 
-// CONFIG FIREBASE
+/* ==========================
+   FIREBASE
+========================== */
+
 const firebaseConfig = {
   apiKey: "AIzaSyBreppRJPaHXwz3K_QB_79EU2C4rGEF9Gk",
   authDomain: "site-mahle.firebaseapp.com",
@@ -10,24 +13,42 @@ const firebaseConfig = {
   appId: "1:726211952088:web:383864b51bc9f703b406ad"
 };
 
-// INICIA FIREBASE
 firebase.initializeApp(firebaseConfig);
 
-// LOGIN
-function login() {
-  const email = document.getElementById("email").value;
-  const senha = document.getElementById("senha").value;
+/* ==========================
+   LOGIN
+========================== */
 
-  firebase.auth().signInWithEmailAndPassword(email, senha)
-    .catch(error => alert(error.message));
+function login() {
+
+  const email =
+    document.getElementById("email").value;
+
+  const senha =
+    document.getElementById("senha").value;
+
+  firebase.auth()
+    .signInWithEmailAndPassword(
+      email,
+      senha
+    )
+    .catch(error => {
+      alert(error.message);
+    });
 }
 
-// LOGOUT
+/* ==========================
+   LOGOUT
+========================== */
+
 function logout() {
   firebase.auth().signOut();
 }
 
-// CONTROLE DE ACESSO
+/* ==========================
+   AUTH CONTROL
+========================== */
+
 firebase.auth().onAuthStateChanged(user => {
 
   const loginContainer =
@@ -44,43 +65,36 @@ firebase.auth().onAuthStateChanged(user => {
 
   if (user) {
 
-    // ESCONDE LOGIN
     loginContainer.classList.add("hidden");
-
-    loginBackground.style.display = "block";
     loginBackground.classList.add("hidden");
-
-    loginLogo.style.display = "block";
     loginLogo.classList.add("hidden");
 
-    // MOSTRA APP
-    app.style.display = "block";
+    app.style.display = "flex";
 
     iniciarSite();
 
   } else {
 
-    // MOSTRA LOGIN
     loginContainer.classList.remove("hidden");
-
-    // RELIGA SLIDESHOW
-    loginBackground.style.display = "block";
     loginBackground.classList.remove("hidden");
-
-    // RELIGA LOGO
-    loginLogo.style.display = "block";
     loginLogo.classList.remove("hidden");
 
-    // ESCONDE APP
     app.style.display = "none";
   }
-
 });
 
-// ✅ NOVO: CARREGAR DO FIRESTORE (SUBSTITUI FETCH)
+/* ==========================
+   INICIAR SITE
+========================== */
+
 function iniciarSite() {
 
-  firebase.firestore().collection("projetos").get()
+  mostrarLoading();
+
+  firebase.firestore()
+    .collection("projetos")
+    .get()
+
     .then(snapshot => {
 
       dados = {};
@@ -92,150 +106,565 @@ function iniciarSite() {
         const DE = item.DE;
         const projeto = item.projeto;
 
-        // JSON salvo pelo VBA
         let jsonCompleto;
-        
+
         try {
-        
-          const textoCorrigido = item.jsonCompleto
-            .replace(/'/g, '"'); // corrige aspas simples
-        
-          jsonCompleto = JSON.parse(textoCorrigido);
-        
+
+          const textoCorrigido =
+            item.jsonCompleto
+              .replace(/'/g, '"');
+
+          jsonCompleto =
+            JSON.parse(textoCorrigido);
+
         } catch (e) {
-          console.error("Erro ao parsear JSON:", item.jsonCompleto);
+
+          console.error(
+            "Erro JSON:",
+            item.jsonCompleto
+          );
+
           return;
         }
 
-
         if (!dados[DE]) {
-          dados[DE] = { projetos: {} };
+
+          dados[DE] = {
+            projetos: {}
+          };
         }
 
         dados[DE].projetos[projeto] = {
-          documentos: jsonCompleto.documentos
+          documentos:
+            jsonCompleto.documentos
         };
-
       });
 
-      console.log("Dados carregados do Firestore:", dados);
-
       preencherLista();
+
+      esconderLoading();
+
     })
+
     .catch(err => {
-      console.error("Erro ao carregar Firestore:", err);
+
+      esconderLoading();
+
+      console.error(err);
     });
-
 }
 
-// LISTA ORIGINAL
+/* ==========================
+   DROPDOWN DE
+========================== */
+
 function preencherLista() {
-  const select = document.getElementById("lista");
 
-  select.innerHTML = '<option value="">Selecione um DE</option>';
+  const select =
+    document.getElementById("lista");
 
-  Object.keys(dados).forEach(de => {
-    const option = document.createElement("option");
-    option.value = de;
-    option.textContent = de;
-    select.appendChild(option);
-  });
+  select.innerHTML =
+    '<option value="">Selecione um DE</option>';
+
+  Object.keys(dados)
+    .sort()
+    .forEach(de => {
+
+      const option =
+        document.createElement("option");
+
+      option.value = de;
+      option.textContent = de;
+
+      select.appendChild(option);
+    });
 }
 
-// EVENTO ORIGINAL (INALTERADO)
-document.addEventListener("change", function (e) {
+/* ==========================
+   FILTRO + SEARCH
+========================== */
 
-  if (e.target.id !== "lista") return;
+document.addEventListener(
+  "change",
+  function (e) {
 
-  const de = e.target.value;
-  const container = document.getElementById("projetos");
+    if (e.target.id === "lista") {
+      renderizarProjetos();
+    }
+  }
+);
+
+document.addEventListener(
+  "input",
+  function (e) {
+
+    if (
+      e.target.id === "searchProjeto"
+    ) {
+      renderizarProjetos();
+    }
+  }
+);
+
+/* ==========================
+   RENDER PROJETOS
+========================== */
+
+function renderizarProjetos() {
+
+  const de =
+    document.getElementById("lista")
+      .value;
+
+  const busca =
+    document.getElementById(
+      "searchProjeto"
+    )
+      .value
+      .toLowerCase();
+
+  const container =
+    document.getElementById(
+      "projetos"
+    );
 
   container.innerHTML = "";
 
   if (!de || !dados[de]) return;
 
-  const projetos = Object.entries(dados[de].projetos);
+  let projetos =
+    Object.entries(
+      dados[de].projetos
+    );
 
-  projetos.forEach(([nomeProjeto, info], index) => {
-    const card = document.createElement("div");
-    card.className = "card";
+  projetos = projetos.filter(
+    ([nome]) =>
+      nome
+        .toLowerCase()
+        .includes(busca)
+  );
 
-    let html = `<h3>${nomeProjeto}</h3>`;
+  projetos.forEach(
+    ([nomeProjeto, info], index) => {
 
-    const docs = Object.entries(info.documentos);
+      const card =
+        criarCardProjeto(
+          nomeProjeto,
+          info
+        );
 
-    docs.forEach(([docNome, doc]) => {
+      card.style.animationDelay =
+        `${index * 0.08}s`;
 
-      if (typeof doc !== "object") return;
+      container.appendChild(card);
+    }
+  );
+}
 
-      html += `
-        <div style="margin-top:10px;">
-          <strong>${docNome}</strong> (${doc.gate} | ${doc.pontuacao})
-          <ul>
-      `;
+/* ==========================
+   COR DAS NOTAS
+========================== */
 
-      if (Array.isArray(doc.pendencias)) {
-        doc.pendencias.forEach(p => {
-          html += `<li>${p}</li>`;
-        });
+function getCorNota(nota) {
+
+  nota = Number(nota);
+
+  // limita entre 0 e 10
+  nota = Math.max(0, Math.min(10, nota));
+
+  // Hue:
+  // 0 = vermelho
+  // 60 = amarelo
+  // 120 = verde
+  const hue =
+    (nota / 10) * 120;
+
+  return `hsl(${hue}, 78%, 45%)`;
+}
+
+function getCorSombra(nota) {
+
+  nota = Number(nota);
+  nota = Math.max(0, Math.min(10, nota));
+
+  const hue =
+    (nota / 10) * 120;
+
+  return `hsla(${hue}, 78%, 45%, 0.35)`;
+}
+
+/* ==========================
+   CARD PROJETO
+========================== */
+
+function criarCardProjeto(
+  nomeProjeto,
+  info
+) {
+
+  const card =
+    document.createElement("div");
+
+  card.className = "card";
+
+  const documentos =
+    Object.entries(
+      info.documentos
+    );
+
+  const notas =
+    documentos.map(
+      ([_, doc]) =>
+        Number(doc.pontuacao || 0)
+    );
+
+  const media =
+    notas.length
+      ? (
+          notas.reduce(
+            (a, b) => a + b,
+            0
+          ) / notas.length
+        ).toFixed(1)
+      : 0;
+
+  const gates = {};
+
+  documentos.forEach(
+    ([nomeDoc, doc]) => {
+
+      const gate =
+        doc.gate || "Outros";
+
+      if (!gates[gate]) {
+        gates[gate] = [];
       }
 
-      html += "</ul></div>";
+      gates[gate].push({
+        nomeDoc,
+        ...doc
+      });
+    }
+  );
+
+  let html = `
+
+    <div class="project-header">
+
+      <div>
+
+        <h2 class="project-title">
+          ${nomeProjeto}
+        </h2>
+
+      </div>
+
+      <div
+          class="project-score"
+          style="
+            background:${getCorNota(media)};
+            box-shadow:
+              0 14px 28px
+              ${getCorSombra(media)};
+          "
+        >
+
+          ${media}
+
+        </div>
+
+    </div>
+  `;
+
+  Object.entries(gates)
+    .forEach(
+      ([gate, docs]) => {
+
+        html += `
+
+        <div class="gate">
+
+          <button class="gate-header">
+
+            <span>
+              ${gate}
+            </span>
+
+            <i class="fa-solid fa-chevron-down"></i>
+
+          </button>
+
+          <div class="gate-content">
+        `;
+
+        docs.forEach(doc => {
+
+          html += `
+
+            <div class="documento">
+
+              <div class="documento-topo">
+
+                <strong>
+                  ${doc.nomeDoc}
+                </strong>
+
+                <span
+                  class="nota"
+                  style="
+                    background:
+                      ${getCorNota(doc.pontuacao)};
+                    box-shadow:
+                      0 8px 18px
+                      ${getCorSombra(doc.pontuacao)};
+                  "
+                >
+
+                  Nota: ${doc.pontuacao}/10
+
+                </span>
+
+              </div>
+
+              <ul>
+          `;
+
+          if (
+            Array.isArray(
+              doc.pendencias
+            )
+          ) {
+
+            doc.pendencias
+              .forEach(p => {
+
+                html += `
+                  <li>
+                    ${p}
+                  </li>
+                `;
+              });
+          }
+
+          html += `
+              </ul>
+            </div>
+          `;
+        });
+
+        html += `
+          </div>
+        </div>
+        `;
+      }
+    );
+
+  card.innerHTML = html;
+
+  setTimeout(() => {
+
+    card.querySelectorAll(
+      ".gate-header"
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const gate =
+            button.parentElement;
+
+          gate.classList.toggle(
+            "open"
+          );
+        }
+      );
     });
 
-    card.innerHTML = html;
+  }, 0);
 
-    if (projetos.length % 2 !== 0 && index === projetos.length - 1) {
-      card.classList.add("full");
-    }
+  return card;
+}
 
-    container.appendChild(card);
+/* ==========================
+   MENU SPA
+========================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    const menuItems =
+      document.querySelectorAll(
+        ".menu-item"
+      );
+
+    const title =
+      document.getElementById(
+        "section-title"
+      );
+
+    menuItems.forEach(item => {
+
+      item.addEventListener(
+        "click",
+        () => {
+
+          menuItems.forEach(btn =>
+            btn.classList.remove(
+              "active"
+            )
+          );
+
+          item.classList.add(
+            "active"
+          );
+
+          const section =
+            item.dataset.section;
+
+          document
+            .querySelectorAll(
+              ".page-section"
+            )
+            .forEach(sec => {
+              sec.classList.remove(
+                "active-section"
+              );
+            });
+
+          document
+            .getElementById(
+              `${section}-section`
+            )
+            .classList.add(
+              "active-section"
+            );
+
+          const nomes = {
+
+            pendencias:
+              "Pendências de Projetos",
+
+            kpis:
+              "KPIs",
+
+            auditorias:
+              "Auditorias"
+          };
+
+          title.textContent =
+            nomes[section];
+        }
+      );
+    });
   });
-  
 
-});
+/* ==========================
+   ENTER LOGIN
+========================== */
 
+document.addEventListener(
+  "keydown",
+  function (e) {
 
-document.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
 
-  if (e.key === "Enter") {
+      const email =
+        document.getElementById(
+          "email"
+        );
 
-    const email = document.getElementById("email");
-    const senha = document.getElementById("senha");
+      const senha =
+        document.getElementById(
+          "senha"
+        );
 
-    // se o campo ativo for email ou senha → faz login
-    if (document.activeElement === email || document.activeElement === senha) {
-      e.preventDefault(); // evita comportamento padrão
-      login();
+      if (
+        document.activeElement ===
+          email ||
+
+        document.activeElement ===
+          senha
+      ) {
+
+        e.preventDefault();
+        login();
+      }
     }
-
   }
+);
 
-});
+/* ==========================
+   TOGGLE SENHA
+========================== */
 
-// MOSTRAR/ESCONDER SENHA
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
 
-  const senhaInput =
-    document.getElementById("senha");
+    const senhaInput =
+      document.getElementById(
+        "senha"
+      );
 
-  const toggleSenha =
-    document.getElementById("toggleSenha");
+    const toggleSenha =
+      document.getElementById(
+        "toggleSenha"
+      );
 
-  if (!senhaInput || !toggleSenha) return;
+    if (
+      !senhaInput ||
+      !toggleSenha
+    ) return;
 
-  toggleSenha.addEventListener("click", () => {
+    toggleSenha.addEventListener(
+      "click",
+      () => {
 
-    const senhaVisivel =
-      senhaInput.type === "text";
+        const visivel =
+          senhaInput.type ===
+          "text";
 
-    senhaInput.type =
-      senhaVisivel ? "password" : "text";
+        senhaInput.type =
+          visivel
+            ? "password"
+            : "text";
 
-    toggleSenha.className =
-      senhaVisivel
-        ? "fa-regular fa-eye-slash password-toggle"
-        : "fa-regular fa-eye password-toggle";
-  });
+        toggleSenha.className =
+          visivel
 
-});
+            ? "fa-regular fa-eye-slash password-toggle"
+
+            : "fa-regular fa-eye password-toggle";
+      }
+    );
+  }
+);
+
+/* ==========================
+   LOADING
+========================== */
+
+function mostrarLoading() {
+
+  const container =
+    document.getElementById(
+      "projetos"
+    );
+
+  container.innerHTML = `
+    <div style="
+      width:100%;
+      text-align:center;
+      padding:60px;
+      font-size:20px;
+      color:#6f7d96;
+    ">
+      Carregando projetos...
+    </div>
+  `;
+}
+
+function esconderLoading() {}
