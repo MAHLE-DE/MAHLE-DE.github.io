@@ -234,28 +234,23 @@
                  KPIs
             =========================== -->
 
-            <section
-                id="kpis-section"
-                class="page-section">
+            
+			<section
+				id="kpis-section"
+				class="page-section">
 
-                <div class="coming-soon-card">
+				<div class="kpi-chart-card">
+					<div class="kpi-chart-header">
+						<h2>Overall Analysis by Development Engineer</h2>
+					</div>
 
-                    <i class="fa-solid fa-chart-column"></i>
+					<div class="kpi-chart-wrap">
+						<canvas id="deOverviewChart"></canvas>
+					</div>
+				</div>
 
-                    <h2>
-                        KPIs em desenvolvimento
-                    </h2>
+			</section>
 
-                    <p>
-                        Esta área será dedicada aos
-                        dashboards de performance,
-                        score dos projetos e indicadores
-                        gerais das auditorias.
-                    </p>
-
-                </div>
-
-            </section>
 
             <!-- ==========================
                  AUDITORIAS
@@ -287,13 +282,17 @@
 
     </div>
 
-    <!-- FIREBASE -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+	<!-- FIREBASE -->
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-    <!-- SCRIPT -->
-    <script src="script.js"></script>
+	<!-- CHART -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+	<!-- SCRIPT -->
+	<script src="script.js"></script>
 
 </body>
 

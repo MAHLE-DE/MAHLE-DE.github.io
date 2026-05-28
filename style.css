@@ -1085,3 +1085,44 @@ body {
     width:
       220px;
   }
+  
+/* ==========================
+KPI CHART
+========================== */
+.kpi-chart-card {
+  width: min(820px, 100%);
+  background: white;
+  border-radius: 28px;
+  padding: 28px 30px 26px;
+  box-shadow: var(--shadow);
+  margin: 0; /* canto esquerdo */
+}
+
+.kpi-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 18px;
+}
+
+.kpi-chart-header h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #ffffff;
+  background: var(--mahle-blue);
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 0;
+  line-height: 1;
+}
+
+.kpi-chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 275px;
+}
+
+#deOverviewChart {
+  width: 100% !important;
+  height: 100% !important;
+}
