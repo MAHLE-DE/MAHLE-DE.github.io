@@ -909,19 +909,19 @@ let dashboardDados        = null;
 let dashboardAnosVisiveis = new Set(); // anos atualmente exibidos
 
 /* ---------- constantes de layout ---------- */
-const BAR_HEIGHT_MAX = 400; // px — altura da barra para score=100%
+const BAR_HEIGHT_MAX = 500; // px — altura da barra para score=100%
 const BAR_W          = 42;  // px — largura de cada barra
 const BAR_GAP        = 10;  // px — gap entre barras
 const GROUP_PAD_H    = 16;  // px — padding horizontal do year-group
-const CHART_PAD_TOP  = 30;  // px — espaço acima das barras (para score-label)
-const CHART_PAD_BOT  = 130; // px — espaço abaixo (nomes na diagonal)
+const CHART_PAD_TOP  = 46;  // px — espaço acima das barras (score-label)
+const CHART_PAD_BOT  = 165; // px — espaço abaixo (nomes na diagonal)
 
 /* ---------- cores por ano ---------- */
 const YEAR_COLORS = {
-  "2024": "#f2f5fb",
-  "2025": "#eaf0fa",
-  "2026": "#e2eaf8",
-  "2027": "#dae4f6",
+  "2024": "#355294",
+  "2025": "#233675",
+  "2026": "#121b56",
+  "2027": "#000037",
   "2028": "#d2def4",
   "2029": "#cad8f2",
   "2030": "#c2d2f0",
@@ -931,12 +931,13 @@ const YEAR_COLORS = {
 function scorePct(score) { return Math.round(score * 100); }
 
 function corBarra(score) {
-  const hue = score * 120;
-  return `hsl(${hue}, 72%, 44%)`;
+  // Dashboard: barras fixas em cinza claro
+  return "#d9e1ef";
 }
+
 function corBarraSombra(score) {
-  const hue = score * 120;
-  return `hsla(${hue}, 72%, 44%, 0.28)`;
+  // Sombra neutra para barras do Dashboard
+  return "rgba(80, 100, 140, 0.16)";
 }
 
 /* ---------- detectar audit sequence e nomes ---------- */
@@ -966,20 +967,195 @@ function carregarDashboard() {
 /* ---------- fallback embutido ---------- */
 const _dashboardFallback = {"anos":{"2024":{"target":0.5,"projetos":[{"ordem":1,"id":"vw-cc678-orvr-pl7","nome":"VW CC678 ORVR PL7","nomeGrafico":"VW CC678","score":0.745192307692308,"gate":"EOA"},{"ordem":2,"id":"horse-ox1413-hr10-13-ddt","nome":"Horse OX1413 HR10/13 DDT","nomeGrafico":"Horse OX1413","score":0.528,"gate":"QG3"},{"ordem":3,"id":"bmw-lx5620-k09","nome":"BMW LX5620 K09","nomeGrafico":"BMW LX5620","score":0.483413461538462,"gate":"EOA"},{"ordem":4,"id":"vw-cc691-saveiro","nome":"VW CC691 Saveiro","nomeGrafico":"VW CC691","score":0.640865384615385,"gate":"EOA"},{"ordem":5,"id":"bmw-oc619-spin-on","nome":"BMW OC619 Spin-On","nomeGrafico":"BMW OC619","score":0.546514423076923,"gate":"EOA"},{"ordem":6,"id":"vw-cc678-1-orvr-pl8-atld","nome":"VW CC678/1 ORVR PL8 ATLD","nomeGrafico":"VW CC678/1","score":0.803846153846154,"gate":"EOA"},{"ordem":7,"id":"rochling-lx5801-ea211-10-mpi","nome":"Rochling LX5801 EA211 1.0 MPI","nomeGrafico":"Rochiling LX5801","score":0.812980769230769,"gate":"MS2"},{"ordem":8,"id":"honda-lp-28my-ap2di-next-ffv","nome":"Honda LP 28MY AP2Di NEXT FFV","nomeGrafico":"Honda LP 28MY","score":0.675,"gate":"MS1"},{"ordem":9,"id":"porsche-oc1049-2-spin-on","nome":"Porsche OC1049/2 Spin-on","nomeGrafico":"Porsche OC1049/2","score":0.425,"gate":"MS2"}],"average":0.628979166666667},"2025":{"target":0.75,"projetos":[{"ordem":10,"id":"volvo-oc1818-oes","nome":"Volvo OC1818 OES","nomeGrafico":"Volvo OC1818","score":0.82,"gate":"QG2"},{"ordem":11,"id":"volvo-oc1817-oes","nome":"Volvo OC1817 OES","nomeGrafico":"Volvo OC1817","score":0.82,"gate":"QG2"},{"ordem":12,"id":"volvo-kc800-oes","nome":"Volvo KC800 OES","nomeGrafico":"Volvo KC800","score":0.83,"gate":"QG2"},{"ordem":13,"id":"honda-lp-28my-ap2di-next-ffv","nome":"Honda LP 28MY AP2Di NEXT FFV","nomeGrafico":"[ Honda LP 28MY ]","score":0.828,"gate":"MS1"},{"ordem":14,"id":"hyundai-kia-lm852-4-kappa-10-ffv","nome":"Hyundai Kia LM852/4 Kappa 1.0 FFV","nomeGrafico":"Hyundai","score":0.741,"gate":"EOA"},{"ordem":15,"id":"bmw-oc619-2-spin-on","nome":"BMW OC619/2 Spin-On","nomeGrafico":"BMW OC619/2","score":0.772,"gate":"MS2"},{"ordem":16,"id":"bmw-oc306-2-spin-on","nome":"BMW OC306/2 Spin-On","nomeGrafico":"BMW OC306/2","score":0.764,"gate":"MS2"},{"ordem":17,"id":"horse-oil-filler-zh568-hr10-13","nome":"Horse Oil Filler ZH568 HR10/13","nomeGrafico":"Horse ZH568","score":0.802764423076923,"gate":"EOA"},{"ordem":18,"id":"renault-bracket-h1312","nome":"Renault Bracket H1312","nomeGrafico":"Renault H1312","score":0.825,"gate":"EOA"},{"ordem":19,"id":"stellantis-cc717-mhev","nome":"Stellantis CC717 MHEV","nomeGrafico":"Stellantis CC717","score":0.895192307692308,"gate":"MS2"},{"ordem":20,"id":"john-deere-la2093-tractor-5000","nome":"John Deere LA2093 Tractor 5000","nomeGrafico":"John Deere LA2093","score":0.598,"gate":"QG2"},{"ordem":21,"id":"toyota-oc1735-nextb","nome":"Toyota OC1735 NextB","nomeGrafico":"Toyota OC1735","score":0.819711538461539,"gate":"MS1"},{"ordem":22,"id":"{-porsche-oc1049-2-spin-on-}","nome":"{ Porsche OC1049/2 Spin-on }","nomeGrafico":"[ Porsche OC1049/2 ]","score":0.478659188034188,"gate":"EOA"},{"ordem":23,"id":"{-horse-ox1413-hr10-13-ddt-}","nome":"{ Horse OX1413 HR10/13 DDT }","nomeGrafico":"[ Horse OX1413 ]","score":0.725,"gate":"EOA"}],"average":0.765666246947497},"2026":{"target":0.75,"projetos":[{"ordem":24,"id":"nissan-lm682-4-p02-l02dg-aim","nome":"Nissan LM682/4 P02/L02DG AIM","nomeGrafico":"Nissan LM682/4","score":0.836858974358974,"gate":"MS2"},{"ordem":25,"id":"vw-cc731-cc731-1-e-cc732-mqb37","nome":"VW CC731, CC731/1 & CC732 MQB37","nomeGrafico":"VW CC731, 731/1 & 732","score":0.577457264957265,"gate":"QG2"},{"ordem":26,"id":"vw-ccd0013-mqb-37-pl8","nome":"VW CCD0013 MQB 37 PL8","nomeGrafico":"VW CCD0013","score":0.421794871794872,"gate":"QG2"},{"ordem":27,"id":"horse-llr0122-hr10","nome":"Horse LLR0122 HR10","nomeGrafico":"Horse LLR0122","score":0.760683760683761,"gate":"MS2"},{"ordem":28,"id":"horse-llr0123-hr13","nome":"Horse LLR0123 HR13","nomeGrafico":"Horse LLR0123","score":0.760683760683761,"gate":"MS2"},{"ordem":29,"id":"honda-zh250-9-28my-ap2di","nome":"Honda ZH250/9 28MY AP2Di","nomeGrafico":"Honda ZH250/9","score":0.408404558404558,"gate":"QG2"},{"ordem":30,"id":"honda-los169-1-28my-ap2di","nome":"Honda LOS169/1 28MY AP2Di","nomeGrafico":"Honda LOS169/1","score":0.41798433048433,"gate":"QG2"},{"ordem":31,"id":"ford-lma0024-tank-shield-ranger","nome":"Ford LMA0024 Tank Shield Ranger","nomeGrafico":"Ford LMA0024","score":0.630555555555556,"gate":"QG1"},{"ordem":32,"id":"polaris-oil-filter-spin-on-oc1799","nome":"POLARIS Oil Filter Spin On OC1799","nomeGrafico":"Polaris OC1799","score":0.659650997150997,"gate":"MS2"},{"ordem":33,"id":"horse-zh624-bsg-protector","nome":"Horse ZH624 BSG Protector","nomeGrafico":"Horse ZH624 BSG","score":0.768055555555556,"gate":"QG2"},{"ordem":34,"id":"[-john-deere-la2093-tractor-5000-]","nome":"[ John Deere LA2093 Tractor 5000 ]","nomeGrafico":"[ John Deere LA2093 ]","score":0.454594017094017,"gate":"QG3"},{"ordem":35,"id":"honda-lm1093-e-lm1093-1-ap2di","nome":"Honda LM1093 & LM1093/1 AP2Di","nomeGrafico":"Honda LM1093 & 1093/1","score":0.596331908831909,"gate":"QG2"}],"average":0.608793058793059}}};
 
+/* ----------  ----------*/
+
+function _clamp(valor, min, max) {
+  return Math.max(min, Math.min(max, valor));
+}
+
+function _getAnosVisiveisOrdenados(todosAnos) {
+  return todosAnos.filter(ano =>
+    dashboardAnosVisiveis.has(ano)
+  );
+}
+
+function _contarBarrasVisiveis(anosVisiveis) {
+  let total = 0;
+
+  anosVisiveis.forEach(ano => {
+    const dadosAno = dashboardDados.anos[ano];
+    if (!dadosAno || !Array.isArray(dadosAno.projetos)) return;
+
+    // projetos + barra AVG
+    total += dadosAno.projetos.length + 1;
+  });
+
+  return total;
+}
+
+function _aplicarLayoutDashboard(todosAnos) {
+  const chart =
+    document.getElementById("dashboardChart");
+
+  const area =
+    document.querySelector(".chart-area-container");
+
+  if (!chart || !area || !dashboardDados) return;
+
+  const anosVisiveis =
+    _getAnosVisiveisOrdenados(todosAnos);
+
+  const qtdAnos =
+    anosVisiveis.length;
+
+  const qtdBarras =
+    _contarBarrasVisiveis(anosVisiveis);
+
+  if (!qtdAnos || !qtdBarras) return;
+
+  chart.classList.toggle(
+    "dashboard-one-year",
+    qtdAnos === 1
+  );
+
+  const larguraDisponivel =
+    area.clientWidth || 1000;
+
+  let sidePad;
+  let groupPad;
+  let barW;
+  let gap;
+
+  if (qtdAnos === 1) {
+    sidePad = 24;
+    groupPad = 24;
+
+    const larguraUtil =
+      larguraDisponivel
+      - (sidePad * 2)
+      - (groupPad * 2);
+
+    barW =
+      larguraUtil /
+      (qtdBarras + (qtdBarras - 1) * 0.55);
+
+    barW = _clamp(barW, 42, 72);
+
+    gap =
+      _clamp(barW * 0.55, 18, 38);
+
+  } else {
+    sidePad =
+      qtdAnos === 2 ? 24 : 26;
+
+    groupPad =
+      qtdAnos === 2 ? 14 : 12;
+
+    const gapsInternos =
+      qtdBarras - qtdAnos;
+
+    const larguraUtil =
+      larguraDisponivel
+      - (sidePad * 2)
+      - (groupPad * 2 * qtdAnos);
+
+    barW =
+      larguraUtil /
+      (qtdBarras + gapsInternos * 0.28);
+
+    barW = _clamp(barW, 30, 58);
+
+    gap =
+      _clamp(barW * 0.28, 8, 16);
+  }
+
+  /*
+    Escala controlada para nomes:
+    - cresce quando o gráfico tem menos anos
+    - mas não fica exagerado
+  */
+  const fontSize =
+    _clamp(barW * 0.24, 11, 15.5);
+
+  chart.style.setProperty(
+    "--dash-bar-w",
+    `${barW}px`
+  );
+
+  chart.style.setProperty(
+    "--dash-bar-gap",
+    `${gap}px`
+  );
+
+  chart.style.setProperty(
+    "--dash-group-pad",
+    `${groupPad}px`
+  );
+
+  chart.style.setProperty(
+    "--dash-side-pad",
+    `${sidePad}px`
+  );
+
+  chart.style.setProperty(
+    "--dash-name-size",
+    `${fontSize}px`
+  );
+}
+
+function _getDashVar(nome, fallback) {
+  const chart =
+    document.getElementById("dashboardChart");
+
+  if (!chart) return fallback;
+
+  const valor =
+    getComputedStyle(chart)
+      .getPropertyValue(nome)
+      .trim();
+
+  return valor || fallback;
+}
+
+
 /* ---------- renderizar dashboard ---------- */
 function renderizarDashboard() {
   if (!dashboardDados || !dashboardDados.anos) return;
 
-  const anos = Object.keys(dashboardDados.anos).sort();
+  const anos =
+    Object.keys(dashboardDados.anos).sort();
 
-  // inicializa com todos visíveis
   if (dashboardAnosVisiveis.size === 0) {
-    anos.forEach(a => dashboardAnosVisiveis.add(a));
+    anos.forEach(a =>
+      dashboardAnosVisiveis.add(a)
+    );
   }
 
   _configurarDropdown(anos);
   _preencherDropdownOpcoes(anos);
+  _aplicarLayoutDashboard(anos);
   _renderizarTudo(anos);
+
+  requestAnimationFrame(() => {
+    const wrapper =
+      document.querySelector(
+        "#kpis-section .chart-scroll-wrapper"
+      );
+
+    if (wrapper) {
+      wrapper.scrollLeft = 0;
+    }
+
+    _aplicarLayoutDashboard(anos);
+
+    requestAnimationFrame(() => {
+      _desenharTargetLines(
+        [...dashboardAnosVisiveis].sort()
+      );
+
+      _atualizarSeparadores(anos);
+    });
+  });
 }
 
 /* ==============================================
@@ -1051,22 +1227,50 @@ function _preencherDropdownOpcoes(anos) {
 }
 
 function _toggleAno(ano, todosAnos) {
-  // nunca deixa zero anos visíveis
-  if (dashboardAnosVisiveis.has(ano) && dashboardAnosVisiveis.size === 1) return;
+  if (
+    dashboardAnosVisiveis.has(ano) &&
+    dashboardAnosVisiveis.size === 1
+  ) {
+    return;
+  }
+
+  const svg =
+    document.getElementById("targetSvg");
+
+  if (svg) {
+    svg.style.opacity = "0";
+  }
 
   if (dashboardAnosVisiveis.has(ano)) {
     dashboardAnosVisiveis.delete(ano);
     _ocultarGrupo(ano);
   } else {
     dashboardAnosVisiveis.add(ano);
+    _aplicarLayoutDashboard(todosAnos);
     _exibirGrupo(ano, todosAnos);
   }
 
-  // redesenha linhas target e separadores
-  requestAnimationFrame(() => {
-    _desenharTargetLines([...dashboardAnosVisiveis].sort());
-    _atualizarSeparadores(todosAnos);
-  });
+  _aplicarLayoutDashboard(todosAnos);
+  _atualizarSeparadores(todosAnos);
+
+  setTimeout(() => {
+    _aplicarLayoutDashboard(todosAnos);
+
+    requestAnimationFrame(() => {
+      _desenharTargetLines(
+        [...dashboardAnosVisiveis].sort()
+      );
+
+      _atualizarSeparadores(todosAnos);
+
+      const svgAtual =
+        document.getElementById("targetSvg");
+
+      if (svgAtual) {
+        svgAtual.style.opacity = "1";
+      }
+    });
+  }, 520);
 }
 
 function _atualizarLabelBtn(anos) {
@@ -1084,72 +1288,197 @@ function _atualizarLabelBtn(anos) {
    ANIMAÇÃO ENTRADA / SAÍDA DE GRUPOS
 ============================================== */
 function _ocultarGrupo(ano) {
-  const g = document.getElementById(`year-group-${ano}`);
+  const g =
+    document.getElementById(`year-group-${ano}`);
+
   if (!g) return;
+
+  const nomes =
+    g.querySelectorAll(".project-name-wrap");
+
+  /*
+    Nomes saem junto com o grupo, usando o mesmo eixo/rotação
+    da entrada para evitar salto visual.
+  */
+  nomes.forEach(nome => {
+    nome.style.opacity = "0";
+    nome.style.transform =
+      "translateX(-100%) rotate(-40deg) translateY(8px)";
+  });
+
+  /*
+    Trava largura atual antes de animar para zero.
+    Isso evita colapso brusco.
+  */
+  g.style.display = "flex";
+  g.style.maxWidth = g.scrollWidth + "px";
   g.style.overflow = "hidden";
-  g.style.transition = "max-width 0.45s cubic-bezier(.4,0,.2,1), opacity 0.35s ease, margin 0.45s ease";
-  g.style.opacity   = "0";
-  g.style.maxWidth  = "0";
+
+  /*
+    Força reflow para o navegador reconhecer o estado inicial
+    antes da transição.
+  */
+  g.offsetHeight;
+
+  g.style.transition =
+    "max-width 0.45s cubic-bezier(.4,0,.2,1), opacity 0.35s ease, margin 0.45s ease, padding 0.45s ease";
+
+  g.style.opacity = "0";
+  g.style.maxWidth = "0";
   g.style.marginRight = "0";
+  g.style.paddingLeft = "0";
+  g.style.paddingRight = "0";
+
+  /*
+    Remove totalmente do layout depois da animação,
+    evitando espaço branco entre anos.
+  */
+  setTimeout(() => {
+    if (!dashboardAnosVisiveis.has(ano)) {
+      g.style.display = "none";
+    }
+  }, 470);
 }
 
 function _exibirGrupo(ano, todosAnos) {
-  const chart = document.getElementById("dashboardChart");
-  let g = document.getElementById(`year-group-${ano}`);
+  const g =
+    document.getElementById(`year-group-${ano}`);
 
   if (!g) {
-    // cria o grupo se não existe mais (foi removido do DOM)
     _renderizarTudo(todosAnos);
     return;
   }
 
-  // calcula largura natural
-  g.style.maxWidth  = "";
-  g.style.opacity   = "";
-  g.style.overflow  = "";
-  g.style.marginRight = "";
-  const natural = g.scrollWidth + "px";
+  const nomes =
+    g.querySelectorAll(".project-name-wrap");
+
+  g.style.display = "flex";
+  g.style.transition = "none";
+  g.style.opacity = "0";
   g.style.maxWidth = "0";
-  g.style.opacity  = "0";
-  g.style.overflow = "hidden";
+  g.style.marginRight = "";
+
+  const groupPad =
+    _getDashVar("--dash-group-pad", "14px");
+
+  g.style.paddingLeft = groupPad;
+  g.style.paddingRight = groupPad;
+
+  /*
+    Mantém visible para o nome não aparecer atrasado.
+  */
+  g.style.overflow = "visible";
+
+  nomes.forEach(nome => {
+    nome.style.opacity = "0";
+    nome.style.transform =
+      "translateX(-100%) rotate(-40deg) translateY(8px)";
+  });
+
+  const natural =
+    g.scrollWidth + "px";
+
+  g.offsetHeight;
 
   requestAnimationFrame(() => {
-    g.style.transition = "max-width 0.45s cubic-bezier(.4,0,.2,1), opacity 0.35s ease 0.1s, margin 0.45s ease";
-    g.style.maxWidth   = natural;
-    g.style.opacity    = "1";
-    g.style.marginRight = "";
+    g.style.transition =
+      "max-width 0.45s cubic-bezier(.4,0,.2,1), opacity 0.35s ease, padding 0.45s ease";
+
+    g.style.maxWidth = natural;
+    g.style.opacity = "1";
+
+    nomes.forEach(nome => {
+      nome.style.opacity = "1";
+      nome.style.transform =
+        "translateX(-100%) rotate(-40deg) translateY(0)";
+    });
+
+    setTimeout(() => {
+      g.style.maxWidth = "";
+      g.style.overflow = "visible";
+      g.style.paddingLeft = "";
+      g.style.paddingRight = "";
+      g.style.marginRight = "";
+    }, 470);
   });
 }
+
+
+function _garantirTargetSvg() {
+  const chart =
+    document.getElementById("dashboardChart");
+
+  if (!chart) return null;
+
+  let svg =
+    document.getElementById("targetSvg");
+
+  if (!svg || svg.parentElement !== chart) {
+    svg = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "svg"
+    );
+
+    svg.setAttribute("id", "targetSvg");
+    svg.classList.add("target-svg");
+
+    chart.prepend(svg);
+  }
+
+  return svg;
+}
+
 
 /* ==============================================
    RENDER COMPLETO
 ============================================== */
 function _renderizarTudo(todosAnos) {
-  const chart = document.getElementById("dashboardChart");
-  const svg   = document.getElementById("targetSvg");
-  if (!chart || !svg) return;
+  const chart =
+    document.getElementById("dashboardChart");
+
+  if (!chart) return;
+
+  _aplicarLayoutDashboard(todosAnos);
 
   chart.innerHTML = "";
-  svg.innerHTML   = "";
+
+  const svg = _garantirTargetSvg();
+
+  if (svg) {
+    svg.innerHTML = "";
+  }
 
   todosAnos.forEach((ano, idx) => {
-    const dadosAno = dashboardDados.anos[ano];
+    const dadosAno =
+      dashboardDados.anos[ano];
+
     if (!dadosAno) return;
 
-    const grupo = _criarGrupoAno(ano, dadosAno, idx, todosAnos.length);
+    const grupo =
+      _criarGrupoAno(
+        ano,
+        dadosAno,
+        idx,
+        todosAnos.length
+      );
+
     chart.appendChild(grupo);
 
-    // se não visível, esconde imediatamente sem animação
     if (!dashboardAnosVisiveis.has(ano)) {
-      grupo.style.maxWidth    = "0";
-      grupo.style.opacity     = "0";
-      grupo.style.overflow    = "hidden";
+      grupo.style.maxWidth = "0";
+      grupo.style.opacity = "0";
+      grupo.style.overflow = "hidden";
       grupo.style.marginRight = "0";
+      grupo.style.display = "none";
     }
   });
 
   requestAnimationFrame(() => {
-    _desenharTargetLines([...dashboardAnosVisiveis].sort());
+    _desenharTargetLines(
+      [...dashboardAnosVisiveis].sort()
+    );
+
+    _atualizarSeparadores(todosAnos);
   });
 }
 
@@ -1198,75 +1527,85 @@ function _criarBarra(proj, ano) {
   const cor       = corBarra(proj.score);
   const sombra    = corBarraSombra(proj.score);
 
-  /* wrapper (posicionamento dos nomes abaixo da barra) */
+  /* wrapper principal */
   const wrap = document.createElement("div");
   wrap.className = "bar-wrap";
+
+  /* score acima da barra */
+  const scoreLabel = document.createElement("span");
+  scoreLabel.className = "score-label";
+  scoreLabel.textContent = `${pct}%`;
 
   /* barra */
   const barra = document.createElement("div");
   barra.className = "project-bar";
-  barra.dataset.id  = proj.id;
+  barra.dataset.id = proj.id;
   barra.dataset.ano = ano;
-  barra.style.cssText = `height:${alturaPx}px; background:${cor}; box-shadow:0 8px 22px ${sombra};`;
 
-  /* score acima */
-  const scoreLabel = document.createElement("span");
-  scoreLabel.className   = "score-label";
-  scoreLabel.textContent = `${pct}%`;
-  barra.appendChild(scoreLabel);
+  barra.style.height = `${alturaPx}px`;
+  barra.style.background = cor;
+  barra.style.boxShadow = `0 8px 22px ${sombra}`;
 
-  /* gate (centro da barra) com backdrop */
+  /* gate no centro da barra */
   const gateWrap = document.createElement("span");
   gateWrap.className = "gate-wrap";
 
   const gateLabel = document.createElement("span");
-  gateLabel.className   = "gate-label";
+  gateLabel.className = "gate-label";
   gateLabel.textContent = proj.gate;
+
   gateWrap.appendChild(gateLabel);
   barra.appendChild(gateWrap);
 
-  /* nome na diagonal (abaixo da barra, fora dela) */
+  /* nome diagonal abaixo da barra */
   const nameWrap = document.createElement("div");
   nameWrap.className = "project-name-wrap";
 
   const nameEl = document.createElement("span");
-  nameEl.className             = "project-name";
-  nameEl.dataset.curto         = nomeCurto;
-  nameEl.dataset.completo      = nomeCompl;
-  nameEl.textContent           = nomeCurto;
+  nameEl.className = "project-name";
+  nameEl.dataset.curto = nomeCurto;
+  nameEl.dataset.completo = nomeCompl;
+  nameEl.textContent = nomeCurto;
+
   nameWrap.appendChild(nameEl);
 
-  /* símbolo de audit sequence ao lado do nome */
+  /* símbolo de audit sequence */
   if (auditSeq) {
     const seqBadge = document.createElement("span");
-    seqBadge.className   = "audit-seq-badge";
-    seqBadge.title       = "Audit Sequence";
+    seqBadge.className = "audit-seq-badge";
+    seqBadge.title = "Audit Sequence";
     seqBadge.textContent = "⟲";
+
     nameWrap.appendChild(seqBadge);
   }
 
+  /* monta estrutura final */
+  wrap.appendChild(scoreLabel);
   wrap.appendChild(barra);
   wrap.appendChild(nameWrap);
 
   /* hover */
   barra.addEventListener("mouseenter", () => {
-    nameEl.textContent         = nomeCompl;
-    nameEl.style.fontWeight    = "800";
-    nameEl.style.color         = "#0a2a6e";
-    barra.style.transform      = "translateY(-6px) scaleX(1.1)";
-    barra.style.filter         = "brightness(1.07)";
-    barra.style.zIndex         = "10";
-  });
-  barra.addEventListener("mouseleave", () => {
-    nameEl.textContent         = nomeCurto;
-    nameEl.style.fontWeight    = "";
-    nameEl.style.color         = "";
-    barra.style.transform      = "";
-    barra.style.filter         = "";
-    barra.style.zIndex         = "";
+    nameEl.textContent = nomeCompl;
+    nameEl.style.fontWeight = "800";
+    nameEl.style.color = "#0a2a6e";
+
+    barra.style.transform = "translateY(-6px) scaleX(1.1)";
+    barra.style.filter = "brightness(1.07)";
+    barra.style.zIndex = "10";
   });
 
-  /* clique → auditorias */
+  barra.addEventListener("mouseleave", () => {
+    nameEl.textContent = nomeCurto;
+    nameEl.style.fontWeight = "";
+    nameEl.style.color = "";
+
+    barra.style.transform = "";
+    barra.style.filter = "";
+    barra.style.zIndex = "";
+  });
+
+  /* clique → auditoria */
   barra.addEventListener("click", () => {
     abrirAuditoria(proj.id, nomeCompl, ano);
   });
@@ -1274,26 +1613,24 @@ function _criarBarra(proj, ano) {
   return wrap;
 }
 
+
 /* ==============================================
    BARRA AVG
 ============================================== */
 function _criarBarraAvg(average) {
-  const pct    = scorePct(average);
+  const pct = scorePct(average);
   const altura = Math.max(20, Math.round((pct / 100) * BAR_HEIGHT_MAX));
-  const cor    = corBarra(average);
 
   const wrap = document.createElement("div");
   wrap.className = "bar-wrap";
 
+  const scoreLabel = document.createElement("span");
+  scoreLabel.className = "score-label";
+  scoreLabel.textContent = `${pct}%`;
+
   const barra = document.createElement("div");
   barra.className = "project-bar avg-bar";
   barra.style.height = `${altura}px`;
-
-  const scoreLabel = document.createElement("span");
-  scoreLabel.className   = "score-label";
-  scoreLabel.style.color = cor;
-  scoreLabel.textContent = `${pct}%`;
-  barra.appendChild(scoreLabel);
 
   const avgLabel = document.createElement("span");
   avgLabel.className = "avg-label";
@@ -1304,15 +1641,17 @@ function _criarBarraAvg(average) {
   nameWrap.className = "project-name-wrap";
 
   const nameEl = document.createElement("span");
-  nameEl.className   = "project-name avg-name";
+  nameEl.className = "project-name avg-name";
   nameEl.textContent = "Annual Average";
   nameWrap.appendChild(nameEl);
 
+  wrap.appendChild(scoreLabel);
   wrap.appendChild(barra);
   wrap.appendChild(nameWrap);
 
   return wrap;
 }
+
 
 /* ==============================================
    SEPARADORES ENTRE ANOS
@@ -1337,55 +1676,131 @@ function _atualizarSeparadores(todosAnos) {
 /* ==============================================
    LINHA TARGET (SVG)
 ============================================== */
+
+function _atualizarTargetLabel(anosVisiveis) {
+  const el = document.getElementById("target-legend-values");
+  if (!el || !dashboardDados) return;
+
+  const anosOrdenados = [...anosVisiveis].sort();
+
+  const linhas = anosOrdenados.map(ano => {
+    const target = dashboardDados.anos[ano]?.target || 0;
+    return `${ano}: ${Math.round(target * 100)}%`;
+  });
+
+  el.innerHTML = linhas.join("<br>");
+}
+
+
 function _desenharTargetLines(anosVisiveis) {
-  const svg   = document.getElementById("targetSvg");
   const chart = document.getElementById("dashboardChart");
-  if (!svg || !chart) return;
+  const svg = _garantirTargetSvg();
 
-  svg.innerHTML  = "";
+  if (!chart || !svg || !dashboardDados || !dashboardDados.anos) {
+    return;
+  }
+
+  svg.innerHTML = "";
+
   const chartRect = chart.getBoundingClientRect();
-  const chartH    = chart.offsetHeight;
-  const yBase     = chartH - CHART_PAD_BOT; // linha de base (score=0)
+  const chartH = chart.offsetHeight;
 
-  anosVisiveis.forEach(ano => {
+  const targetColor = "#ca221f";
+  const suavizacao = 14; // controle da inclinação
+
+  const anosOrdenados = anosVisiveis
+    .filter(ano => dashboardDados.anos[ano])
+    .sort();
+
+  // pré-calcula posições Y para evitar erro na conexão
+  const pontos = anosOrdenados.map(ano => {
     const dadosAno = dashboardDados.anos[ano];
-    const grupo    = document.getElementById(`year-group-${ano}`);
-    if (!dadosAno || !grupo) return;
+    const grupo = document.getElementById(`year-group-${ano}`);
 
-    const target   = dadosAno.target;
+    if (!dadosAno || !grupo || grupo.style.display === "none") {
+      return null;
+    }
+
+    const target = Number(dadosAno.target || 0);
     const targetPx = Math.round(target * BAR_HEIGHT_MAX);
-    const y        = yBase - CHART_PAD_TOP - targetPx;
+
+    const y = chartH - CHART_PAD_BOT - targetPx;
 
     const grupoRect = grupo.getBoundingClientRect();
-    const x1 = grupoRect.left  - chartRect.left;
+
+    const x1 = grupoRect.left - chartRect.left;
     const x2 = grupoRect.right - chartRect.left;
 
-    // linha tracejada
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    line.setAttribute("x1", x1);
-    line.setAttribute("y1", y);
-    line.setAttribute("x2", x2);
-    line.setAttribute("y2", y);
-    line.setAttribute("stroke", "#002a8f");
-    line.setAttribute("stroke-width", "2.5");
-    line.setAttribute("stroke-dasharray", "10 5");
-    line.setAttribute("opacity", "0.85");
+    return { ano, x1, x2, y };
+  }).filter(Boolean);
+
+  pontos.forEach((ponto, i) => {
+    const atual = ponto;
+    const proximo = pontos[i + 1];
+
+    let xStart = atual.x1;
+    let xEnd   = atual.x2;
+
+    const temMudanca =
+      proximo && Math.abs(atual.y - proximo.y) > 1;
+
+    // se tiver mudança, corta a linha horizontal
+    if (temMudanca) {
+      xEnd = atual.x2 - suavizacao;
+    }
+
+    // se veio de uma mudança anterior, inicia recuado
+    const anterior = pontos[i - 1];
+    if (anterior && Math.abs(anterior.y - atual.y) > 1) {
+      xStart = atual.x1 + suavizacao;
+    }
+
+    /*
+      LINHA HORIZONTAL (JA COM TRIM)
+    */
+    const line = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "line"
+    );
+
+    line.setAttribute("x1", xStart);
+    line.setAttribute("y1", atual.y);
+    line.setAttribute("x2", xEnd);
+    line.setAttribute("y2", atual.y);
+
+    line.setAttribute("stroke", targetColor);
+    line.setAttribute("stroke-width", "3");
+    line.setAttribute("stroke-linecap", "round");
+    line.setAttribute("opacity", "0.95");
+
     svg.appendChild(line);
 
-    // label TARGET XX%
-    const pct  = Math.round(target * 100);
-    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    text.setAttribute("x", x2 - 6);
-    text.setAttribute("y", y - 7);
-    text.setAttribute("text-anchor", "end");
-    text.setAttribute("fill", "#002a8f");
-    text.setAttribute("font-size", "11");
-    text.setAttribute("font-weight", "700");
-    text.setAttribute("font-family", "'Segoe UI', sans-serif");
-    text.textContent = `TARGET ${pct}%`;
-    svg.appendChild(text);
+    /*
+      CONEXÃO INCLINADA (SEM SOBRA)
+    */
+    if (temMudanca) {
+      const diagonal = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "line"
+      );
+
+      diagonal.setAttribute("x1", atual.x2 - suavizacao);
+      diagonal.setAttribute("y1", atual.y);
+
+      diagonal.setAttribute("x2", proximo.x1 + suavizacao);
+      diagonal.setAttribute("y2", proximo.y);
+
+      diagonal.setAttribute("stroke", targetColor);
+      diagonal.setAttribute("stroke-width", "3");
+      diagonal.setAttribute("stroke-linecap", "round");
+      diagonal.setAttribute("opacity", "0.9");
+
+      svg.appendChild(diagonal);
+    }
   });
+  _atualizarTargetLabel(anosVisiveis);
 }
+
 
 /* ==============================================
    NAVEGAR PARA AUDITORIA

@@ -1052,33 +1052,7 @@ body {
   }
 }
 
-.sidebar-item {
 
-  height: 62px;
-
-  display: flex;
-  align-items: center;
-
-  gap: 18px;
-
-  padding: 0 22px;
-
-  border-radius: 18px;
-
-  cursor: pointer;
-
-  transition: .5s ease;
-
-  color: rgba(255,255,255,0.82);
-
-  font-size: 17px;
-  font-weight: 600;
-}
-.sidebar-item i {
-
-  font-size: 22px;
-  min-width: 28px;
-}
 
   .sidebar:hover {
 
@@ -1184,12 +1158,20 @@ body {
   font-weight: 600;
 }
 
+
+
 .legend-line {
-  width: 32px;
+  width: 34px;
   height: 0;
-  border-top: 3px dashed var(--mahle-blue);
-  opacity: .8;
+
+  border-top: 3px solid #ca221f;
+
+  display: inline-block;
+
+  transform: translateY(2px);
 }
+
+
 
 .legend-reaudit {
   font-size: 18px;
@@ -1300,69 +1282,100 @@ body {
 /* ==========================
    CHART WRAPPER
 ========================== */
+
 .chart-scroll-wrapper {
   display: flex;
   gap: 0;
+
+  width: 100%;
+  max-width: 100%;
+
+  position: relative;
+
   overflow-x: auto;
-  overflow-y: hidden;
-  padding-bottom: 6px;
+  overflow-y: visible;
+
+  padding-bottom: 18px;
+
+  scroll-behavior: smooth;
 }
+
 
 /* EIXO Y */
 .chart-y-axis {
-  width: 44px;
-  min-width: 44px;
-  /* altura = CHART_PAD_TOP(30) + BAR_HEIGHT_MAX(400) */
-  height: 435px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding-right: 7px;
-  color: #72819b;
-  font-size: 13px;
-  font-weight: 700;
-  /* o eixo começa no topo das barras */
-  margin-top: 30px;           /* alinha com CHART_PAD_TOP */
-  margin-bottom: 0;
-  flex-shrink: 0;
+  display: none;
 }
 
 /* ÁREA DO GRÁFICO */
+
 .chart-area-container {
   position: relative;
+
   flex: 1;
   min-width: 0;
-}
 
-.dashboard-chart {
-  position: relative;
-  display: flex;
-  align-items: flex-end;       /* barras crescem para cima */
-  gap: 0;
-  /* padding-top = espaço para score-label acima da barra */
-  padding: 30px 16px 130px 16px;  /* top=CHART_PAD_TOP, bot=CHART_PAD_BOT */
-  min-height: 560px;
   overflow: visible;
 }
+
+
+.dashboard-chart {
+  --dash-bar-w: 30px;
+  --dash-bar-gap: 10px;
+  --dash-group-pad: 14px;
+  --dash-side-pad: 24px;
+  --dash-name-size: 13px;
+
+  position: relative;
+
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+
+  padding:
+    44px
+    var(--dash-side-pad)
+    190px
+    var(--dash-side-pad);
+
+  min-height: 800px;
+
+  overflow: visible;
+
+  transition:
+    padding 0.35s ease;
+}
+
 
 /* ==========================
    YEAR GROUP
 ========================== */
 .year-group {
   position: relative;
+
   display: flex;
   align-items: flex-end;
-  gap: 10px;
-  padding: 16px 14px 0;
-  /* sem border-radius — quadrado */
+
+  gap: var(--dash-bar-gap);
+
+  padding:
+    16px
+    var(--dash-group-pad)
+    0;
+
   border-radius: 0;
-  min-height: 430px;
+
+  min-height: 555px;
   flex-shrink: 0;
-  /* separador via pseudo-element — controlado por data-has-sep */
-  transition: max-width 0.45s cubic-bezier(.4,0,.2,1),
-              opacity 0.35s ease,
-              margin 0.45s ease;
+
+  overflow: visible;
+  z-index: 1;
+
+  transition:
+    max-width 0.45s cubic-bezier(.4,0,.2,1),
+    opacity 0.35s ease,
+    margin 0.45s ease,
+    padding 0.45s ease,
+    gap 0.35s ease;
 }
 
 /* separador pontilhado mais destacado entre grupos */
@@ -1371,31 +1384,40 @@ body {
   position: absolute;
   top: 0;
   right: 0;
+
   width: 3px;
-  height: calc(100% - 0px);
+  height: 100%;
+
   background: repeating-linear-gradient(
     to bottom,
-    rgba(0,42,143,.35),
-    rgba(0,42,143,.35) 8px,
+    rgba(255,255,255,0.95),
+    rgba(255,255,255,0.95) 8px,
     transparent 8px,
     transparent 16px
   );
-  z-index: 2;
+
+  z-index: 4;
+  pointer-events: none;
 }
 
 /* RÓTULO DO ANO */
 .year-label {
   position: absolute;
-  bottom: -88px;
+  top: 18px;
   left: 50%;
+
   transform: translateX(-50%);
-  font-size: 13px;
+
+  font-size: 19px;
   font-weight: 800;
-  color: #7a8caa;
-  letter-spacing: 2px;
+
+  color: white;
+  letter-spacing: 1px;
   text-transform: uppercase;
   white-space: nowrap;
-  z-index: 1;
+
+  z-index: 3;
+  pointer-events: none;
 }
 
 /* ==========================
@@ -1403,11 +1425,15 @@ body {
 ========================== */
 .bar-wrap {
   position: relative;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* espaço para os nomes na diagonal */
+
   padding-bottom: 0;
+
+  overflow: visible;
+  z-index: 20;
 }
 
 /* ==========================
@@ -1415,31 +1441,59 @@ body {
 ========================== */
 .project-bar {
   position: relative;
-  width: 42px;
-  border-radius: 0;           /* quadrado */
+
+  width: var(--dash-bar-w);
+
+  border-radius: 0;
   cursor: pointer;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  flex-shrink: 0;
+
+  z-index: 5;
+
   transition:
+    width 0.35s ease,
     transform .3s ease,
     filter .3s ease;
-  flex-shrink: 0;
 }
 
-.project-bar:hover {
-  /* hover gerenciado via JS para scaleX */
-}
+
 
 /* SCORE ACIMA */
 .score-label {
   position: absolute;
-  top: -24px;
-  font-size: 17px;
-  font-weight: 800;
-  color: #163056;
+  top: -32px;
+
+  font-size: 16px;
+  font-weight: 850;
+  color: #ffffff;
+
   white-space: nowrap;
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  padding: 0;
+
+  min-width: auto;
+  text-align: center;
+
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  text-shadow: none;
+
+  z-index: 8;
+  pointer-events: none;
 }
+
+
+
 
 /* GATE — centro com backdrop */
 .gate-wrap {
@@ -1455,7 +1509,7 @@ body {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   color: white;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 1px;
 }
@@ -1465,45 +1519,74 @@ body {
 ========================== */
 .project-name-wrap {
   position: absolute;
-  bottom: -110px;             /* abaixo da barra */
+  bottom: -48px;
   left: 50%;
-  transform-origin: top right;
-  transform: translateX(-100%) rotate(-40deg);
+
+  /*
+    Importante:
+    o texto diagonal precisa ter a ponta direita
+    alinhada ao centro da barra.
+  */
+  transform-origin: right top;
+  transform: translateX(-100%) rotate(-40deg) translateY(0);
+
   white-space: nowrap;
+
   display: flex;
   align-items: center;
   gap: 4px;
+
   pointer-events: none;
+  z-index: 6;
+
+  opacity: 1;
+
+  transition:
+    opacity 0.28s ease,
+    transform 0.34s cubic-bezier(.22,1,.36,1);
 }
 
 .project-name {
-  font-size: 11px;
+  font-size: var(--dash-name-size, 13px);
   font-weight: 600;
   color: #43506b;
   line-height: 1;
-  transition: color .2s, font-weight .2s;
+
+  transition:
+    font-size 0.28s ease,
+    color .2s ease,
+    font-weight .2s ease;
 }
+
 
 .avg-name {
   color: #5d6b84;
 }
 
 /* badge Audit Sequence ao lado do nome */
+
 .audit-seq-badge {
-  font-size: 13px;
+  font-size: calc(var(--dash-name-size, 13px) * 1.05);
   font-weight: 800;
   color: var(--mahle-blue);
   margin-top: -1px;
+
+  transition:
+    font-size 0.28s ease;
 }
+
 
 /* ==========================
    BARRA AVG
 ========================== */
+
 .avg-bar {
-  background: #8fa3c4 !important;  /* cinza-azulado mais escuro */
-  width: 52px !important;
+  background: #8d9bb3 !important;
+  width: calc(var(--dash-bar-w) * 0.9) !important;
   border-radius: 0 !important;
 }
+
+
 
 .avg-label {
   writing-mode: vertical-rl;
@@ -1516,15 +1599,24 @@ body {
 /* ==========================
    TARGET SVG
 ========================== */
+
 .target-svg {
   position: absolute;
   inset: 0;
+
   width: 100%;
   height: 100%;
+
   pointer-events: none;
   overflow: visible;
-  z-index: 1;
+
+  z-index: 10;
+  opacity: 1;
+
+  transition:
+    opacity 0.22s ease;
 }
+
 
 /* ==========================
    AUDITORIA DETALHE
@@ -1587,3 +1679,49 @@ body {
   .dashboard-header { flex-direction: column; }
   .time-filter { align-self: flex-start; }
 }
+
+
+
+
+
+
+/* ==========================
+   DASHBOARD - SINGLE YEAR MODE
+========================== */
+
+.dashboard-chart.dashboard-one-year {
+  justify-content: stretch;
+}
+
+.dashboard-chart.dashboard-one-year .year-group {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: none !important;
+  justify-content: space-evenly;
+}
+
+
+.legend-target {
+  align-items: flex-start;
+}
+
+.legend-target-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.legend-target-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-soft);
+}
+
+.legend-target-values {
+  font-size: 14px;
+  font-weight: 600;
+  color: #7a869c;
+  line-height: 1.2;
+}
+
+

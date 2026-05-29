@@ -2,245 +2,271 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAHLE Project Dashboard</title>
-    <link rel="stylesheet" href="style.css"> <!-- FONT AWESOME -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAHLE Project Dashboard</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- FONT AWESOME -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
-<body> <!-- ========================== LOGIN (MANTIDO) =========================== --> <!-- BACKGROUND LOGIN -->
-    <div id="login-background" class="background-slider"> <span></span> <span></span> <span></span> </div>
-    <!-- LOGIN -->
-    <div id="login-container">
-        <div class="login-box">
-            <h2>Login</h2> <!-- EMAIL -->
-            <div class="input-group"> <i class="fa-regular fa-envelope left-icon"></i> <input type="email" id="email"
-                    placeholder="EMAIL"> </div> <!-- SENHA -->
-            <div class="input-group"> <i class="fa-solid fa-lock left-icon"></i> <input type="password" id="senha"
-                    placeholder="SENHA"> <i id="toggleSenha" class="fa-regular fa-eye-slash password-toggle"> </i>
-            </div> <!-- LOGIN --> <button class="login-btn" onclick="login()"> Entrar </button>
+<body>
+
+  <!-- ========================== LOGIN =========================== -->
+
+  <div id="login-background" class="background-slider">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div id="login-container">
+    <div class="login-box">
+
+      <h2>Login</h2>
+
+      <div class="input-group">
+        <i class="fa-regular fa-envelope left-icon"></i>
+        <input type="email" id="email" placeholder="EMAIL">
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-lock left-icon"></i>
+        <input type="password" id="senha" placeholder="SENHA">
+        <i id="toggleSenha" class="fa-regular fa-eye-slash password-toggle"></i>
+      </div>
+
+      <button class="login-btn" onclick="login()">
+        Entrar
+      </button>
+
+    </div>
+  </div>
+
+  <div id="login-logo" class="logo-fixed">
+    <img src="logo.png" alt="MAHLE Logo">
+  </div>
+
+  <!-- ========================== APP =========================== -->
+
+  <div id="app" style="display:none;">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="sidebar-top">
+        <div class="brand-container">
+          <img src="logo.png" class="sidebar-logo">
         </div>
-    </div> <!-- LOGO LOGIN -->
-    <div id="login-logo" class="logo-fixed"> <img src="logo.png" alt="MAHLE Logo"> </div>
-    <!-- ========================== APP PÓS LOGIN =========================== -->
-    <div id="app" style="display:none;"> <!-- SIDEBAR -->
-        <aside class="sidebar"> <!-- TOPO -->
-            <div class="sidebar-top">
-                <div class="brand-container"> <img src="logo.png" alt="MAHLE" class="sidebar-logo"> </div>
-                <div class="menu-title"> MENU </div>
-            </div> <!-- MENU -->
-            <nav class="sidebar-menu"> <button class="menu-item active" data-section="pendencias"> <i
-                        class="fa-solid fa-list-check"></i> <span>Pendências</span> </button> <button class="menu-item"
-                    data-section="kpis"> <i class="fa-solid fa-chart-line"></i> <span>KPIs</span> </button> <button
-                    class="menu-item" data-section="auditorias"> <i class="fa-solid fa-clipboard-check"></i>
-                    <span>Auditorias</span> </button> </nav> <!-- FOOTER -->
-            <div class="sidebar-footer"> <button class="logout-btn" onclick="logout()"> <i
-                        class="fa-solid fa-right-from-bracket"></i> <span>Sair</span> </button> </div>
-        </aside> <!-- MAIN -->
-        <main class="main-content"> <!-- TOPBAR -->
-            <header class="topbar">
-                <div>
-                    <h1 id="section-title"> Pendências de Projetos </h1>
-                    <p class="subtitle"> Dashboard corporativo de auditorias MAHLE </p>
-                </div>
-            </header> <!-- ========================== PENDÊNCIAS =========================== -->
-            <section id="pendencias-section" class="page-section active-section"> <!-- CONTROLS -->
-                <div class="controls-container"> <!-- SELECT DE -->
-                    <div class="control-box"> <label> Responsável (DE) </label> <select id="lista"></select> </div>
-                    <!-- SEARCH -->
-                    <div class="control-box search-box"> <label> Buscar Projeto </label>
-                        <div class="search-input-container"> <i class="fa-solid fa-magnifying-glass"></i> <input
-                                type="text" id="searchProjeto" placeholder="Digite o nome do projeto..."> </div>
-                    </div>
-                </div> <!-- GRID -->
-                <div id="projetos" class="projects-grid"> </div>
-            </section> <!-- ========================== KPIs =========================== -->
-            <section id="kpis-section" class="page-section">
+        <div class="menu-title">MENU</div>
+      </div>
 
-                <!-- KPI 1 -->
-                <div class="kpi-chart-card">
+      <nav class="sidebar-menu">
+        <button class="menu-item active" data-section="pendencias">
+          <i class="fa-solid fa-list-check"></i>
+          <span>Pendências</span>
+        </button>
 
-                    <div class="kpi-chart-header">
-                        <h2>
-                            Overall Analysis by Development Engineer
-                        </h2>
-                    </div>
+        <button class="menu-item" data-section="kpis">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>KPIs</span>
+        </button>
 
-                    <div class="kpi-chart-wrap">
-                        <canvas id="deOverviewChart"></canvas>
-                    </div>
+        <button class="menu-item" data-section="auditorias">
+          <i class="fa-solid fa-clipboard-check"></i>
+          <span>Auditorias</span>
+        </button>
+      </nav>
 
-                </div>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <span>Sair</span>
+        </button>
+      </div>
 
+    </aside>
 
-                <!-- DASHBOARD -->
-                <div class="dashboard-card">
+    <!-- MAIN -->
+    <main class="main-content">
 
-                    <!-- HEADER -->
-                    <div class="dashboard-header">
+      <header class="topbar">
+        <div>
+          <h1 id="section-title">Pendências de Projetos</h1>
+          <p class="subtitle">Dashboard corporativo de auditorias MAHLE</p>
+        </div>
+      </header>
 
-                        <div class="dashboard-left">
+      <!-- ========================== PENDÊNCIAS =========================== -->
 
-                            <!-- TÍTULO -->
-                            <div class="dashboard-title-box">
-                                Score of Projects
-                            </div>
+      <section id="pendencias-section" class="page-section active-section">
 
-                            <!-- LEGENDA -->
-                            <div class="dashboard-legend">
+        <div class="controls-container">
 
-                                <div class="legend-item">
+          <div class="control-box">
+            <label>Responsável (DE)</label>
+            <select id="lista"></select>
+          </div>
 
-                                    <span class="legend-line"></span>
+          <div class="control-box search-box">
+            <label>Buscar Projeto</label>
+            <div class="search-input-container">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="searchProjeto"
+                placeholder="Digite o nome do projeto...">
+            </div>
+          </div>
 
-                                    <span>
-                                        Target
-                                    </span>
+        </div>
 
-                                </div>
+        <div id="projetos" class="projects-grid"></div>
 
-                                <div class="legend-item">
+      </section>
 
-                                    <span class="legend-reaudit">
-                                        ⟲
-                                    </span>
+      <!-- ========================== KPIs =========================== -->
 
-                                    <span>
-                                        Audit Sequence
-                                    </span>
+      <section id="kpis-section" class="page-section">
 
-                                </div>
+        <!-- KPI 1 -->
+        <div class="kpi-chart-card">
 
-                                <div class="legend-item">
+          <div class="kpi-chart-header">
+            <h2>Overall Analysis by Development Engineer</h2>
+          </div>
 
-                                    <span class="legend-eoa">
-                                        EOA
-                                    </span>
+          <div class="kpi-chart-wrap">
+            <canvas id="deOverviewChart"></canvas>
+          </div>
 
-                                    <span>
-                                        End of Audit
-                                    </span>
+        </div>
 
-                                </div>
+        <!-- ================= DASHBOARD ================= -->
 
-                                <div class="legend-item">
+        <div class="dashboard-card">
 
-                                    <span class="legend-avg">
-                                        AVG
-                                    </span>
+          <!-- HEADER -->
+          <div class="dashboard-header">
 
-                                    <span>
-                                        Annual Average
-                                    </span>
+            <div class="dashboard-left">
 
-                                </div>
+              <div class="dashboard-title-box">
+                Score of Projects
+              </div>
 
-                            </div>
+              <!-- ✅ LEGENDA CORRIGIDA -->
+              <div class="dashboard-legend">
 
-                        </div>
+                <!-- TARGET -->
+                <div class="legend-item legend-target">
 
-                        <!-- FILTRO -->
-                        <div class="time-filter">
+                  <span class="legend-line"></span>
 
-                            <button id="timeFilterBtn" class="time-filter-btn">
-
-                                Time
-
-                                <i class="fa-solid fa-chevron-down"></i>
-
-                            </button>
-
-                            <div id="timeDropdown" class="time-dropdown">
-
-                                <!-- JS -->
-
-                            </div>
-
-                        </div>
-
+                  <div class="legend-target-text">
+                    <div class="legend-target-title">
+                      Target
                     </div>
 
-                    <!-- GRÁFICO -->
-                    <div class="chart-scroll-wrapper">
-
-                        <!-- EIXO Y -->
-                        <div class="chart-y-axis">
-
-                            <span>100</span>
-                            <span>80</span>
-                            <span>60</span>
-                            <span>40</span>
-                            <span>20</span>
-                            <span>0</span>
-
-                        </div>
-
-                        <!-- ÁREA -->
-                        <div class="chart-area-container">
-
-                            <div id="dashboardChart" class="dashboard-chart">
-
-                                <!-- LINHA TARGET -->
-                                <svg id="targetSvg" class="target-svg">
-                                </svg>
-
-                                <!-- BARRAS VIA JS -->
-
-                            </div>
-
-                        </div>
-
+                    <div class="legend-target-values"
+                         id="target-legend-values">
                     </div>
+                  </div>
 
                 </div>
 
-            </section>
-            <!-- DASHBOARD -->
-            <section id="dashboard-section" class="page-section">
-                <div class="dashboard-card"> <!-- HEADER -->
-                    <div class="dashboard-header">
-                        <div class="dashboard-left">
-                            <div class="dashboard-title-box"> Score of Projects </div> <!-- LEGENDA -->
-                            <div class="dashboard-legend">
-                                <div class="legend-item"> <span class="legend-line"></span> <span> Target </span> </div>
-                                <div class="legend-item"> <span class="legend-reaudit"> ⟲ </span> <span> Re-audit
-                                    </span> </div>
-                                <div class="legend-item"> <span class="legend-eoa"> EOA </span> <span> End of Audit
-                                    </span> </div>
-                                <div class="legend-item"> <span class="legend-avg"> AVG </span> <span> Annual Average
-                                    </span> </div>
-                            </div>
-                        </div> <!-- FILTRO -->
-                        <div class="time-filter"> <button id="timeFilterBtn" class="time-filter-btn"> TIME <i
-                                    class="fa-solid fa-chevron-down"></i> </button>
-                            <div id="timeDropdown" class="time-dropdown"> <!-- preenchido via JS --> </div>
-                        </div>
-                    </div> <!-- CHART -->
-                    <div class="chart-scroll-wrapper"> <!-- eixo y fixo -->
-                        <div class="chart-y-axis"> <span>100</span> <span>80</span> <span>60</span> <span>40</span>
-                            <span>20</span> <span>0</span>
-                        </div> <!-- gráfico -->
-                        <div class="chart-area-container">
-                            <div id="dashboardChart" class="dashboard-chart"> <!-- JS renderiza --> </div>
-                        </div>
-                    </div>
+                <!-- AUDIT -->
+                <div class="legend-item">
+                  <span class="legend-reaudit">⟲</span>
+                  <span>Audit Sequence</span>
                 </div>
-            </section> <!-- ========================== AUDITORIAS =========================== -->
-            <section id="auditorias-section" class="page-section">
-                <div class="coming-soon-card"> <i class="fa-solid fa-folder-open"></i>
-                    <h2> Auditorias </h2>
-                    <p> Em breve esta seção reunirá histórico, comparativos e análises detalhadas. </p>
+
+                <!-- EOA -->
+                <div class="legend-item">
+                  <span class="legend-eoa">EOA</span>
+                  <span>End of Audit</span>
                 </div>
-            </section>
-        </main>
-    </div> <!-- FIREBASE -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script> <!-- CHART -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script> <!-- SCRIPT -->
-    <script src="script.js"></script>
+
+                <!-- AVG -->
+                <div class="legend-item">
+                  <span class="legend-avg">AVG</span>
+                  <span>Annual Average</span>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- FILTRO -->
+            <div class="time-filter">
+              <button class="time-filter-btn">
+                Time
+                <i class="fa-solid fa-chevron-down"></i>
+              </button>
+              <div class="time-dropdown"></div>
+            </div>
+
+          </div>
+
+          <!-- CHART -->
+          <div class="chart-scroll-wrapper">
+
+            <div class="chart-y-axis">
+              <span>100</span>
+              <span>80</span>
+              <span>60</span>
+              <span>40</span>
+              <span>20</span>
+              <span>0</span>
+            </div>
+
+            <div class="chart-area-container">
+
+              <div id="dashboardChart" class="dashboard-chart">
+
+                <svg id="targetSvg" class="target-svg"></svg>
+
+                <!-- barras via JS -->
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ========================== AUDITORIAS =========================== -->
+
+      <section id="auditorias-section" class="page-section">
+
+        <div class="coming-soon-card">
+          <i class="fa-solid fa-folder-open"></i>
+          <h2>Auditorias</h2>
+          <p>Em breve esta seção reunirá histórico, comparativos
+            e análises detalhadas.</p>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <!-- CHART -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+  <!-- SCRIPT -->
+  <script src="script.js"></script>
+
 </body>
-
 </html>
