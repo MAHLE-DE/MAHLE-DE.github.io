@@ -1086,8 +1086,9 @@ body {
       220px;
   }
   
+
 /* ==========================
-KPI CHART
+   KPI CHART
 ========================== */
 .kpi-chart-card {
   width: min(820px, 100%);
@@ -1095,7 +1096,7 @@ KPI CHART
   border-radius: 28px;
   padding: 28px 30px 26px;
   box-shadow: var(--shadow);
-  margin: 0; /* canto esquerdo */
+  margin: 0;
 }
 
 .kpi-chart-header {
@@ -1125,4 +1126,464 @@ KPI CHART
 #deOverviewChart {
   width: 100% !important;
   height: 100% !important;
+}
+
+/* ==========================================
+   DASHBOARD CARD — Score of Projects
+========================================== */
+
+.dashboard-card {
+  background: white;
+  border-radius: 11px;       /* reduzido pela metade */
+  padding: 28px 28px 20px;
+  margin-top: 28px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* HEADER */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+  margin-bottom: 24px;
+}
+
+.dashboard-left {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* TITLE — quadrado, mahle-blue sólido */
+.dashboard-title-box {
+  width: fit-content;
+  background: var(--mahle-blue);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 0;          /* bordas quadradas */
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: .4px;
+}
+
+/* LEGENDA */
+.dashboard-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-soft);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.legend-line {
+  width: 32px;
+  height: 0;
+  border-top: 3px dashed var(--mahle-blue);
+  opacity: .8;
+}
+
+.legend-reaudit {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--mahle-blue);
+}
+
+.legend-eoa {
+  background: rgba(0,42,143,.10);
+  color: var(--mahle-blue);
+  padding: 4px 10px;
+  border-radius: 0;          /* quadrado */
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.legend-avg {
+  background: #e6ecf5;
+  color: #4a5b7a;
+  padding: 4px 10px;
+  border-radius: 0;          /* quadrado */
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* FILTRO TIME */
+.time-filter {
+  position: relative;
+}
+
+.time-filter-btn {
+  height: 48px;
+  min-width: 130px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  transition: var(--transition);
+}
+
+.time-filter-btn:hover {
+  border-color: #bfd0f4;
+  transform: translateY(-1px);
+}
+
+.time-dropdown {
+  position: absolute;
+  top: 56px;
+  right: 0;
+  min-width: 170px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 16px 36px rgba(0,0,0,.13);
+  border: 1px solid #e7edf8;
+  padding: 12px;
+  display: none;
+  z-index: 50;
+}
+
+.time-dropdown.open { display: block; }
+
+/* opção com checkbox */
+.time-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s ease;
+  user-select: none;
+}
+
+.time-option:hover { background: #f5f8ff; }
+
+.time-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #b0bdd6;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .5s, border-color 1s;
+}
+
+.time-checkbox.checked {
+  background: var(--mahle-blue);
+  border-color: var(--mahle-blue);
+  color: white;
+}
+
+.time-option-label {
+  font-weight: 700;
+  font-size: 17px;
+  color: #16213e;
+}
+
+/* ==========================
+   CHART WRAPPER
+========================== */
+.chart-scroll-wrapper {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 6px;
+}
+
+/* EIXO Y */
+.chart-y-axis {
+  width: 44px;
+  min-width: 44px;
+  /* altura = CHART_PAD_TOP(30) + BAR_HEIGHT_MAX(400) */
+  height: 435px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-right: 7px;
+  color: #72819b;
+  font-size: 13px;
+  font-weight: 700;
+  /* o eixo começa no topo das barras */
+  margin-top: 30px;           /* alinha com CHART_PAD_TOP */
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+/* ÁREA DO GRÁFICO */
+.chart-area-container {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard-chart {
+  position: relative;
+  display: flex;
+  align-items: flex-end;       /* barras crescem para cima */
+  gap: 0;
+  /* padding-top = espaço para score-label acima da barra */
+  padding: 30px 16px 130px 16px;  /* top=CHART_PAD_TOP, bot=CHART_PAD_BOT */
+  min-height: 560px;
+  overflow: visible;
+}
+
+/* ==========================
+   YEAR GROUP
+========================== */
+.year-group {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 16px 14px 0;
+  /* sem border-radius — quadrado */
+  border-radius: 0;
+  min-height: 430px;
+  flex-shrink: 0;
+  /* separador via pseudo-element — controlado por data-has-sep */
+  transition: max-width 0.45s cubic-bezier(.4,0,.2,1),
+              opacity 0.35s ease,
+              margin 0.45s ease;
+}
+
+/* separador pontilhado mais destacado entre grupos */
+.year-group[data-has-sep]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: calc(100% - 0px);
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,42,143,.35),
+    rgba(0,42,143,.35) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  z-index: 2;
+}
+
+/* RÓTULO DO ANO */
+.year-label {
+  position: absolute;
+  bottom: -88px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  font-weight: 800;
+  color: #7a8caa;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+/* ==========================
+   BAR WRAP
+========================== */
+.bar-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* espaço para os nomes na diagonal */
+  padding-bottom: 0;
+}
+
+/* ==========================
+   BARRA
+========================== */
+.project-bar {
+  position: relative;
+  width: 42px;
+  border-radius: 0;           /* quadrado */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform .3s ease,
+    filter .3s ease;
+  flex-shrink: 0;
+}
+
+.project-bar:hover {
+  /* hover gerenciado via JS para scaleX */
+}
+
+/* SCORE ACIMA */
+.score-label {
+  position: absolute;
+  top: -24px;
+  font-size: 17px;
+  font-weight: 800;
+  color: #163056;
+  white-space: nowrap;
+}
+
+/* GATE — centro com backdrop */
+.gate-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.18);
+  border-radius: 0px;
+  padding: 3px 6px;
+}
+
+.gate-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* ==========================
+   NOME NA DIAGONAL
+========================== */
+.project-name-wrap {
+  position: absolute;
+  bottom: -110px;             /* abaixo da barra */
+  left: 50%;
+  transform-origin: top right;
+  transform: translateX(-100%) rotate(-40deg);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.project-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #43506b;
+  line-height: 1;
+  transition: color .2s, font-weight .2s;
+}
+
+.avg-name {
+  color: #5d6b84;
+}
+
+/* badge Audit Sequence ao lado do nome */
+.audit-seq-badge {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--mahle-blue);
+  margin-top: -1px;
+}
+
+/* ==========================
+   BARRA AVG
+========================== */
+.avg-bar {
+  background: #8fa3c4 !important;  /* cinza-azulado mais escuro */
+  width: 52px !important;
+  border-radius: 0 !important;
+}
+
+.avg-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 12px;
+  font-weight: 800;
+  color: white;
+}
+
+/* ==========================
+   TARGET SVG
+========================== */
+.target-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1;
+}
+
+/* ==========================
+   AUDITORIA DETALHE
+========================== */
+.auditoria-detalhe-card {
+  background: white;
+  border-radius: 28px;
+  padding: 36px;
+  box-shadow: var(--shadow);
+}
+
+.auditoria-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 28px;
+}
+
+.auditoria-back-btn:hover {
+  background: #f5f8ff;
+  border-color: #bfd0f4;
+  transform: translateX(-3px);
+}
+
+.auditoria-detalhe-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 8px;
+}
+
+.auditoria-detalhe-titulo {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.auditoria-detalhe-ano {
+  background: linear-gradient(135deg, var(--mahle-blue), #0037bd);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+@media (max-width: 1200px) {
+  .dashboard-header { flex-direction: column; }
+  .time-filter { align-self: flex-start; }
 }
