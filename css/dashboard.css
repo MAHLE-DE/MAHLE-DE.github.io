@@ -1,0 +1,610 @@
+/* ==========================================
+   DASHBOARD CARD — Score of Projects
+========================================== */
+
+.dashboard-card {
+  background: white;
+  border-radius: 11px;
+  padding: 28px 28px 20px;
+  margin-top: 28px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  /* NÃO usar min-width ou max-width aqui — JS precisa medir o scrollWidth real */
+  width: 100%;
+}
+
+/* HEADER */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+  margin-bottom: 24px;
+}
+
+.dashboard-left {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* TITLE — quadrado, mahle-blue sólido */
+.dashboard-title-box {
+  width: fit-content;
+  background: var(--mahle-blue);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 0;          /* bordas quadradas */
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: .4px;
+}
+
+/* LEGENDA */
+.dashboard-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-soft);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+
+
+.legend-line {
+  width: 34px;
+  height: 0;
+
+  border-top: 3px solid #ca221f;
+
+  display: inline-block;
+
+  transform: translateY(2px);
+}
+
+
+
+.legend-reaudit {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--mahle-blue);
+}
+
+.legend-eoa {
+  background: rgba(0,42,143,.10);
+  color: var(--mahle-blue);
+  padding: 4px 10px;
+  border-radius: 0;          /* quadrado */
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.legend-avg {
+  background: #e6ecf5;
+  color: #4a5b7a;
+  padding: 4px 10px;
+  border-radius: 0;          /* quadrado */
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* FILTRO TIME */
+.time-filter {
+  position: relative;
+}
+
+.time-filter-btn {
+  height: 48px;
+  min-width: 130px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  transition: var(--transition);
+}
+
+.time-filter-btn:hover {
+  border-color: #bfd0f4;
+  transform: translateY(-1px);
+}
+
+.time-dropdown {
+  position: absolute;
+  top: 56px;
+  right: 0;
+  min-width: 170px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 16px 36px rgba(0,0,0,.13);
+  border: 1px solid #e7edf8;
+  padding: 12px;
+  display: none;
+  z-index: 50;
+}
+
+.time-dropdown.open { display: block; }
+
+/* opção com checkbox */
+.time-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s ease;
+  user-select: none;
+}
+
+.time-option:hover { background: #f5f8ff; }
+
+.time-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #b0bdd6;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  transition: background .5s, border-color 1s;
+}
+
+.time-checkbox.checked {
+  background: var(--mahle-blue);
+  border-color: var(--mahle-blue);
+  color: white;
+}
+
+.time-option-label {
+  font-weight: 700;
+  font-size: 17px;
+  color: #16213e;
+}
+
+/* ==========================
+   CHART WRAPPER
+========================== */
+
+.chart-scroll-wrapper {
+  width: 100%;
+  max-width: 100%;
+
+  position: relative;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  padding-bottom: 18px;
+
+  scroll-behavior: smooth;
+}
+
+
+/* ÁREA DO GRÁFICO */
+
+.chart-area-container {
+  position: relative;
+
+  width: 100%;
+  min-width: 100%;
+
+  overflow: visible;
+}
+
+
+.dashboard-chart {
+  --dash-bar-w: 30px;
+  --dash-bar-gap: 10px;
+  --dash-group-pad: 14px;
+  --dash-side-pad: 24px;
+  --dash-name-size: 13px;
+  --dash-name-max: 112px;
+
+  position: relative;
+
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+
+  padding:
+    76px
+    8px
+    84px
+    8px;
+
+  width: 100%;
+  min-width: 100%;
+  height: 660px;
+
+  overflow: visible;
+
+  transition: none;
+}
+
+
+/* ==========================
+   YEAR GROUP
+========================== */
+.year-group {
+  position: relative;
+
+  display: flex;
+  align-items: flex-end;
+
+  gap: var(--dash-bar-gap);
+
+  padding:
+    16px
+    var(--dash-group-pad)
+    0;
+
+  border-radius: 0;
+
+  min-height: 570px;
+  padding-top: 70px !important;  /* espaço para year-label com target */
+  flex-shrink: 0;
+
+  overflow: visible;
+  z-index: 1;
+
+  transition:
+    opacity 0.34s ease,
+    transform 0.48s cubic-bezier(.22,1,.36,1);
+}
+
+.year-group-exit {
+  z-index: 30;
+  overflow: visible;
+}
+
+/* separador pontilhado mais destacado entre grupos */
+.year-group[data-has-sep]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 3px;
+  height: 100%;
+
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.95),
+    rgba(255,255,255,0.95) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* RÓTULO DO ANO */
+.year-label {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+
+  z-index: 3;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.year-label-ano {
+  font-size: 26px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.96);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.22);
+  line-height: 1;
+  
+}
+
+.year-label-target {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.72);
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+/* ==========================
+   BAR WRAP
+========================== */
+.bar-wrap {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding-bottom: 0;
+
+  overflow: visible;
+  z-index: 20;
+
+  transition:
+    opacity 0.32s ease,
+    transform 0.32s cubic-bezier(.22,1,.36,1);
+}
+
+/* ==========================
+   BARRA
+========================== */
+.project-bar {
+  position: relative;
+
+  width: var(--dash-bar-w);
+
+  border-radius: 0;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  z-index: 5;
+
+  transition:
+    transform .3s ease,
+    filter .3s ease;
+}
+
+
+
+/* SCORE ACIMA */
+.score-label {
+  position: absolute;
+  top: -34px;
+
+  font-size: 16px;
+  font-weight: 850;
+  color: #ffffff;
+
+  white-space: nowrap;
+
+  background: rgba(8, 20, 46, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  padding: 3px 6px;
+
+  min-width: 42px;
+  text-align: center;
+
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+
+  text-shadow: 0 1px 2px rgba(0,0,0,0.14);
+
+  z-index: 8;
+  pointer-events: none;
+}
+
+
+
+
+/* GATE — centro com backdrop */
+.gate-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.18);
+  border-radius: 0px;
+  padding: 3px 6px;
+}
+
+.gate-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* ==========================
+   NOME NA DIAGONAL
+========================== */
+.project-name-wrap {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+
+  /*
+    o texto diagonal com ponta direita alinhada ao centro da barra.
+  */
+  transform-origin: right top;
+  transform: translateX(-100%) rotate(-40deg) translateY(0);
+
+  white-space: nowrap;
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  pointer-events: none;
+  z-index: 6;
+
+  opacity: 1;
+
+  transition:
+    opacity 0.28s ease,
+    transform 0.34s cubic-bezier(.22,1,.36,1);
+}
+
+.project-name {
+  display: inline-block;
+  max-width: none;
+  overflow: visible;
+  text-overflow: clip;
+
+  font-size: var(--dash-name-size, 13px);
+  font-weight: 600;
+  color: #43506b;
+  line-height: 1;
+  white-space: nowrap;
+
+  transition:
+    max-width 0.18s ease,
+    font-size 0.28s ease,
+    color .2s ease,
+    font-weight .2s ease;
+}
+
+.bar-wrap.is-hovered {
+  z-index: 80;
+}
+
+.bar-wrap.is-hovered .project-name-wrap {
+  z-index: 90;
+}
+
+.project-bar:hover + .project-name-wrap {
+  z-index: 90;
+}
+
+.bar-wrap.is-hovered .project-name {
+  max-width: none;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.project-bar:hover + .project-name-wrap .project-name {
+  max-width: none;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+
+.avg-name {
+  color: #2f333b;
+  font-weight: 700;
+}
+
+/* badge Audit Sequence ao lado do nome */
+
+.audit-seq-badge {
+  font-size: calc(var(--dash-name-size, 13px) * 1.05);
+  font-weight: 800;
+  color: var(--mahle-blue);
+  margin-top: -1px;
+  font-family: "Segoe UI Symbol", "Segoe UI", sans-serif;
+
+  transition:
+    font-size 0.28s ease;
+}
+
+
+/* ==========================
+   BARRA AVG
+========================== */
+
+.avg-bar {
+  background: #8d9bb3 !important;
+  width: var(--dash-bar-w) !important;
+  border-radius: 0 !important;
+}
+
+
+
+.avg-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 12px;
+  font-weight: 800;
+  color: white;
+}
+
+/* ==========================
+   TARGET SVG
+========================== */
+
+.target-svg {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+  overflow: visible;
+
+  z-index: 10;
+  opacity: 1;
+
+  transition:
+    opacity 0.24s ease;
+}
+
+.dashboard-chart.is-entering .target-svg {
+  opacity: 0;
+}
+
+.dashboard-chart.is-changing .target-svg {
+  opacity: 0;
+}
+
+.dashboard-chart.is-entering .bar-wrap {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.dashboard-chart.is-ready .bar-wrap {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+
+/* ==========================
+   RESPONSIVE
+========================== */
+@media (max-width: 1200px) {
+  .dashboard-header { flex-direction: column; }
+  .time-filter { align-self: flex-start; }
+}
+
+
+
+
+
+
+/* ==========================
+   DASHBOARD - SINGLE YEAR MODE
+========================== */
+
+.dashboard-chart.dashboard-one-year {
+  justify-content: flex-start;
+}
+
+.dashboard-chart.dashboard-one-year .year-group {
+  justify-content: center;
+}
+
+

@@ -1,0 +1,352 @@
+/* ==========================
+   APP
+========================== */
+
+#app {
+
+  width: 100vw;
+  height: 100vh;
+
+  display: block;
+
+  position: relative;
+}
+
+/* ==========================
+   SIDEBAR
+========================== */
+
+.sidebar {
+
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  width: 90px;
+  height: 100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      #07152e,
+      #001735
+    );
+
+  transition:
+    width .35s ease;
+
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+  z-index: 80;
+}
+
+.sidebar:hover {
+  width: 220px;
+}
+
+/* ==========================
+   TOPO SIDEBAR
+========================== */
+
+.sidebar-top {
+
+  padding: 24px 12px 18px;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.08);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* CONTAINER DA MARCA */
+
+.brand-container {
+
+  width: 100%;
+  height: 82px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: visible;
+}
+
+.sidebar-logo {
+
+  width: 160px;
+  height: auto;
+
+  object-fit: contain;
+
+  transform-origin: center;
+
+  transition:
+    transform .38s cubic-bezier(.22,1,.36,1);
+}
+
+/* FECHADA */
+
+.sidebar:not(:hover) .sidebar-logo {
+
+  transform: scale(0.48);
+}
+
+/* ABERTA */
+
+.sidebar:hover .sidebar-logo {
+
+  transform: scale(1);
+}
+
+
+.menu-title {
+
+  margin-top: 20px;
+
+  color: rgba(255,255,255,.45);
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.sidebar-menu {
+
+  padding: 20px 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-item {
+
+  height: 58px;
+
+  border: none;
+  border-radius: 16px;
+
+  background: transparent;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  padding: 0 22px;
+
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.menu-item:hover {
+
+  background:
+    rgba(255,255,255,0.08);
+}
+
+.menu-item.active {
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--mahle-blue),
+      #0037bd
+    );
+}
+
+.menu-item i {
+
+  font-size: 24px;
+  min-width: 30px;
+}
+
+.menu-item span {
+
+  opacity: 0;
+  white-space: nowrap;
+
+  transition: .2s ease;
+}
+
+.sidebar:hover .menu-item span {
+  opacity: 1;
+}
+
+/* ==========================
+   FOOTER SIDEBAR
+========================== */
+
+.sidebar {
+  position: fixed;
+}
+
+.sidebar-footer {
+
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+
+  width: 100%;
+  padding: 0 12px;
+}
+
+/* BOTÃO */
+
+.logout-btn {
+
+  width: 100%;
+  height: 58px;
+
+  border: none;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.08);
+  color: white;
+
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  padding: 0 20px;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  transition:
+    background .3s ease,
+    padding .35s ease,
+    border-radius .35s ease;
+}
+
+.logout-btn:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+/* ÍCONE */
+
+.logout-btn i {
+
+  font-size: 22px;
+  min-width: 28px;
+  flex-shrink: 0;
+}
+
+/* TEXTO */
+
+.logout-btn span {
+
+  white-space: nowrap;
+
+  opacity: 1;
+  transform: translateX(0);
+
+  transition:
+    opacity .18s ease,
+    transform .25s ease;
+}
+
+/* SIDEBAR FECHADA */
+
+.sidebar:not(:hover) .logout-btn {
+
+  justify-content: center;
+  padding: 0;
+}
+
+/* ESCONDE TEXTO SUAVEMENTE */
+
+.sidebar:not(:hover) .logout-btn span {
+
+  opacity: 0;
+  transform: translateX(-10px);
+
+  width: 0;
+  overflow: hidden;
+}
+
+/* ==========================
+   MAIN
+========================== */
+
+.main-content {
+
+  width: calc(100vw - 90px);
+  height: 100vh;
+  margin-left: 90px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+/* ==========================
+   TOPBAR
+========================== */
+
+.topbar {
+
+  height: 95px;
+
+  background: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 45px;
+
+  box-shadow: var(--shadow);
+}
+
+.topbar h1 {
+
+  font-size: 30px;
+  color: var(--text);
+}
+
+.subtitle {
+
+  margin-top: 5px;
+  color: var(--text-soft);
+}
+
+/* ==========================
+   CONTENT
+========================== */
+
+.page-section {
+
+  flex: 1;
+
+  padding: 35px;
+
+  overflow-y: auto;
+
+  display: none;
+
+  animation:
+    fadePage .35s ease;
+}
+
+.active-section {
+  display: block;
+}
+
+@keyframes fadePage {
+
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

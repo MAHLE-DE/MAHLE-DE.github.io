@@ -1,0 +1,348 @@
+/* ==========================
+   AUDITS WORKSPACE
+========================== */
+
+.audits-shell {
+  width: 100%;
+}
+
+.audits-home-header,
+.audit-detail-hero {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.audits-home-header h2,
+.audit-detail-hero h2 {
+  font-size: 30px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.audits-home-header p,
+.audit-detail-hero p {
+  color: var(--text-soft);
+  font-size: 16px;
+}
+
+.audit-refresh-btn,
+.auditoria-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: white;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.audit-refresh-btn:hover,
+.auditoria-back-btn:hover {
+  background: #f5f8ff;
+  border-color: #bfd0f4;
+  transform: translateY(-1px);
+}
+
+.auditoria-back-btn {
+  margin-bottom: 18px;
+}
+
+.audit-status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.audit-status-card {
+  background: white;
+  border: 1px solid #e7edf8;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 14px;
+  row-gap: 4px;
+  align-items: center;
+}
+
+.audit-status-card i {
+  grid-row: span 2;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(0,42,143,0.10);
+  color: var(--mahle-blue);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.audit-status-card strong {
+  color: var(--text);
+  font-size: 18px;
+}
+
+.audit-status-card span {
+  color: var(--text-soft);
+  line-height: 1.4;
+}
+
+.audit-status-ok i {
+  background: rgba(36, 145, 87, 0.12);
+  color: #249157;
+}
+
+.audit-status-warning i {
+  background: rgba(202, 34, 31, 0.10);
+  color: #ca221f;
+}
+
+.audit-index-panel,
+.audit-json-panel {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.audit-index-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 18px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #e7edf8;
+}
+
+.audit-index-header h3,
+.audit-detail-card h3,
+.audit-json-panel h3 {
+  color: var(--text);
+  font-size: 21px;
+}
+
+.audit-index-header span {
+  color: var(--text-soft);
+  font-weight: 700;
+}
+
+.audit-project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.audit-project-row {
+  width: 100%;
+  border: 1px solid #e7edf8;
+  border-radius: 12px;
+  background: #fbfdff;
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition);
+}
+
+.audit-project-row:hover {
+  background: #f5f8ff;
+  border-color: #bfd0f4;
+  transform: translateY(-1px);
+}
+
+.audit-project-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.audit-project-main strong {
+  color: var(--text);
+  font-size: 17px;
+}
+
+.audit-project-main small {
+  color: var(--text-soft);
+  font-weight: 600;
+}
+
+.audit-project-meta,
+.audit-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-soft);
+  font-weight: 700;
+}
+
+.audit-data-pill,
+.audit-sequence-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.audit-data-pill {
+  background: #e9eef7;
+  color: #64728b;
+}
+
+.audit-data-pill.ok {
+  background: rgba(36, 145, 87, 0.12);
+  color: #249157;
+}
+
+.audit-sequence-pill {
+  background: rgba(0,42,143,0.10);
+  color: var(--mahle-blue);
+  font-family: "Segoe UI Symbol", "Segoe UI", sans-serif;
+}
+
+.audit-empty-state {
+  padding: 40px;
+  color: var(--text-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.audit-empty-state i {
+  font-size: 34px;
+  color: var(--mahle-blue);
+}
+
+.audit-eyebrow {
+  color: var(--mahle-blue);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.audit-detail-meta {
+  justify-content: flex-start;
+  margin-top: 12px;
+}
+
+.audit-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.audit-detail-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid #e7edf8;
+}
+
+.audit-detail-card p,
+.audit-json-panel p {
+  color: var(--text-soft);
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+.audit-card-body {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #e7edf8;
+  color: #33455f;
+}
+
+.audit-placeholder {
+  color: #8b98ad;
+  font-weight: 700;
+}
+
+.audit-data-list {
+  padding-left: 18px;
+  line-height: 1.6;
+}
+
+.audit-data-dl {
+  display: grid;
+  gap: 10px;
+}
+
+.audit-data-dl div {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 12px;
+}
+
+.audit-data-dl dt {
+  color: var(--text-soft);
+  font-weight: 800;
+}
+
+.audit-data-dl dd {
+  color: var(--text);
+}
+
+.audit-json-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.audit-json-panel code {
+  background: #eef3fb;
+  color: var(--mahle-blue);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-weight: 800;
+}
+
+@media (max-width: 1000px) {
+  .audit-status-grid,
+  .audit-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .audits-home-header,
+  .audit-detail-hero,
+  .audit-json-panel,
+  .audit-project-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .audit-project-meta {
+    justify-content: flex-start;
+  }
+}

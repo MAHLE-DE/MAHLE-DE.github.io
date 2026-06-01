@@ -1,0 +1,38 @@
+/* ==========================
+   RESET
+========================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+
+  --mahle-blue: #002a8f;
+  --mahle-dark: #001b5a;
+  --sidebar: #07152e;
+  --background: #eef3fb;
+  --card: #ffffff;
+  --text: #16213e;
+  --text-soft: #6f7d96;
+  --border: #dce5f5;
+
+  --shadow:
+    0 10px 30px rgba(0,0,0,0.08);
+
+  --transition:
+    0.28s cubic-bezier(.4,0,.2,1);
+}
+
+/* ==========================
+   BODY
+========================== */
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--background);
+  overflow: hidden;
+}
+

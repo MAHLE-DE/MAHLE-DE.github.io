@@ -6,7 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MAHLE Project Dashboard</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/backlogs.css">
+  <link rel="stylesheet" href="css/kpis.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/audits.css">
 
   <!-- FONT AWESOME -->
   <link rel="stylesheet"
@@ -35,19 +41,19 @@
 
       <div class="input-group">
         <i class="fa-solid fa-lock left-icon"></i>
-        <input type="password" id="senha" placeholder="SENHA">
+        <input type="password" id="senha" placeholder="PASSWORD">
         <i id="toggleSenha" class="fa-regular fa-eye-slash password-toggle"></i>
       </div>
 
-      <button class="login-btn" onclick="login()">
-        Entrar
+      <button class="login-btn" id="loginBtn" type="button">
+        Sign in
       </button>
 
     </div>
   </div>
 
   <div id="login-logo" class="logo-fixed">
-    <img src="logo.png" alt="MAHLE Logo">
+    <img src="assets/logo.png" alt="MAHLE Logo">
   </div>
 
   <!-- ========================== APP =========================== -->
@@ -59,7 +65,7 @@
 
       <div class="sidebar-top">
         <div class="brand-container">
-          <img src="logo.png" class="sidebar-logo">
+          <img src="assets/logo.png" class="sidebar-logo">
         </div>
         <div class="menu-title">MENU</div>
       </div>
@@ -67,7 +73,7 @@
       <nav class="sidebar-menu">
         <button class="menu-item active" data-section="pendencias">
           <i class="fa-solid fa-list-check"></i>
-          <span>Pendências</span>
+          <span>Backlogs</span>
         </button>
 
         <button class="menu-item" data-section="kpis">
@@ -77,14 +83,14 @@
 
         <button class="menu-item" data-section="auditorias">
           <i class="fa-solid fa-clipboard-check"></i>
-          <span>Auditorias</span>
+          <span>Audits</span>
         </button>
       </nav>
 
       <div class="sidebar-footer">
-        <button class="logout-btn" onclick="logout()">
+        <button class="logout-btn" id="logoutBtn" type="button">
           <i class="fa-solid fa-right-from-bracket"></i>
-          <span>Sair</span>
+          <span>Sign out</span>
         </button>
       </div>
 
@@ -95,8 +101,8 @@
 
       <header class="topbar">
         <div>
-          <h1 id="section-title">Pendências de Projetos</h1>
-          <p class="subtitle">Dashboard corporativo de auditorias MAHLE</p>
+          <h1 id="section-title">Project Backlogs</h1>
+          <p class="subtitle">MAHLE corporate audit dashboard</p>
         </div>
       </header>
 
@@ -107,16 +113,16 @@
         <div class="controls-container">
 
           <div class="control-box">
-            <label>Responsável (DE)</label>
+            <label>Responsible (DE)</label>
             <select id="lista"></select>
           </div>
 
           <div class="control-box search-box">
-            <label>Buscar Projeto</label>
+            <label>Search Project</label>
             <div class="search-input-container">
               <i class="fa-solid fa-magnifying-glass"></i>
               <input type="text" id="searchProjeto"
-                placeholder="Digite o nome do projeto...">
+                placeholder="Search project name...">
             </div>
           </div>
 
@@ -160,20 +166,9 @@
               <div class="dashboard-legend">
 
                 <!-- TARGET -->
-                <div class="legend-item legend-target">
-
+                <div class="legend-item">
                   <span class="legend-line"></span>
-
-                  <div class="legend-target-text">
-                    <div class="legend-target-title">
-                      Target
-                    </div>
-
-                    <div class="legend-target-values"
-                         id="target-legend-values">
-                    </div>
-                  </div>
-
+                  <span>Target</span>
                 </div>
 
                 <!-- AUDIT -->
@@ -201,7 +196,7 @@
             <!-- FILTRO -->
             <div class="time-filter">
               <button class="time-filter-btn">
-                Time
+                Years
                 <i class="fa-solid fa-chevron-down"></i>
               </button>
               <div class="time-dropdown"></div>
@@ -209,17 +204,7 @@
 
           </div>
 
-          <!-- CHART -->
           <div class="chart-scroll-wrapper">
-
-            <div class="chart-y-axis">
-              <span>100</span>
-              <span>80</span>
-              <span>60</span>
-              <span>40</span>
-              <span>20</span>
-              <span>0</span>
-            </div>
 
             <div class="chart-area-container">
 
@@ -245,9 +230,8 @@
 
         <div class="coming-soon-card">
           <i class="fa-solid fa-folder-open"></i>
-          <h2>Auditorias</h2>
-          <p>Em breve esta seção reunirá histórico, comparativos
-            e análises detalhadas.</p>
+          <h2>Audits</h2>
+          <p>Soon this section will contain history, comparisons and detailed analyses.</p>
         </div>
 
       </section>
@@ -265,8 +249,13 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
-  <!-- SCRIPT -->
-  <script src="script.js"></script>
+  <!-- APP SCRIPTS -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/backlogs.js"></script>
+  <script src="js/kpis.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/audits.js"></script>
+  <script src="js/navigation.js"></script>
 
 </body>
 </html>

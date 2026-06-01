@@ -1,0 +1,177 @@
+/* ==========================
+   LOGIN (MANTIDO)
+========================== */
+
+.background-slider {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+}
+
+.background-slider span {
+  position: absolute;
+  inset: 0;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0;
+  transform: scale(1.03);
+
+  animation: fadeBackground 30s infinite;
+}
+
+.background-slider span::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+}
+
+.background-slider span:nth-child(1) {
+  background-image: url('../assets/fundo_login.jpg');
+  animation-delay: 0s;
+}
+
+.background-slider span:nth-child(2) {
+  background-image: url('../assets/fundo_login2.jpg');
+  animation-delay: 10s;
+}
+
+.background-slider span:nth-child(3) {
+  background-image: url('../assets/fundo_login3.jpg');
+  animation-delay: 20s;
+}
+
+@keyframes fadeBackground {
+
+  0% { opacity: 0; }
+  8% { opacity: 1; }
+  33% { opacity: 1; }
+  41% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+#login-container {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 100;
+
+  transition: .4s ease;
+}
+
+.login-box {
+
+  width: 420px;
+  padding: 50px 40px;
+
+  background: rgba(255,255,255,0.25);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border-radius: 28px;
+  border: 1px solid rgba(255,255,255,0.18);
+
+  color: white;
+}
+
+.login-box h2 {
+  text-align: center;
+  font-size: 42px;
+  margin-bottom: 35px;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.input-group input {
+
+  width: 100%;
+  height: 58px;
+
+  border: none;
+  outline: none;
+
+  border-radius: 12px;
+
+  padding-left: 55px;
+  padding-right: 55px;
+
+  background: rgba(255,255,255,0.85);
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.left-icon {
+
+  position: absolute;
+
+  left: 18px;
+  top: 50%;
+
+  transform: translateY(-50%);
+  color: #6d6d6d;
+}
+
+.password-toggle {
+
+  position: absolute;
+
+  right: 18px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  cursor: pointer;
+  color: #666;
+}
+
+.login-btn {
+
+  width: 100%;
+  height: 56px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: var(--mahle-blue);
+  color: white;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.login-btn:hover {
+
+  background: #0038c2;
+
+  transform: translateY(-2px);
+}
+
+.logo-fixed {
+
+  position: fixed;
+
+  right: 35px;
+  bottom: 25px;
+
+  z-index: 100;
+}
+
+.logo-fixed img {
+  width: 180px;
+}
+
