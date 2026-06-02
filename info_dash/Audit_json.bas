@@ -1,25 +1,38 @@
-Attribute VB_Name = "Audit_json"
 Option Explicit
 
 Private Const LAST_UPDATE_TOKEN As String = "__LAST_UPDATE__"
 
+Private Const CHECK_SHEET_NAME As String = "Check"
+
+Private Const DOC_ROW_STEP As Long = 12
+Private Const DOC_NAME_COL As String = "D"
+Private Const DOC_SHORT_NAME_COL As String = "D"
+Private Const DOC_SCORE_COL As String = "E"
+Private Const DOC_NA_COL As String = "F"
+Private Const DOC_DATE_COL As String = "J"
+
 Sub Exportar_JSON_Audits()
 
     Dim ws As Worksheet
-    Set ws = ActiveSheet
+
+    On Error Resume Next
+    Set ws = ThisWorkbook.Worksheets(CHECK_SHEET_NAME)
+    On Error GoTo 0
+
+    If ws Is Nothing Then
+        MsgBox "A aba '" & CHECK_SHEET_NAME & "' não foi encontrada neste arquivo.", vbCritical
+        Exit Sub
+    End If
 
     Dim pastaDestino As String
     Dim caminhoArquivo As String
 
-    pastaDestino = "C:\PC\sitemahle\"
+    pastaDestino = "C:\Users\M0242198\cauaferrari\site\"
     caminhoArquivo = pastaDestino & "audits.json"
 
     If Dir(pastaDestino, vbDirectory) = "" Then
         MkDir pastaDestino
     End If
-
-    Dim row As Long
-    row = 1
 
     Dim projectName As String
     Dim completionDate As String
@@ -33,25 +46,29 @@ Sub Exportar_JSON_Audits()
     Dim importantDates As String
     Dim specialCharacteristics As String
 
-    projectName = Trim(ws.Cells(row, "A").Text): row = row + 1
-    completionDate = Trim(ws.Cells(row, "A").Text): row = row + 1
-    developmentEngineer = Trim(ws.Cells(row, "A").Text): row = row + 1
-    projectScore = NormalizarScoreProjeto(ws.Cells(row, "A").Value): row = row + 1
-    currentGate = UCase(Trim(ws.Cells(row, "A").Text)): row = row + 1
-    nextGateDate = Trim(ws.Cells(row, "A").Text): row = row + 1
-    productImagePath = Trim(ws.Cells(row, "A").Text): row = row + 1
-    naJustifications = Trim(ws.Cells(row, "A").Text): row = row + 1
-    importantDates = Trim(ws.Cells(row, "A").Text): row = row + 1
-    specialCharacteristics = Trim(ws.Cells(row, "A").Text): row = row + 1
+    projectName = TextoCelula(ws.Range("C3"))
+    completionDate = DataISOOuTexto(ws.Range("H4").Value2, ws.Range("H4").Text)
+    developmentEngineer = TextoCelula(ws.Range("E3"))
+    projectScore = NormalizarScoreProjeto(ws.Range("S9").Value2)
+    currentGate = UCase(Trim(TextoCelula(ws.Range("E4"))))
+    nextGate = ProximoGate(currentGate)
+    nextGateDate = DataDoGateDia23(ws, nextGate)
+    productImagePath = TextoCelula(ws.Range("H13"))
+
+
+    naJustifications = TextoCelula(ws.Range("O9"))
+    importantDates = TextoCelula(ws.Range("O10"))
+    specialCharacteristics = TextoCelula(ws.Range("O11"))
 
     If projectName = "" Then
-        MsgBox "Project name is required in column A.", vbCritical
+        MsgBox "Project name is required in cell C3.", vbCritical
         Exit Sub
     End If
 
     Dim projectId As String
     projectId = CriarID(projectName)
-    nextGate = ProximoGate(currentGate)
+
+    
 
     Dim gates As Collection
     Set gates = GatesAuditaveis(currentGate)
@@ -64,7 +81,6 @@ Sub Exportar_JSON_Audits()
     Dim baseProjectJson As String
     baseProjectJson = MontarProjetoAuditJson( _
         ws, _
-        row, _
         gates, _
         projectId, _
         projectName, _
@@ -91,6 +107,7 @@ Sub Exportar_JSON_Audits()
     oldLastUpdate = ExtrairStringJson(oldProjectJson, "lastUpdate")
 
     Dim finalLastUpdate As String
+
     If oldProjectJson = "" Then
         finalLastUpdate = IsoNowLocal()
     ElseIf NormalizarProjetoParaComparacao(oldProjectJson) = baseProjectJson Then
@@ -122,7 +139,6 @@ End Sub
 
 Private Function MontarProjetoAuditJson( _
     ByVal ws As Worksheet, _
-    ByVal firstDocRow As Long, _
     ByVal gates As Collection, _
     ByVal projectId As String, _
     ByVal projectName As String, _
@@ -148,33 +164,36 @@ Private Function MontarProjetoAuditJson( _
     json = json & """completionDate"":" & JsonStringOrNull(completionDate) & ","
     json = json & """developmentEngineer"":{""name"":" & JsonStringOrNull(developmentEngineer) & "},"
     json = json & """projectScore"":" & JsonNumber(projectScore) & ","
+
     json = json & """gates"":{"
     json = json & """current"":" & JsonStringOrNull(currentGate) & ","
     json = json & """next"":" & JsonStringOrNull(nextGate) & ","
     json = json & """nextGateDate"":" & JsonStringOrNull(nextGateDate)
     json = json & "},"
+
     json = json & """productImage"":{"
     json = json & CampoImagem(productImagePath) & ","
     json = json & """alt"":""" & EscapeJSON(projectName & " product image") & """"
     json = json & "},"
+
     json = json & """backlogProjectName"":null,"
     json = json & """dashboardName"":null,"
     json = json & """aliases"":[],"
-    json = json & """importantInfo"":{"
-    json = json & """naJustifications"":" & JsonStringOrNull(naJustifications) & ","
-    json = json & """importantDates"":" & JsonStringOrNull(importantDates) & ","
-    json = json & """specialCharacteristics"":" & JsonStringOrNull(specialCharacteristics)
-    json = json & "},"
-    json = json & """documents"":["
 
-    Dim r As Long
-    r = firstDocRow
+    json = json & """importantInfo"":{"
+    json = json & """naJustifications"":" & JsonNAJustifications(naJustifications) & ","
+    json = json & """importantDates"":" & JsonImportantDates(importantDates) & ","
+    json = json & """specialCharacteristics"":" & JsonSpecialCharacteristics(specialCharacteristics)
+    json = json & "},"
+
+    json = json & """documents"":["
 
     Dim gate As Variant
     Dim gateName As String
     Dim gateDocCount As Long
     Dim i As Long
     Dim docGlobalOrder As Long
+    Dim docRow As Long
     Dim docName As String
     Dim docShortName As String
     Dim docScore As Variant
@@ -189,16 +208,12 @@ Private Function MontarProjetoAuditJson( _
 
         For i = 1 To gateDocCount
 
-            docName = Trim(ws.Cells(r, "A").Text): r = r + 1
-            docShortName = Trim(ws.Cells(r, "A").Text): r = r + 1
-            docScore = ws.Cells(r, "A").Value: r = r + 1
+            docRow = LinhaDocumentoGate(gateName, i)
 
-            If IsNumeric(ws.Cells(r, "A").Value) Then
-                docStatus = CLng(ws.Cells(r, "A").Value)
-            Else
-                docStatus = 4
-            End If
-            r = r + 1
+            docName = Trim(CStr(ws.Cells(docRow, DOC_NAME_COL).Value2))
+            docShortName = Trim(CStr(ws.Cells(docRow, DOC_SHORT_NAME_COL).Value2))
+            docScore = ws.Cells(docRow, DOC_SCORE_COL).Value2
+            docStatus = CalcularStatusDocumento(ws, gateName, docRow)
 
             If docName = "" Then
                 docName = gateName & " Document " & CStr(i)
@@ -231,6 +246,105 @@ Private Function MontarProjetoAuditJson( _
 
 End Function
 
+Private Function CalcularStatusDocumento( _
+    ByVal ws As Worksheet, _
+    ByVal gateName As String, _
+    ByVal docRow As Long _
+) As Long
+
+    If EhNA(ws.Cells(docRow, DOC_NA_COL).Value2) Then
+        CalcularStatusDocumento = 4
+        Exit Function
+    End If
+
+    Dim docDate As Date
+    Dim gateDate As Date
+
+    If Not TentarConverterData(ws.Cells(docRow, DOC_DATE_COL).Value2, docDate) Then
+        CalcularStatusDocumento = 3
+        Exit Function
+    End If
+
+    If Not TentarConverterData(DataDoGate(ws, gateName), gateDate) Then
+        CalcularStatusDocumento = 3
+        Exit Function
+    End If
+
+    docDate = SomenteData(docDate)
+    gateDate = SomenteData(gateDate)
+
+    If docDate < gateDate Then
+        CalcularStatusDocumento = 1
+    ElseIf docDate = gateDate Then
+        CalcularStatusDocumento = 2
+    Else
+        CalcularStatusDocumento = 3
+    End If
+
+End Function
+
+Private Function EhNA(ByVal value As Variant) As Boolean
+
+    Dim texto As String
+    texto = UCase(Trim(CStr(value)))
+
+    EhNA = (texto = "N/A" Or texto = "NA")
+
+End Function
+
+Private Function DataDoGate(ByVal ws As Worksheet, ByVal gateName As String) As Variant
+
+    Dim targetGate As String
+    targetGate = UCase(Trim(gateName))
+
+    Dim cell As Range
+
+    For Each cell In ws.Range("C7:J7").Cells
+        If UCase(Trim(CStr(cell.Value2))) = targetGate Then
+            DataDoGate = ws.Cells(8, cell.Column).Value2
+            Exit Function
+        End If
+    Next cell
+
+    If UCase(Trim(CStr(ws.Range("O7").Value2))) = targetGate Then
+        DataDoGate = ws.Range("O8").Value2
+        Exit Function
+    End If
+
+    DataDoGate = Empty
+
+End Function
+
+Private Function LinhaDocumentoGate(ByVal gateName As String, ByVal docIndex As Long) As Long
+
+    Dim startRow As Long
+    startRow = PrimeiraLinhaGate(gateName)
+
+    If startRow = 0 Then
+        LinhaDocumentoGate = 0
+    Else
+        LinhaDocumentoGate = startRow + ((docIndex - 1) * DOC_ROW_STEP)
+    End If
+
+End Function
+
+Private Function PrimeiraLinhaGate(ByVal gateName As String) As Long
+
+    Select Case UCase(Trim(gateName))
+        Case "MS0"
+            PrimeiraLinhaGate = 16
+        Case "MS1"
+            PrimeiraLinhaGate = 112
+        Case "QG2"
+            PrimeiraLinhaGate = 268
+        Case "QG3"
+            PrimeiraLinhaGate = 376
+        Case Else
+            PrimeiraLinhaGate = 0
+    End Select
+
+End Function
+
 Private Function GatesAuditaveis(ByVal currentGate As String) As Collection
 
     Dim gates As New Collection
@@ -238,19 +352,24 @@ Private Function GatesAuditaveis(ByVal currentGate As String) As Collection
     Select Case UCase(Trim(currentGate))
         Case "MS0"
             gates.Add "MS0"
+
         Case "QG1"
             gates.Add "MS0"
+
         Case "MS1"
             gates.Add "MS0"
             gates.Add "MS1"
+
         Case "QG2"
             gates.Add "MS0"
             gates.Add "MS1"
             gates.Add "QG2"
+
         Case "MS2"
             gates.Add "MS0"
             gates.Add "MS1"
             gates.Add "QG2"
+
         Case "QG3"
             gates.Add "MS0"
             gates.Add "MS1"
@@ -276,7 +395,7 @@ Private Function ProximoGate(ByVal currentGate As String) As String
         Case "MS2"
             ProximoGate = "QG3"
         Case Else
-            ProximoGate = ""
+            ProximoGate = "QG4"
     End Select
 
 End Function
@@ -295,6 +414,197 @@ Private Function QuantidadeDocumentosGate(ByVal gateName As String) As Long
         Case Else
             QuantidadeDocumentosGate = 0
     End Select
+
+End Function
+
+Private Function JsonNAJustifications(ByVal texto As String) As String
+
+    texto = NormalizarQuebrasLinha(texto)
+
+    If Trim(texto) = "" Then
+        JsonNAJustifications = "[]"
+        Exit Function
+    End If
+
+    Dim linhas() As String
+    linhas = Split(texto, vbLf)
+
+    Dim json As String
+    Dim i As Long
+    Dim linha As String
+    Dim gate As String
+    Dim documentName As String
+    Dim justification As String
+
+    json = "["
+
+    For i = LBound(linhas) To UBound(linhas)
+
+        linha = Trim(linhas(i))
+
+        If linha <> "" Then
+
+            gate = ValorCampoBloco(linha, "gate")
+            documentName = ValorCampoBloco(linha, "document")
+            justification = ValorCampoBloco(linha, "justification")
+
+            If gate = "" And documentName = "" And justification = "" Then
+                justification = linha
+            End If
+
+            If Trim(justification) = "" Then
+                justification = "No justification provided"
+            End If
+
+            json = json & "{"
+            json = json & """gate"":" & JsonStringOrNull(gate) & ","
+            json = json & """documentName"":" & JsonStringOrNull(documentName) & ","
+            json = json & """justification"":" & JsonStringOrNull(justification)
+            json = json & "},"
+
+        End If
+
+    Next i
+
+    json = RemoverUltimaVirgula(json)
+    json = json & "]"
+
+    JsonNAJustifications = json
+
+End Function
+Private Function JsonImportantDates(ByVal texto As String) As String
+
+    texto = NormalizarQuebrasLinha(texto)
+
+    If Trim(texto) = "" Then
+        JsonImportantDates = "[]"
+        Exit Function
+    End If
+
+    Dim linhas() As String
+    linhas = Split(texto, vbLf)
+
+    Dim json As String
+    Dim i As Long
+    Dim linha As String
+    Dim gate As String
+    Dim dateValue As String
+
+    json = "["
+
+    For i = LBound(linhas) To UBound(linhas)
+
+        linha = Trim(linhas(i))
+
+        If linha <> "" Then
+
+            gate = ValorCampoBloco(linha, "gate")
+            dateValue = ValorCampoBloco(linha, "date")
+
+            If gate = "" And dateValue = "" Then
+                dateValue = linha
+            End If
+
+            If Trim(dateValue) <> "" Then
+                json = json & "{"
+                json = json & """gate"":" & JsonStringOrNull(gate) & ","
+                json = json & """date"":" & JsonStringOrNull(dateValue)
+                json = json & "},"
+            End If
+
+        End If
+
+    Next i
+
+    json = RemoverUltimaVirgula(json)
+    json = json & "]"
+
+    JsonImportantDates = json
+
+End Function
+
+Private Function JsonSpecialCharacteristics(ByVal texto As String) As String
+
+    texto = NormalizarQuebrasLinha(texto)
+
+    If Trim(texto) = "" Then
+        JsonSpecialCharacteristics = "[]"
+        Exit Function
+    End If
+
+    Dim linhas() As String
+    linhas = Split(texto, vbLf)
+
+    Dim json As String
+    Dim i As Long
+    Dim linha As String
+    Dim characteristic As String
+
+    json = "["
+
+    For i = LBound(linhas) To UBound(linhas)
+
+        linha = Trim(linhas(i))
+
+        If linha <> "" Then
+
+            characteristic = ValorCampoBloco(linha, "characteristic")
+
+            If characteristic = "" Then
+                characteristic = linha
+            End If
+
+            json = json & """" & EscapeJSON(characteristic) & ""","
+
+        End If
+
+    Next i
+
+    json = RemoverUltimaVirgula(json)
+    json = json & "]"
+
+    JsonSpecialCharacteristics = json
+
+End Function
+
+Private Function ValorCampoBloco(ByVal bloco As String, ByVal campo As String) As String
+
+    Dim partes() As String
+    partes = Split(bloco, "|")
+
+    Dim i As Long
+    Dim parte As String
+    Dim p As Long
+    Dim chave As String
+    Dim valor As String
+
+    For i = LBound(partes) To UBound(partes)
+
+        parte = Trim(partes(i))
+        p = InStr(1, parte, "=", vbTextCompare)
+
+        If p > 0 Then
+            chave = LCase(Trim(Left(parte, p - 1)))
+            valor = Trim(Mid(parte, p + 1))
+
+            If chave = LCase(Trim(campo)) Then
+                ValorCampoBloco = valor
+                Exit Function
+            End If
+        End If
+
+    Next i
+
+    ValorCampoBloco = ""
+
+End Function
+
+Private Function NormalizarQuebrasLinha(ByVal texto As String) As String
+
+    texto = Replace(texto, vbCrLf, vbLf)
+    texto = Replace(texto, vbCr, vbLf)
+
+    NormalizarQuebrasLinha = texto
 
 End Function
 
@@ -372,6 +682,7 @@ Private Function SubstituirCampoStringJson( _
 
     Dim p As Long
     p = InStr(1, json, key, vbTextCompare)
+
     If p = 0 Then
         SubstituirCampoStringJson = json
         Exit Function
@@ -382,10 +693,10 @@ Private Function SubstituirCampoStringJson( _
 
     Dim i As Long
     Dim escaped As Boolean
+    Dim ch As String
 
     For i = valueStart To Len(json)
 
-        Dim ch As String
         ch = Mid(json, i, 1)
 
         If escaped Then
@@ -409,6 +720,7 @@ Private Function ExtrairProjectsBody(ByVal json As String) As String
 
     Dim keyPos As Long
     keyPos = InStr(1, json, """projects""", vbTextCompare)
+
     If keyPos = 0 Then
         ExtrairProjectsBody = ""
         Exit Function
@@ -416,6 +728,7 @@ Private Function ExtrairProjectsBody(ByVal json As String) As String
 
     Dim startPos As Long
     startPos = InStr(keyPos, json, "[")
+
     If startPos = 0 Then
         ExtrairProjectsBody = ""
         Exit Function
@@ -425,10 +738,10 @@ Private Function ExtrairProjectsBody(ByVal json As String) As String
     Dim depth As Long
     Dim inString As Boolean
     Dim escaped As Boolean
+    Dim ch As String
 
     For i = startPos To Len(json)
 
-        Dim ch As String
         ch = Mid(json, i, 1)
 
         If inString Then
@@ -446,6 +759,7 @@ Private Function ExtrairProjectsBody(ByVal json As String) As String
                 depth = depth + 1
             ElseIf ch = "]" Then
                 depth = depth - 1
+
                 If depth = 0 Then
                     ExtrairProjectsBody = Mid(json, startPos + 1, i - startPos - 1)
                     Exit Function
@@ -467,12 +781,12 @@ Private Function SplitTopLevelObjects(ByVal body As String) As Collection
     Dim startPos As Long
     Dim inString As Boolean
     Dim escaped As Boolean
+    Dim ch As String
 
     startPos = 0
 
     For i = 1 To Len(body)
 
-        Dim ch As String
         ch = Mid(body, i, 1)
 
         If inString Then
@@ -491,6 +805,7 @@ Private Function SplitTopLevelObjects(ByVal body As String) As Collection
                 depth = depth + 1
             ElseIf ch = "}" Then
                 depth = depth - 1
+
                 If depth = 0 And startPos > 0 Then
                     result.Add Mid(body, startPos, i - startPos + 1)
                     startPos = 0
@@ -514,6 +829,7 @@ Private Function ExtrairStringJson( _
 
     Dim p As Long
     p = InStr(1, json, key, vbTextCompare)
+
     If p = 0 Then
         ExtrairStringJson = ""
         Exit Function
@@ -524,11 +840,12 @@ Private Function ExtrairStringJson( _
     Dim i As Long
     Dim escaped As Boolean
     Dim output As String
+    Dim ch As String
+
     output = ""
 
     For i = p To Len(json)
 
-        Dim ch As String
         ch = Mid(json, i, 1)
 
         If escaped Then
@@ -550,6 +867,8 @@ End Function
 
 Private Function CampoImagem(ByVal path As String) As String
 
+    path = Trim(path)
+
     If path = "" Then
         CampoImagem = """src"":null"
         Exit Function
@@ -557,6 +876,7 @@ Private Function CampoImagem(ByVal path As String) As String
 
     If InStr(1, path, "http://", vbTextCompare) = 1 Or _
        InStr(1, path, "https://", vbTextCompare) = 1 Then
+
         CampoImagem = """url"":""" & EscapeJSON(path) & """"
     Else
         CampoImagem = """assetPath"":""" & EscapeJSON(path) & """"
@@ -625,6 +945,53 @@ Private Function NormalizarNotaDocumento(ByVal value As Variant) As Double
 
 End Function
 
+Private Function DataISOOuTexto(ByVal valor As Variant, ByVal fallbackText As String) As String
+
+    Dim dataConvertida As Date
+
+    If TentarConverterData(valor, dataConvertida) Then
+        DataISOOuTexto = Format(dataConvertida, "yyyy-mm-dd")
+    Else
+        If IsError(valor) Then
+            DataISOOuTexto = Trim(fallbackText)
+        ElseIf Trim(CStr(valor)) <> "" Then
+            DataISOOuTexto = Trim(CStr(valor))
+        Else
+            DataISOOuTexto = Trim(fallbackText)
+        End If
+    End If
+
+End Function
+
+Private Function TentarConverterData(ByVal value As Variant, ByRef outputDate As Date) As Boolean
+
+    On Error GoTo Falhou
+
+    If IsError(value) Then GoTo Falhou
+    If IsEmpty(value) Then GoTo Falhou
+    If Trim(CStr(value)) = "" Then GoTo Falhou
+
+    If IsDate(value) Then
+        outputDate = CDate(value)
+        TentarConverterData = True
+        Exit Function
+    End If
+
+    If IsNumeric(value) Then
+        outputDate = CDate(CDbl(value))
+        TentarConverterData = True
+        Exit Function
+    End If
+
+Falhou:
+    TentarConverterData = False
+
+End Function
+
+Private Function SomenteData(ByVal value As Date) As Date
+    SomenteData = DateSerial(Year(value), Month(value), Day(value))
+End Function
+
 Private Function IsoNowLocal() As String
     IsoNowLocal = Format(Now, "yyyy-mm-dd\Thh:nn:ss") & "-03:00"
 End Function
@@ -657,6 +1024,16 @@ Private Sub EscreverArquivoTexto(ByVal caminho As String, ByVal texto As String)
 
 End Sub
 
+Private Function TextoCelula(ByVal cell As Range) As String
+
+    If IsError(cell.Value2) Then
+        TextoCelula = ""
+    Else
+        TextoCelula = Trim(CStr(cell.Value2))
+    End If
+
+End Function
+
 Private Function RemoverUltimaVirgula(ByVal texto As String) As String
 
     If Right(texto, 1) = "," Then
@@ -682,26 +1059,94 @@ End Function
 
 Private Function CriarID(ByVal nome As String) As String
 
-    nome = LCase(Trim(nome))
+    nome = LCase(Trim(RemoverAcentos(nome)))
 
-    nome = Replace(nome, " ", "-")
-    nome = Replace(nome, "/", "-")
-    nome = Replace(nome, "\", "-")
-    nome = Replace(nome, "_", "-")
-    nome = Replace(nome, ".", "")
-    nome = Replace(nome, "(", "")
-    nome = Replace(nome, ")", "")
-    nome = Replace(nome, "{", "")
-    nome = Replace(nome, "}", "")
-    nome = Replace(nome, "[", "")
-    nome = Replace(nome, "]", "")
-    nome = Replace(nome, "&", "e")
-    nome = Replace(nome, ",", "")
+    Dim re As Object
+    Set re = CreateObject("VBScript.RegExp")
 
-    Do While InStr(nome, "--") > 0
-        nome = Replace(nome, "--", "-")
-    Loop
+    re.Global = True
+    re.Pattern = "[^a-z0-9]+"
+    nome = re.Replace(nome, "-")
+
+    re.Pattern = "-+"
+    nome = re.Replace(nome, "-")
+
+    re.Pattern = "^-+|-+$"
+    nome = re.Replace(nome, "")
 
     CriarID = nome
+
+End Function
+
+Private Function RemoverAcentos(ByVal texto As String) As String
+
+    texto = Replace(texto, "á", "a")
+    texto = Replace(texto, "à", "a")
+    texto = Replace(texto, "ã", "a")
+    texto = Replace(texto, "â", "a")
+    texto = Replace(texto, "ä", "a")
+    texto = Replace(texto, "Á", "A")
+    texto = Replace(texto, "À", "A")
+    texto = Replace(texto, "Ã", "A")
+    texto = Replace(texto, "Â", "A")
+    texto = Replace(texto, "Ä", "A")
+
+    texto = Replace(texto, "é", "e")
+    texto = Replace(texto, "è", "e")
+    texto = Replace(texto, "ê", "e")
+    texto = Replace(texto, "ë", "e")
+    texto = Replace(texto, "É", "E")
+    texto = Replace(texto, "È", "E")
+    texto = Replace(texto, "Ê", "E")
+    texto = Replace(texto, "Ë", "E")
+
+    texto = Replace(texto, "í", "i")
+    texto = Replace(texto, "ì", "i")
+    texto = Replace(texto, "î", "i")
+    texto = Replace(texto, "ï", "i")
+    texto = Replace(texto, "Í", "I")
+    texto = Replace(texto, "Ì", "I")
+    texto = Replace(texto, "Î", "I")
+    texto = Replace(texto, "Ï", "I")
+
+    texto = Replace(texto, "ó", "o")
+    texto = Replace(texto, "ò", "o")
+    texto = Replace(texto, "õ", "o")
+    texto = Replace(texto, "ô", "o")
+    texto = Replace(texto, "ö", "o")
+    texto = Replace(texto, "Ó", "O")
+    texto = Replace(texto, "Ò", "O")
+    texto = Replace(texto, "Õ", "O")
+    texto = Replace(texto, "Ô", "O")
+    texto = Replace(texto, "Ö", "O")
+
+    texto = Replace(texto, "ú", "u")
+    texto = Replace(texto, "ù", "u")
+    texto = Replace(texto, "û", "u")
+    texto = Replace(texto, "ü", "u")
+    texto = Replace(texto, "Ú", "U")
+    texto = Replace(texto, "Ù", "U")
+    texto = Replace(texto, "Û", "U")
+    texto = Replace(texto, "Ü", "U")
+
+    texto = Replace(texto, "ç", "c")
+    texto = Replace(texto, "Ç", "C")
+
+    RemoverAcentos = texto
+
+End Function
+
+Private Function DataDoGateDia23(ByVal ws As Worksheet, ByVal gateName As String) As String
+
+    Dim gateDateValue As Variant
+    gateDateValue = DataDoGate(ws, gateName)
+
+    Dim gateDate As Date
+
+    If TentarConverterData(gateDateValue, gateDate) Then
+        DataDoGateDia23 = Format(DateSerial(Year(gateDate), Month(gateDate), 23), "yyyy-mm-dd")
+    Else
+        DataDoGateDia23 = ""
+    End If
 
 End Function
