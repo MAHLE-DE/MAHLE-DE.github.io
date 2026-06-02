@@ -1,0 +1,64 @@
+Audit_json.bas - configuracao basica
+
+A macro Exportar_JSON_Audits gera o arquivo:
+C:\PC\sitemahle\audits.json
+
+Ela foi preparada para teste lendo todos os dados em ordem na coluna A.
+Quando for adaptar para a planilha real, os principais pontos para alterar sao:
+
+1. Dados gerais do projeto
+   Arquivo: Audit_json.bas
+   Linhas aproximadas: 36 a 45
+
+   Ordem atual de teste:
+   A1  projectName
+   A2  completionDate
+   A3  developmentEngineer
+   A4  projectScore
+   A5  currentGate
+   A6  nextGateDate
+   A7  productImagePath
+   A8  naJustifications
+   A9  importantDates
+   A10 specialCharacteristics
+
+2. Dados dos documentos
+   Arquivo: Audit_json.bas
+   Linhas aproximadas: 192 a 201
+
+   Para cada documento, a ordem atual de teste e:
+   document full name
+   document short name
+   document score de 0 a 10
+   document status
+
+3. Quantidade de documentos por gate
+   Arquivo: Audit_json.bas
+   Funcao: QuantidadeDocumentosGate
+
+   MS0 = 8 documentos
+   MS1 = 13 documentos
+   QG2 = 9 documentos
+   QG3 = 2 documentos
+
+4. Gates enviados para o JSON
+   Arquivo: Audit_json.bas
+   Funcao: GatesAuditaveis
+
+   MS0 envia MS0
+   QG1 envia MS0
+   MS1 envia MS0 + MS1
+   QG2 envia MS0 + MS1 + QG2
+   MS2 envia MS0 + MS1 + QG2
+   QG3 envia MS0 + MS1 + QG2 + QG3
+
+5. Regras automaticas importantes
+
+   O projectId nao vem de uma celula. Ele e gerado pelo nome do projeto usando a mesma ideia da macro do Dashboard.
+
+   lastUpdate nao vem de uma celula. A macro compara o projeto atual com o projeto antigo no audits.json. Se mudou, atualiza lastUpdate para a data e hora atuais. Se nao mudou, preserva o lastUpdate antigo.
+
+   nextGate nao vem de uma celula. Ele e calculado pelo currentGate:
+   MS0 -> QG1 -> MS1 -> QG2 -> MS2 -> QG3
+
+   Se status = 4, a macro grava score como null. O site entende isso como N/A e mostra a barra como 100%.

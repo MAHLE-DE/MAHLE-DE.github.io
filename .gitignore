@@ -1,4 +1,7 @@
 backup_*/
-info_dash/
+backups/
+info_dash/*
+!info_dash/Audit_json.bas
+!info_dash/Audit_json_configuracao.txt
 site_atual/
 ORGANIZACAO.md
