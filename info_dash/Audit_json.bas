@@ -1,6 +1,8 @@
 Option Explicit
 
 Private Const LAST_UPDATE_TOKEN As String = "__LAST_UPDATE__"
+Private Const PRODUCT_IMAGE_BASE64_CELL As String = "A1"
+Private Const PRODUCT_IMAGE_MAX_BYTES As Long = 1000000
 
 Private Const CHECK_SHEET_NAME As String = "Check"
 
@@ -41,7 +43,7 @@ Sub Exportar_JSON_Audits()
     Dim currentGate As String
     Dim nextGate As String
     Dim nextGateDate As String
-    Dim productImagePath As String
+    Dim productImageBase64 As String
     Dim naJustifications As String
     Dim importantDates As String
     Dim specialCharacteristics As String
@@ -53,7 +55,7 @@ Sub Exportar_JSON_Audits()
     currentGate = UCase(Trim(TextoCelula(ws.Range("E4"))))
     nextGate = ProximoGate(currentGate)
     nextGateDate = DataDoGateDia23(ws, nextGate)
-    productImagePath = TextoCelula(ws.Range("H13"))
+    productImageBase64 = TextoCelula(ws.Range(PRODUCT_IMAGE_BASE64_CELL))
 
 
     naJustifications = TextoCelula(ws.Range("O9"))
@@ -78,6 +80,13 @@ Sub Exportar_JSON_Audits()
         Exit Sub
     End If
 
+    If TamanhoUtf8(productImageBase64) > PRODUCT_IMAGE_MAX_BYTES Then
+        MsgBox "Product image base64 is too large." & vbCrLf & _
+            "Cell: " & PRODUCT_IMAGE_BASE64_CELL & vbCrLf & _
+            "Limit: " & PRODUCT_IMAGE_MAX_BYTES & " bytes", vbCritical
+        Exit Sub
+    End If
+
     Dim baseProjectJson As String
     baseProjectJson = MontarProjetoAuditJson( _
         ws, _
@@ -91,7 +100,7 @@ Sub Exportar_JSON_Audits()
         currentGate, _
         nextGate, _
         nextGateDate, _
-        productImagePath, _
+        productImageBase64, _
         naJustifications, _
         importantDates, _
         specialCharacteristics _
@@ -149,7 +158,7 @@ Private Function MontarProjetoAuditJson( _
     ByVal currentGate As String, _
     ByVal nextGate As String, _
     ByVal nextGateDate As String, _
-    ByVal productImagePath As String, _
+    ByVal productImageBase64 As String, _
     ByVal naJustifications As String, _
     ByVal importantDates As String, _
     ByVal specialCharacteristics As String _
@@ -172,8 +181,7 @@ Private Function MontarProjetoAuditJson( _
     json = json & "},"
 
     json = json & """productImage"":{"
-    json = json & CampoImagem(productImagePath) & ","
-    json = json & """alt"":""" & EscapeJSON(projectName & " product image") & """"
+    json = json & CampoImagem(productImageBase64, projectName)
     json = json & "},"
 
     json = json & """backlogProjectName"":null,"
@@ -865,22 +873,38 @@ Private Function ExtrairStringJson( _
 
 End Function
 
-Private Function CampoImagem(ByVal path As String) As String
+Private Function CampoImagem(ByVal base64Text As String, ByVal projectName As String) As String
 
-    path = Trim(path)
+    base64Text = Trim(base64Text)
 
-    If path = "" Then
-        CampoImagem = """src"":null"
+    If base64Text = "" Then
+        CampoImagem = ""
         Exit Function
     End If
 
-    If InStr(1, path, "http://", vbTextCompare) = 1 Or _
-       InStr(1, path, "https://", vbTextCompare) = 1 Then
-
-        CampoImagem = """url"":""" & EscapeJSON(path) & """"
+    If InStr(1, base64Text, "data:image/", vbTextCompare) = 1 Then
+        CampoImagem = """dataUrl"":""" & EscapeJSON(base64Text) & """," & _
+            """alt"":""" & EscapeJSON(projectName & " product image") & """"
     Else
-        CampoImagem = """assetPath"":""" & EscapeJSON(path) & """"
+        CampoImagem = """dataUrl"":""data:image/jpeg;base64," & EscapeJSON(base64Text) & """," & _
+            """alt"":""" & EscapeJSON(projectName & " product image") & """"
     End If
+
+End Function
+
+Private Function TamanhoUtf8(ByVal texto As String) As Long
+
+    Dim stream As Object
+    Set stream = CreateObject("ADODB.Stream")
+
+    stream.Type = 2
+    stream.Charset = "utf-8"
+    stream.Open
+    stream.WriteText texto
+    stream.Position = 0
+    stream.Type = 1
+    TamanhoUtf8 = stream.Size
+    stream.Close
 
 End Function
 
@@ -1003,24 +1027,39 @@ Private Function LerArquivoTexto(ByVal caminho As String) As String
         Exit Function
     End If
 
-    Dim fileNum As Integer
-    fileNum = FreeFile
+    Dim stream As Object
+    Set stream = CreateObject("ADODB.Stream")
 
-    Open caminho For Binary As #fileNum
-    LerArquivoTexto = Space(LOF(fileNum))
-    Get #fileNum, , LerArquivoTexto
-    Close #fileNum
+    stream.Type = 2
+    stream.Charset = "utf-8"
+    stream.Open
+    stream.LoadFromFile caminho
+    LerArquivoTexto = stream.ReadText
+    stream.Close
 
 End Function
 
 Private Sub EscreverArquivoTexto(ByVal caminho As String, ByVal texto As String)
 
-    Dim fileNum As Integer
-    fileNum = FreeFile
+    Dim textStream As Object
+    Dim binaryStream As Object
 
-    Open caminho For Output As #fileNum
-    Print #fileNum, texto
-    Close #fileNum
+    Set textStream = CreateObject("ADODB.Stream")
+    Set binaryStream = CreateObject("ADODB.Stream")
+
+    textStream.Type = 2
+    textStream.Charset = "utf-8"
+    textStream.Open
+    textStream.WriteText texto
+    textStream.Position = 3
+
+    binaryStream.Type = 1
+    binaryStream.Open
+    textStream.CopyTo binaryStream
+    binaryStream.SaveToFile caminho, 2
+
+    binaryStream.Close
+    textStream.Close
 
 End Sub
 

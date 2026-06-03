@@ -144,7 +144,7 @@ document.addEventListener(
 			}
 
             if (section === "auditorias") {
-              abrirAuditsHome();
+              abrirAuditsAtual();
             }
         }
       );

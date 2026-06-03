@@ -3,5 +3,6 @@ backups/
 info_dash/*
 !info_dash/Audit_json.bas
 !info_dash/Audit_json_configuracao.txt
+!info_dash/jpg_to_base64.py
 site_atual/
 ORGANIZACAO.md

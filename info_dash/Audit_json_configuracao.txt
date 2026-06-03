@@ -1,38 +1,64 @@
 Audit_json.bas - configuracao basica
 
-A macro Exportar_JSON_Audits gera o arquivo:
-C:\PC\sitemahle\audits.json
+A macro Exportar_JSON_Audits le a aba:
+Check
 
-Ela foi preparada para teste lendo todos os dados em ordem na coluna A.
-Quando for adaptar para a planilha real, os principais pontos para alterar sao:
+Ela gera o arquivo:
+C:\Users\M0242198\cauaferrari\site\audits.json
+
+Depois esse JSON deve ser enviado para:
+audits -> audits -> jsonCompleto
 
 1. Dados gerais do projeto
    Arquivo: Audit_json.bas
-   Linhas aproximadas: 36 a 45
+   Regiao aproximada: linhas 45 a 60
 
-   Ordem atual de teste:
-   A1  projectName
-   A2  completionDate
-   A3  developmentEngineer
-   A4  projectScore
-   A5  currentGate
-   A6  nextGateDate
-   A7  productImagePath
-   A8  naJustifications
-   A9  importantDates
-   A10 specialCharacteristics
+   Celulas atuais:
+   C3  projectName
+   H4  completionDate
+   E3  developmentEngineer
+   S9  projectScore
+   E4  currentGate
+   H13 productImagePath
+   O9  N/A justifications
+   O10 important dates
+   O11 special characteristics
+   A1  product image base64/data URL
+
+   nextGate nao vem de celula. Ele e calculado automaticamente pelo currentGate.
+
+   nextGateDate tambem nao vem diretamente de celula fixa. A macro procura a data do nextGate e grava sempre no dia 23 do respectivo mes.
 
 2. Dados dos documentos
    Arquivo: Audit_json.bas
-   Linhas aproximadas: 192 a 201
+   Regiao aproximada: linhas 210 a 216
 
-   Para cada documento, a ordem atual de teste e:
-   document full name
-   document short name
-   document score de 0 a 10
-   document status
+   Colunas atuais por documento:
+   D = document full name
+   D = document short name
+   E = document score de 0 a 10
+   F = N/A
+   J = document completion date
 
-3. Quantidade de documentos por gate
+   Os documentos sao lidos em blocos com passo de 12 linhas.
+   Para mudar isso, editar:
+   DOC_ROW_STEP
+   DOC_NAME_COL
+   DOC_SHORT_NAME_COL
+   DOC_SCORE_COL
+   DOC_NA_COL
+   DOC_DATE_COL
+
+3. Primeira linha de cada gate
+   Arquivo: Audit_json.bas
+   Funcao: PrimeiraLinhaGate
+
+   MS0 comeca na linha 16
+   MS1 comeca na linha 112
+   QG2 comeca na linha 268
+   QG3 comeca na linha 376
+
+4. Quantidade de documentos por gate
    Arquivo: Audit_json.bas
    Funcao: QuantidadeDocumentosGate
 
@@ -41,7 +67,7 @@ Quando for adaptar para a planilha real, os principais pontos para alterar sao:
    QG2 = 9 documentos
    QG3 = 2 documentos
 
-4. Gates enviados para o JSON
+5. Gates enviados para o JSON
    Arquivo: Audit_json.bas
    Funcao: GatesAuditaveis
 
@@ -52,13 +78,41 @@ Quando for adaptar para a planilha real, os principais pontos para alterar sao:
    MS2 envia MS0 + MS1 + QG2
    QG3 envia MS0 + MS1 + QG2 + QG3
 
-5. Regras automaticas importantes
+6. Regras automaticas importantes
 
-   O projectId nao vem de uma celula. Ele e gerado pelo nome do projeto usando a mesma ideia da macro do Dashboard.
+   O projectId nao vem de uma celula. Ele e gerado pelo nome do projeto.
 
    lastUpdate nao vem de uma celula. A macro compara o projeto atual com o projeto antigo no audits.json. Se mudou, atualiza lastUpdate para a data e hora atuais. Se nao mudou, preserva o lastUpdate antigo.
 
-   nextGate nao vem de uma celula. Ele e calculado pelo currentGate:
-   MS0 -> QG1 -> MS1 -> QG2 -> MS2 -> QG3
+   Status do documento:
+   F = N/A gera status 4.
+   Se nao for N/A, a macro compara a data da coluna J com a data final do gate:
+   antes da data do gate = status 1
+   no dia da data do gate = status 2
+   depois da data do gate = status 3
 
    Se status = 4, a macro grava score como null. O site entende isso como N/A e mostra a barra como 100%.
+
+   A macro grava e le audits.json em UTF-8 sem BOM para evitar texto quebrado com acentos.
+
+7. Imagem do produto em base64
+
+   Para usar imagem sem Firebase Storage, converter uma imagem JPG/JPEG para texto base64 e colar o resultado na celula A1 da aba Check.
+
+   Script incluido:
+   info_dash/jpg_to_base64.py
+
+   Exemplo de uso:
+   python info_dash/jpg_to_base64.py produto.jpg -o produto_base64.txt
+
+   Copie o conteudo de produto_base64.txt para a celula A1.
+
+   A macro aceita tanto data URL completa:
+   data:image/jpeg;base64,/9j/...
+
+   quanto apenas o base64 puro:
+   /9j/...
+
+   Se A1 estiver vazia, o JSON sai com productImage vazio e o site mostra o placeholder.
+
+   Limite: 1.000.000 bytes. Se A1 passar desse tamanho, a macro bloqueia a exportacao.
