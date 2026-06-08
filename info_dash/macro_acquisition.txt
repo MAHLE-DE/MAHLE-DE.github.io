@@ -1,0 +1,841 @@
+
+Sub AtualizarProjetosOnGoing()
+    Call MostrarTodosProjetos
+    Dim wbP1 As Workbook, wbP2 As Workbook
+    Dim wbP1caminho As String, wbP2caminho As String
+    Dim wsP1 As Worksheet, wsP2 As Worksheet
+    Dim lastRowP1 As Long
+    Dim i As Long, linhaDestino As Long
+    Dim projeto As String, cliente As String, DE As String, status As String
+    Dim dataBOM As Variant, dataCRM As Variant, dataRD As Variant
+    Dim colCalendario As Range, celData As Range
+    Dim semana As String
+    Dim semanaP1 As Long
+    Dim colTmp As Long
+        
+    Dim projetosOnGoing As Object
+    Set projetosOnGoing = CreateObject("Scripting.Dictionary")
+        
+    Dim semanaAtual As Long
+    Dim anoAtual As Long
+    Dim caminhoBase As String
+    Dim nomeArquivo As String
+    
+    semanaAtual = WorksheetFunction.WeekNum(Date, 2)
+    anoAtual = Year(Date)
+    caminhoBase = "Y:\31. Gestão de Projetos e PMO\01. Acquisition Management\01. Acquisition quotation BU2 SA\"
+    
+    nomeArquivo = "Acquisition quotation BU2SA " & anoAtual & " cw" & semanaAtual & ".xlsx"
+    
+    wbP1caminho = caminhoBase & nomeArquivo
+    
+    ' Verifica se o arquivo existe
+    If Dir(wbP1caminho) = "" Then
+        MsgBox "planilha não atualizada para semana atual ou não existente", vbCritical
+        Exit Sub
+    End If
+
+        
+    Set wbP1 = Workbooks.Open(wbP1caminho)
+    Set wsP1 = wbP1.Sheets("BU2F")
+    Set wbP2 = ThisWorkbook
+    Set wsP2 = wbP2.Sheets("Cronograma")
+    
+    
+    Dim ultimaColuna As Long
+    Dim ultimaData As Date
+    Dim dataLimite As Date
+    Dim c As Long
+
+    ' Última coluna preenchida na linha 6
+    ultimaColuna = wsP2.Cells(6, wsP2.Columns.count).End(xlToLeft).Column
+    ultimaData = wsP2.Cells(6, ultimaColuna).Value
+
+    ' Data limite = fim da próxima semana (domingo)
+    dataLimite = Date + (14 - Weekday(Date, vbMonday))
+
+    ' Estende o calendário se necessário
+    c = ultimaColuna
+    Do While ultimaData < dataLimite
+        c = c + 1
+        ultimaData = ultimaData + 1
+        wsP2.Cells(6, c).Value = ultimaData
+        wsP2.Cells(6, c).NumberFormat = "dd/mmm"
+    Loop
+
+    lastRowP1 = wsP1.Cells(wsP1.Rows.count, "E").End(xlUp).Row
+
+    ' Loop nos projetos de p1
+    For i = 5 To lastRowP1
+        Dim statusBOM As Variant, statusCRM As Variant, statusRD As Variant
+        status = Trim(wsP1.Cells(i, "G").Value)
+        
+        statusBOM = wsP1.Cells(i, "X").Value
+        statusCRM = wsP1.Cells(i, "Z").Value
+        statusRD = wsP1.Cells(i, "AF").Value
+
+        If status = "On Going" Or status = "Canceled" Or status = "On Hold" Or status = "Quoted" Then
+        'If status = "On Going" Then
+        
+            If status = "On Going" Then
+                If Not projetosOnGoing.Exists(projeto) Then
+                    projetosOnGoing.Add projeto, True
+                End If
+            End If
+
+            projeto = Trim(wsP1.Cells(i, "E").Value)
+            cliente = Trim(wsP1.Cells(i, "D").Value)
+            DE = Trim(wsP1.Cells(i, "K").Value)
+
+            dataBOM = wsP1.Cells(i, "W").Value
+            dataCRM = wsP1.Cells(i, "Y").Value
+            dataRD = wsP1.Cells(i, "AE").Value
+
+            Dim resultadoMatch As Variant
+            linhaDestino = 0
+            
+            resultadoMatch = Application.Match(projeto, wsP2.Columns("B"), 0)
+            
+            If Not IsError(resultadoMatch) Then
+                linhaDestino = CLng(resultadoMatch)
+            End If
+
+            ' Se não existir, adiciona
+            If linhaDestino = 0 Then
+                ' Projeto novo
+                linhaDestino = wsP2.Cells(wsP2.Rows.count, "B").End(xlUp).Row + 1
+                wsP2.Cells(linhaDestino, "B").Value = projeto
+            End If
+            
+            ' Atualiza (ou garante) o cliente sempre
+            If wsP2.Cells(linhaDestino, "A").Value <> cliente Then
+                wsP2.Cells(linhaDestino, "A").Value = cliente
+            End If
+            If wsP2.Cells(linhaDestino, "C").Value <> DE Then
+                wsP2.Cells(linhaDestino, "C").Value = DE
+            End If
+            ' Intervalo do calendário
+            Dim ultimaColunaCalendario As Long
+
+            ultimaColunaCalendario = wsP2.Cells(6, wsP2.Columns.count).End(xlToLeft).Column
+            Set colCalendario = wsP2.Range(wsP2.Cells(6, "D"), wsP2.Cells(6, ultimaColunaCalendario))
+            
+            Call AtualizarDocumento(wsP2, linhaDestino, colCalendario, dataBOM, "BOM", statusBOM)
+            Call AtualizarDocumento(wsP2, linhaDestino, colCalendario, dataCRM, "CRM", statusCRM)
+            Call AtualizarDocumento(wsP2, linhaDestino, colCalendario, dataRD, "R&D", statusRD)
+
+        End If
+    Next i
+    
+    ' =====================================================
+    ' FORMATAÇÃO AUTOMÁTICA DA TABELA (VERSÃO ORGANIZADA)
+    ' =====================================================
+    
+    Dim ultimaLinha As Long
+    Dim ultimaColunaFmt As Long
+    Dim rngTabela As Range
+    Dim rngCabecalho As Range
+    Dim col As Long
+    Dim dataCabecalho As Variant
+    
+    ' Última linha (projetos)
+    ultimaLinha = wsP2.Cells(wsP2.Rows.count, "B").End(xlUp).Row
+    
+    ' Última coluna (calendário)
+    ultimaColunaFmt = wsP2.Cells(6, wsP2.Columns.count).End(xlToLeft).Column
+    
+    ' Intervalos principais
+    Set rngTabela = wsP2.Range(wsP2.Cells(7, "A"), wsP2.Cells(ultimaLinha, ultimaColunaFmt))
+    Set rngCabecalho = wsP2.Range(wsP2.Cells(6, "A"), wsP2.Cells(6, ultimaColunaFmt))
+    
+    ' -----------------------------
+    ' BORDAS EM TODA A TABELA
+    ' -----------------------------
+    With rngTabela.Borders
+        .LineStyle = xlContinuous
+        .Color = RGB(0, 0, 0)
+        .Weight = xlThin
+    End With
+    
+    ' -----------------------------
+    ' COLUNAS A, B, C
+    ' -----------------------------
+    wsP2.Range(wsP2.Cells(7, "A"), wsP2.Cells(ultimaLinha, "C")).Interior.Color = RGB(218, 233, 248)
+    
+    ' -----------------------------
+    ' HEADER PADRÃO (LINHA 6)
+    ' -----------------------------
+    With rngCabecalho
+        .Font.Bold = True
+        .Font.Color = RGB(255, 255, 255)
+        .Interior.Color = RGB(0, 32, 96)
+    End With
+    
+    ' -----------------------------
+    ' FINS DE SEMANA + FORMATO DATA HEADER
+    ' -----------------------------
+    For col = 4 To ultimaColunaFmt   ' D em diante
+    
+        dataCabecalho = wsP2.Cells(6, col).Value
+    
+        If IsDate(dataCabecalho) Then
+    
+            wsP2.Cells(6, col).NumberFormat = "dd/mmm"
+    
+            Select Case Weekday(dataCabecalho, vbMonday)
+    
+                Case 6, 7 ' sábado ou domingo
+    
+
+                    Dim r As Long
+                    
+                    For r = 7 To ultimaLinha
+                        If wsP2.Cells(r, col).Value = "" Then
+                            wsP2.Cells(r, col).Interior.Color = RGB(242, 242, 242)
+                        End If
+                    Next r
+            End Select
+        End If
+    Next col
+    
+    ' -----------------------------
+    ' LINHA 5 – SEMANAS (MERGE)
+    ' -----------------------------
+    Dim colInicio As Long
+    Dim numSemana As Integer
+    
+    col = 4
+    
+    Do While col <= ultimaColunaFmt
+    
+        If IsDate(wsP2.Cells(6, col).Value) Then
+    
+            If Weekday(wsP2.Cells(6, col).Value, vbMonday) = 1 Then
+    
+                colInicio = col
+                numSemana = Application.WorksheetFunction.WeekNum(wsP2.Cells(6, col).Value, 2)
+    
+                Do While col <= ultimaColunaFmt And _
+                         Weekday(wsP2.Cells(6, col).Value, vbMonday) <> 7
+                    col = col + 1
+                Loop
+    
+                With wsP2.Range(wsP2.Cells(5, colInicio), wsP2.Cells(5, col))
+                    .Merge
+                    .Value = "w" & numSemana
+                    .Interior.Color = RGB(0, 32, 96)
+                    .Font.Color = RGB(255, 255, 255)
+                    .Font.Bold = True
+                    .HorizontalAlignment = xlCenter
+                    .VerticalAlignment = xlCenter
+                End With
+            End If
+        End If
+    
+        col = col + 1
+    Loop
+    
+    ' REFORÇO FINAL DE BORDAS (LINHAS 5+)
+
+    With wsP2.Range(wsP2.Cells(5, "A"), wsP2.Cells(ultimaLinha, ultimaColunaFmt)).Borders
+        .LineStyle = xlContinuous
+        .Color = RGB(0, 0, 0)
+        .Weight = xlThin
+    End With
+    
+
+    ' AJUSTE AUTOMÁTICO DE LARGURA (AUTOFIT)
+
+    wsP2.Columns("A:" & Split(Cells(1, ultimaColunaFmt).Address, "$")(1)).AutoFit
+    Call CriarAbasSemanaisPendentes(wbP2, wsP2)
+
+    ' EXIBIR APENAS PROJETOS "ON GOING" NO CRONOGRAMA
+    
+    Dim linCrono As Long
+    Dim ultimaLinhaCrono As Long
+    Dim nomeProjeto As String
+    
+    ' Garantir que nenhuma linha fique escondida antes
+    wsP2.Rows.Hidden = False
+    
+    ultimaLinhaCrono = wsP2.Cells(wsP2.Rows.count, "B").End(xlUp).Row
+    
+    For linCrono = 7 To ultimaLinhaCrono
+        nomeProjeto = Trim(wsP2.Cells(linCrono, "B").Value)
+    
+        If nomeProjeto <> "" Then
+            If Not projetosOnGoing.Exists(nomeProjeto) Then
+                wsP2.Rows(linCrono).Hidden = True
+            End If
+        End If
+    Next linCrono
+    MsgBox "Atualização concluída com sucesso.", vbInformation
+End Sub
+
+Sub AtualizarDocumento(ws As Worksheet, linha As Long, _
+                       colCalendario As Range, _
+                       dataDocumento As Variant, _
+                       nomeDocumento As String, _
+                       statusDocumento As Variant)
+
+    Dim cel As Range
+    Dim colunaNova As Long
+    Dim encontrouNovaData As Boolean
+    Dim valorAtual As String
+    Dim dataColuna As Date
+    Dim corDestino As Long
+    Dim novoTexto As String
+
+    colunaNova = 0
+    encontrouNovaData = False
+
+    ' ACHAR A COLUNA DA DATA
+    If IsDate(dataDocumento) Then
+        For Each cel In colCalendario
+            If IsDate(cel.Value) Then
+                If DateValue(cel.Value) = DateValue(dataDocumento) Then
+                    colunaNova = cel.Column
+                    dataColuna = DateValue(cel.Value)
+                    encontrouNovaData = True
+                    Exit For
+                End If
+            End If
+        Next cel
+    End If
+
+    If Not encontrouNovaData Then Exit Sub
+
+    ' REMOVER O DOCUMENTO DAS OUTRAS COLUNAS
+    For Each cel In colCalendario
+        If cel.Column <> colunaNova Then
+            If InStr(1, ws.Cells(linha, cel.Column).Value, nomeDocumento, vbTextCompare) > 0 Then
+                novoTexto = RemoverDocumento(ws.Cells(linha, cel.Column).Value, nomeDocumento)
+                ws.Cells(linha, cel.Column).Value = novoTexto
+
+                If Trim(novoTexto) = "" Then
+                    ws.Cells(linha, cel.Column).Interior.Pattern = xlNone
+                End If
+            End If
+        End If
+    Next cel
+
+    ' ESCREVER / CONCATENAR
+    valorAtual = ws.Cells(linha, colunaNova).Value
+    If valorAtual = "" Then
+        ws.Cells(linha, colunaNova).Value = nomeDocumento
+    ElseIf InStr(1, valorAtual, nomeDocumento, vbTextCompare) = 0 Then
+        ws.Cells(linha, colunaNova).Value = valorAtual & "/" & nomeDocumento
+    End If
+
+    ' Negrito + Itálico (como você pediu)
+    With ws.Cells(linha, colunaNova).Font
+        .Bold = True
+        .Italic = True
+    End With
+
+    ' DEFINIR COR
+    If dataColuna > Date Then
+        corDestino = RGB(208, 208, 208)
+    Else
+        If Not IsNumeric(statusDocumento) Then
+            corDestino = RGB(192, 0, 0)
+        ElseIf CLng(statusDocumento) >= 3 Then
+            corDestino = RGB(0, 176, 80)
+        Else
+            corDestino = RGB(192, 0, 0)
+        End If
+    End If
+    
+    ws.Cells(linha, colunaNova).Interior.Color = corDestino
+
+End Sub
+
+Function RemoverDocumento(texto As String, documento As String) As String
+
+    Dim partes() As String
+    Dim resultado As String
+    Dim i As Long
+
+    partes = Split(texto, "/")
+    resultado = ""
+
+    For i = LBound(partes) To UBound(partes)
+        If Trim(partes(i)) <> documento Then
+            If resultado = "" Then
+                resultado = Trim(partes(i))
+            Else
+                resultado = resultado & "/" & Trim(partes(i))
+            End If
+        End If
+    Next i
+
+    RemoverDocumento = resultado
+
+End Function
+
+
+Function WorksheetExists(wb As Workbook, sheetName As String) As Boolean
+    Dim ws As Worksheet
+    On Error Resume Next
+    Set ws = wb.Worksheets(sheetName)
+    WorksheetExists = Not ws Is Nothing
+    On Error GoTo 0
+End Function
+
+
+
+Sub CriarUmaAbaSemanal(wb As Workbook, wsCronograma As Worksheet, semanaAlvo As Long)
+    Dim wsSemana As Worksheet
+    Dim ultimaLinha As Long, ultimaColuna As Long
+    Dim col As Long, linha As Long
+    Dim nomeAba As String
+
+    Dim colPendentes As Object
+    Set colPendentes = CreateObject("Scripting.Dictionary")
+
+    ' Limites do cronograma
+    ultimaLinha = wsCronograma.Cells(wsCronograma.Rows.count, "B").End(xlUp).Row
+    ultimaColuna = wsCronograma.Cells(6, wsCronograma.Columns.count).End(xlToLeft).Column
+
+    ' Descobrir última semana do calendário
+    'For col = 4 To ultimaColuna
+        'If IsDate(wsCronograma.Cells(6, col).Value) Then
+            'semanaAlvo = Application.WorksheetFunction.WeekNum(wsCronograma.Cells(6, col).Value, 2)
+        'End If
+    'Next col
+    
+    If semanaAlvo = 0 Then Exit Sub
+    
+    Dim semanaExisteNoCronograma As Boolean
+    semanaExisteNoCronograma = False
+    
+    For col = 4 To ultimaColuna
+        If IsDate(wsCronograma.Cells(6, col).Value) Then
+            If Application.WorksheetFunction.WeekNum(wsCronograma.Cells(6, col).Value, 2) = semanaAlvo Then
+                semanaExisteNoCronograma = True
+                Exit For
+            End If
+        End If
+    Next col
+    
+    If Not semanaExisteNoCronograma Then Exit Sub
+
+    nomeAba = "w" & Format(semanaAlvo, "00")
+
+    ' Criar ou limpar aba
+    If Not WorksheetExists(wb, nomeAba) Then
+        Set wsSemana = wb.Worksheets.Add(After:=wb.Worksheets(wb.Worksheets.count))
+        wsSemana.Name = nomeAba
+    Else
+        Set wsSemana = wb.Worksheets(nomeAba)
+        wsSemana.Cells.Clear
+    End If
+
+    ' Identificar colunas com pendência (cinza)
+    For col = 4 To ultimaColuna
+        If IsDate(wsCronograma.Cells(6, col).Value) Then
+            If Application.WorksheetFunction.WeekNum(wsCronograma.Cells(6, col).Value, 2) = semanaAlvo Then
+                For linha = 7 To ultimaLinha
+                    If wsCronograma.Cells(linha, col).Interior.Color = RGB(208, 208, 208) Then
+                        colPendentes(col) = wsCronograma.Cells(6, col).Value
+                        Exit For
+                    End If
+                Next linha
+            End If
+        End If
+    Next col
+
+    If colPendentes.count = 0 Then Exit Sub
+
+    ' HEADER
+    wsSemana.Cells(3, "B").Value = "Cliente"
+    wsSemana.Cells(3, "C").Value = "Projeto"
+    wsSemana.Cells(3, "D").Value = "DE"
+
+    Dim colDestino As Long
+    colDestino = 5 ' DATAS COMEÇAM EM E
+
+    Dim key As Variant
+    For Each key In colPendentes.Keys
+        wsSemana.Cells(3, colDestino).Value = Format(colPendentes(key), "dd/mmm")
+        colDestino = colDestino + 1
+    Next key
+
+    ' DADOS
+    Dim linhaSemana As Long
+    linhaSemana = 4
+
+    For linha = 7 To ultimaLinha
+
+        Dim temPendencia As Boolean
+        temPendencia = False
+
+        For Each key In colPendentes.Keys
+            If wsCronograma.Cells(linha, key).Interior.Color = RGB(208, 208, 208) Then
+                temPendencia = True
+                Exit For
+            End If
+        Next key
+
+        If temPendencia Then
+            wsSemana.Cells(linhaSemana, "B").Value = wsCronograma.Cells(linha, "A").Value
+            wsSemana.Cells(linhaSemana, "C").Value = wsCronograma.Cells(linha, "B").Value
+            wsSemana.Cells(linhaSemana, "D").Value = wsCronograma.Cells(linha, "C").Value
+
+            colDestino = 5
+            For Each key In colPendentes.Keys
+                If wsCronograma.Cells(linha, key).Interior.Color = RGB(208, 208, 208) Then
+                    wsSemana.Cells(linhaSemana, colDestino).Value = wsCronograma.Cells(linha, key).Value
+                    wsSemana.Cells(linhaSemana, colDestino).Interior.Color = RGB(208, 208, 208)
+                    wsSemana.Cells(linhaSemana, colDestino).Font.Bold = True
+                    wsSemana.Cells(linhaSemana, colDestino).Font.Italic = True
+                End If
+                colDestino = colDestino + 1
+            Next key
+
+            linhaSemana = linhaSemana + 1
+        End If
+    Next linha
+
+    ' ===============================
+    ' FORMATAÇÃO VISUAL FINAL
+    ' ===============================
+
+    Dim ultimaLinhaSemana As Long, ultimaColunaSemana As Long
+    ultimaLinhaSemana = wsSemana.Cells(wsSemana.Rows.count, "B").End(xlUp).Row
+    ultimaColunaSemana = wsSemana.Cells(3, wsSemana.Columns.count).End(xlToLeft).Column
+
+    wsSemana.Cells.Font.Size = 11
+
+    ' Header
+    With wsSemana.Range(wsSemana.Cells(3, "B"), wsSemana.Cells(3, ultimaColunaSemana))
+        .Font.Bold = True
+        .Font.Color = RGB(255, 255, 255)
+        .Interior.Color = RGB(0, 32, 96)
+        .HorizontalAlignment = xlCenter
+    End With
+
+    ' Cliente / Projeto / DE
+    wsSemana.Range(wsSemana.Cells(4, "B"), wsSemana.Cells(ultimaLinhaSemana, "D")).Interior.Color = RGB(218, 233, 248)
+
+    ' Bordas pretas em tudo que tem dado
+    With wsSemana.Range(wsSemana.Cells(3, "B"), wsSemana.Cells(ultimaLinhaSemana, ultimaColunaSemana)).Borders
+        .LineStyle = xlContinuous
+        .Color = RGB(0, 0, 0)
+        .Weight = xlThin
+    End With
+
+    ' Remover gridlines
+    wsSemana.Activate
+    ActiveWindow.DisplayGridlines = False
+
+    wsSemana.Columns("B:" & Split(wsSemana.Cells(1, ultimaColunaSemana).Address, "$")(1)).AutoFit
+    
+    ' ALTURA DAS LINHAS DE DADOS
+    
+    If linhaSemana > 4 Then
+        wsSemana.Rows("4:" & linhaSemana - 1).RowHeight = 30
+        wsSemana.Columns("B:" & Split(wsSemana.Cells(1, ultimaColunaSemana).Address, "$")(1)).AutoFit
+    End If
+    
+    
+    ' FAIXA SUPERIOR COM A SEMANA (LINHA 2)
+    
+    Dim ultimaColSemana As Long
+    
+    ' Última coluna usada na aba semanal
+    ultimaColSemana = wsSemana.Cells(3, wsSemana.Columns.count).End(xlToLeft).Column
+    
+    With wsSemana.Range(wsSemana.Cells(2, "B"), wsSemana.Cells(2, ultimaColSemana))
+        .Merge
+        .Value = nomeAba          ' ex: "w18"
+        .Interior.Color = RGB(0, 32, 96)
+        .Font.Color = RGB(255, 255, 255)
+        .Font.Bold = True
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+    End With
+
+    ' CENTRALIZAR CÉLULAS COM DOCUMENTOS
+
+    Dim colC As Long
+    Dim linC As Long
+    
+    For linC = 4 To linhaSemana - 1
+        For colC = 4 To ultimaColSemana
+            If wsSemana.Cells(linC, colC).Value <> "" Then
+                With wsSemana.Cells(linC, colC)
+                    .HorizontalAlignment = xlCenter
+                    .VerticalAlignment = xlCenter
+                End With
+            End If
+        Next colC
+    Next linC
+
+End Sub
+Sub CriarAbasSemanaisPendentes(wb As Workbook, wsCronograma As Worksheet)
+
+    Dim semanaAtual As Long
+    Dim semanaCandidata As Long
+
+    semanaAtual = Application.WorksheetFunction.WeekNum(Date, 2)
+
+    ' Criar semana atrasada + próxima
+    For semanaCandidata = semanaAtual To semanaAtual + 1
+
+        If Not WorksheetExists(wb, "w" & Format(semanaCandidata, "00")) Then
+            Call CriarUmaAbaSemanal(wb, wsCronograma, semanaCandidata)
+        End If
+
+    Next semanaCandidata
+
+End Sub
+Sub BubbleSort(arr() As Long)
+    Dim i As Long, j As Long
+    Dim temp As Long
+
+    For i = LBound(arr) To UBound(arr) - 1
+        For j = i + 1 To UBound(arr)
+            If arr(i) > arr(j) Then
+                temp = arr(i)
+                arr(i) = arr(j)
+                arr(j) = temp
+            End If
+        Next j
+    Next i
+End Sub
+Sub CriarEmailPendenciasSemana()
+
+    Dim wb As Workbook
+    Dim OutApp As Object
+    Dim OutMail As Object
+
+    Dim frm As frmSelecionarSemanas
+    Dim semanasSelecionadas As Collection
+    Dim i As Long
+
+    Dim wsSemana As Worksheet
+    Dim rngTabela As Range
+    Dim ultimaLinha As Long
+    Dim ultimaColuna As Long
+
+    Dim htmlConteudo As String
+    Dim htmlTabela As String
+    Dim assinaturaOutlook As String
+
+    Dim semanaMaxSelecionada As Long
+    Dim semanaNum As Long
+
+    Dim caminhoTemp As String
+    Dim nomeArquivoTemp As String
+
+    Set wb = ThisWorkbook
+    Set semanasSelecionadas = New Collection
+    semanaMaxSelecionada = 0
+
+    ' ===============================
+    ' SELEÇÃO DE SEMANAS (FORM)
+    ' ===============================
+    Set frm = New frmSelecionarSemanas
+    frm.Show vbModal
+
+    For i = 0 To frm.lstSemanas.ListCount - 1
+        If frm.lstSemanas.Selected(i) Then
+            semanasSelecionadas.Add frm.lstSemanas.List(i)
+            semanaNum = CLng(Mid(frm.lstSemanas.List(i), 2))
+            If semanaNum > semanaMaxSelecionada Then
+                semanaMaxSelecionada = semanaNum
+            End If
+        End If
+    Next i
+
+    Unload frm
+
+    If semanasSelecionadas.count = 0 Then
+        MsgBox "Nenhuma semana selecionada.", vbInformation
+        Exit Sub
+    End If
+
+    ' ===============================
+    ' TEXTO DO E-MAIL
+    ' ===============================
+    htmlConteudo = _
+        "<p>Olá time,</p>" & _
+        "<p>Segue abaixo a lista de itens com vencimento da próxima semana, conforme a planilha de acquisition do PM.</p>" & _
+        "<p>Em anexo, encaminho também a planilha com o cronograma completo de vencimentos de todos os acquisition.</p>"
+
+    ' ===============================
+    ' TABELAS DAS SEMANAS
+    ' ===============================
+    For i = 1 To semanasSelecionadas.count
+
+        Set wsSemana = wb.Worksheets(semanasSelecionadas(i))
+
+        ultimaLinha = wsSemana.Cells(wsSemana.Rows.count, "B").End(xlUp).Row
+        ultimaColuna = wsSemana.Cells(3, wsSemana.Columns.count).End(xlToLeft).Column
+
+        Set rngTabela = wsSemana.Range( _
+            wsSemana.Cells(2, "B"), _
+            wsSemana.Cells(ultimaLinha, ultimaColuna))
+
+        htmlTabela = RangetoHTML(rngTabela)
+        htmlTabela = Replace(htmlTabela, "<table", "<table style='font-size:13px; margin-left:0; margin-right:auto;'")
+        htmlTabela = Replace(htmlTabela, "align=center", "")
+        htmlTabela = Replace(htmlTabela, "<table", "<table style='margin-left:0;margin-right:auto;'")
+
+        htmlConteudo = htmlConteudo & "</h3>" & _
+            htmlTabela & "<br>"
+
+    Next i
+
+    ' ===============================
+    ' CRIAR ARQUIVO TEMPORÁRIO
+    ' ===============================
+    nomeArquivoTemp = "Cronograma_Acquisition_w" & Format(semanaMaxSelecionada, "00") & ".xlsm"
+    caminhoTemp = Environ$("TEMP") & "\" & nomeArquivoTemp
+
+    wb.SaveCopyAs caminhoTemp
+
+    ' ===============================
+    ' CRIAR E-MAIL OUTLOOK
+    ' ===============================
+    Set OutApp = CreateObject("Outlook.Application")
+    Set OutMail = OutApp.CreateItem(0)
+
+    ' Mostrar para carregar assinatura
+    OutMail.Display
+    assinaturaOutlook = OutMail.HTMLBody
+
+    ' Conteúdo + assinatura
+    OutMail.HTMLBody = htmlConteudo & assinaturaOutlook
+
+    With OutMail
+        .To = "Bruno De Aguiar <bruno.de.aguiar@mahle.com>; Armando Higa <armando.higa@mahle.com>; Bruno Caetano <bruno.caetano@mahle.com>; Bruno Ferreira Rossanes <Bruno.Rossanes@mahle.com>; Caio Oliveira <caio.oliveira@mahle.com>; Jose Bazaneli <jose.bazaneli@mahle.com>; Tadeu Domingues <tadeu.domingues@mahle.com>; Thiago Amaral <thiago.amaral@mahle.com>; Thiago Hora <thiago.hora@mahle.com>; Willian Moura <willian.moura@mahle.com>; Eduardo Bellini <eduardo.bellini@mahle.com>; Evaldo Hatimine <evaldo.hatimine@mahle.com>; Fabio Ramos <fabio.ramos@mahle.com>; Hilton Costa <hilton.costa@mahle.com>; Marcelo Ney Wood <marcelo.wood@mahle.com>; Bruno Caetano <bruno.caetano@mahle.com>"
+        .Subject = _
+            "BU2 Fluids - Cronograma Projetos em Cotação OEM (Gestão de MSPs) - w" & _
+            Format(semanaMaxSelecionada, "00")
+
+        ' ANEXAR ARQUIVO
+        .Attachments.Add caminhoTemp
+
+        .Display
+    End With
+
+
+
+End Sub
+
+Function RangetoHTML(rng As Range) As String
+
+    Dim fso As Object
+    Dim ts As Object
+    Dim TempFile As String
+    Dim TempWB As Workbook
+
+    TempFile = Environ$("temp") & "\" & Format(Now, "dd-mm-yy h-mm-ss") & ".htm"
+
+    rng.Copy
+    Set TempWB = Workbooks.Add(1)
+
+    With TempWB.Sheets(1)
+        .Cells(1).PasteSpecial Paste:=8
+        .Cells(1).PasteSpecial xlPasteValues
+        .Cells(1).PasteSpecial xlPasteFormats
+        Application.CutCopyMode = False
+    End With
+
+    With TempWB.PublishObjects.Add( _
+        SourceType:=xlSourceRange, _
+        Filename:=TempFile, _
+        Sheet:=TempWB.Sheets(1).Name, _
+        Source:=TempWB.Sheets(1).UsedRange.Address, _
+        HtmlType:=xlHtmlStatic)
+        .Publish True
+    End With
+
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Set ts = fso.GetFile(TempFile).OpenAsTextStream(1, -2)
+    RangetoHTML = ts.ReadAll
+    ts.Close
+
+    TempWB.Close SaveChanges:=False
+    Kill TempFile
+
+End Function
+
+Sub MostrarTodosProjetos()
+
+    Dim ws As Worksheet
+
+    Set ws = ThisWorkbook.Sheets("Cronograma")
+
+    ' Mostrar todas as linhas
+    ws.Rows.Hidden = False
+
+    MsgBox "Todos os projetos estão visíveis.", vbInformation
+
+End Sub
+
+Sub MostrarSomenteOnGoing()
+
+    Dim wbP1 As Workbook
+    Dim wsP1 As Worksheet
+    Dim wsCrono As Worksheet
+    Dim projetosOnGoing As Object
+
+    Dim caminhoP1 As String
+    Dim lastRowP1 As Long
+    Dim i As Long
+    Dim status As String
+    Dim projeto As String
+
+    Set projetosOnGoing = CreateObject("Scripting.Dictionary")
+    Set wsCrono = ThisWorkbook.Sheets("Cronograma")
+
+    ' === AJUSTE O CAMINHO CONFORME SUA LÓGICA ATUAL ===
+    caminhoP1 = _
+        "Y:\31. Gestão de Projetos e PMO\01. Acquisition Management\01. Acquisition quotation BU2 SA\Acquisition quotation BU2SA 2026 cw17.xlsx"
+
+    Set wbP1 = Workbooks.Open(caminhoP1, ReadOnly:=True)
+    Set wsP1 = wbP1.Sheets("BU2F")
+
+    lastRowP1 = wsP1.Cells(wsP1.Rows.count, "E").End(xlUp).Row
+
+    ' Coletar projetos On Going
+    For i = 5 To lastRowP1
+        status = Trim(wsP1.Cells(i, "G").Value)
+
+        If status = "On Going" Then
+            projeto = Trim(wsP1.Cells(i, "E").Value)
+            If projeto <> "" Then
+                If Not projetosOnGoing.Exists(projeto) Then
+                    projetosOnGoing.Add projeto, True
+                End If
+            End If
+        End If
+    Next i
+
+    wbP1.Close SaveChanges:=False
+
+    ' Aplicar visibilidade no cronograma
+    Dim lin As Long
+    Dim ultimaLinha As Long
+    Dim nomeProjeto As String
+
+    wsCrono.Rows.Hidden = False
+    ultimaLinha = wsCrono.Cells(wsCrono.Rows.count, "B").End(xlUp).Row
+
+    For lin = 7 To ultimaLinha
+        nomeProjeto = Trim(wsCrono.Cells(lin, "B").Value)
+
+        If nomeProjeto <> "" Then
+            If Not projetosOnGoing.Exists(nomeProjeto) Then
+                wsCrono.Rows(lin).Hidden = True
+            End If
+        End If
+    Next lin
+
+    MsgBox "Exibindo apenas projetos On Going.", vbInformation
+
+End Sub
+
