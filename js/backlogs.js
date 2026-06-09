@@ -417,16 +417,27 @@ function mostrarLoading() {
     );
 
   container.innerHTML = `
-    <div data-loading="true" style="
-      width:100%;
-      text-align:center;
-      padding:60px;
-      font-size:20px;
-      color:#6f7d96;
-    ">
-      Loading projects...
+    ${renderSiteLoading("Loading projects", "Fetching backlog documents from Firestore.")}
+  `;
+}
+
+function renderSiteLoading(title, message, compact = false) {
+  return `
+    <div class="site-loading ${compact ? "compact" : ""}" data-loading="true">
+      <div class="site-loader" aria-hidden="true"></div>
+      <strong>${escapeLoadingText(title)}</strong>
+      <span>${escapeLoadingText(message)}</span>
     </div>
   `;
+}
+
+function escapeLoadingText(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 function esconderLoading() {

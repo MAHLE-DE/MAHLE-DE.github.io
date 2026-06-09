@@ -307,9 +307,7 @@ function _renderAuditStatusCard() {
   if (auditState.loading) {
     return `
       <div class="audit-status-card">
-        <i class="fa-solid fa-spinner"></i>
-        <strong>Loading audit database</strong>
-        <span>Reading audits/audits from Firestore.</span>
+        ${_renderSiteLoading("Loading audit database", "Reading audits/audits from Firestore.", true)}
       </div>
     `;
   }
@@ -678,10 +676,32 @@ function _renderProjectAuditBlock(project, contexto, isSequence) {
 }
 
 function _renderAuditFact(label, value) {
+  const icons = {
+    "Responsible": "fa-user-tie",
+    "Actual Gate": "fa-location-dot",
+    "Next Gate": "fa-route",
+    "Next Gate date": "fa-calendar-check"
+  };
+
   return `
     <div class="audit-fact">
-      <span>${_escapeHtml(label)}</span>
-      <strong>${_escapeHtml(value)}</strong>
+      <div class="audit-fact-icon">
+        <i class="fa-solid ${icons[label] || "fa-circle-info"}"></i>
+      </div>
+      <div>
+        <span>${_escapeHtml(label)}</span>
+        <strong>${_escapeHtml(value)}</strong>
+      </div>
+    </div>
+  `;
+}
+
+function _renderSiteLoading(title, message, compact = false) {
+  return `
+    <div class="site-loading ${compact ? "compact" : ""}" data-loading="true">
+      <div class="site-loader" aria-hidden="true"></div>
+      <strong>${_escapeHtml(title)}</strong>
+      <span>${_escapeHtml(message)}</span>
     </div>
   `;
 }
@@ -766,7 +786,7 @@ function _renderAuditOverview(project, loading) {
           style="${_getAuditChartSizing(visibleDocs, visibleGates)}"
         >
           ${loading ? "" : _renderAuditYAxis()}
-          ${loading ? _renderAuditChartEmpty("Loading audit data...") : _renderAuditGateGroups(project, visibleGates)}
+          ${loading ? _renderSiteLoading("Loading audit data", "Preparing document scores and gate groups.", true) : _renderAuditGateGroups(project, visibleGates)}
         </div>
       </div>
     </section>

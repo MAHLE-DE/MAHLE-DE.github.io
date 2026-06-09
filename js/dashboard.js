@@ -43,6 +43,15 @@ function nomeExibicao(nomeGrafico) {
 function carregarDashboard() {
   if (dashboardDados) { renderizarDashboard(); return; }
 
+  const chart = document.getElementById("dashboardChart");
+  if (chart && typeof renderSiteLoading === "function") {
+    chart.innerHTML = renderSiteLoading(
+      "Loading dashboard",
+      "Fetching score data and targets from Firestore.",
+      true
+    );
+  }
+
   firebase.firestore()
     .collection("dashboard")
     .doc("dashboard")

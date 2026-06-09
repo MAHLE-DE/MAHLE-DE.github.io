@@ -119,6 +119,9 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  max-height: calc(100vh - 230px);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .menu-item {

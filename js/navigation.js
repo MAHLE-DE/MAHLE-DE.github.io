@@ -128,7 +128,13 @@ document.addEventListener(
 			  kpis:
 				"KPIs",
 			  auditorias:
-				"Audits"
+				"Audits",
+        "audit-schedule":
+        "Audit Schedule",
+        acquisition:
+        "Acquisition",
+        benchmark:
+        "Benchmark"
 			};
 			title.textContent =
 			  nomes[section];
@@ -145,6 +151,10 @@ document.addEventListener(
 
             if (section === "auditorias") {
               abrirAuditsAtual();
+            }
+
+            if (section === "acquisition") {
+              abrirAcquisition();
             }
         }
       );

@@ -1,0 +1,1216 @@
+Option Explicit
+
+' ============================================================
+' ACQUISITION TEMPLATE AUTO
+' Atualiza a aba Cronograma a partir da planilha semanal do PM
+' e gera/atualiza abas semanais de pendencias.
+' ============================================================
+
+Private Const PM_FOLDER As String = "Y:\31. Gestão de Projetos e PMO\01. Acquisition Management\01. Acquisition quotation BU2 SA\"
+Private Const PM_FILE_PREFIX As String = "Acquisition quotation BU2SA "
+Private Const PM_SOURCE_SHEET As String = "BU2F"
+Private Const TARGET_SHEET As String = "Cronograma"
+Private Const ACQUISITION_JSON_OUTPUT_FOLDER As String = "C:\Users\M0242198\cauaferrari\site\" ' CORRIGIR AQUI: mesma pasta onde o audits.json e gerado
+Private Const ACQUISITION_JSON_FILE_NAME As String = "acquisition.json"
+Private Const FIREBASE_API_KEY As String = "AIzaSyBreppRJPaHXwz3K_QB_79EU2C4rGEF9Gk"
+Private Const FIREBASE_PROJECT_ID As String = "site-mahle"
+Private Const FIREBASE_AUTH_EMAIL As String = ""    ' CORRIGIR AQUI: email autorizado no Firebase Auth
+Private Const FIREBASE_AUTH_PASSWORD As String = "" ' CORRIGIR AQUI: senha do usuario acima
+Private Const FIRESTORE_COLLECTION As String = "acquisition"
+Private Const FIRESTORE_DOCUMENT As String = "acquisition"
+
+Private Const WEEK_HEADER_ROW As Long = 5
+Private Const DATE_HEADER_ROW As Long = 6
+Private Const FIRST_DATA_ROW As Long = 7
+Private Const FIRST_PM_ROW As Long = 5
+Private Const FIRST_CALENDAR_COL As Long = 4 'D
+
+Private Const COL_CLIENT As String = "D"
+Private Const COL_PROJECT As String = "E"
+Private Const COL_STATUS As String = "G"
+Private Const COL_DE As String = "K"
+Private Const COL_BOM_DATE As String = "W"
+Private Const COL_BOM_STATUS As String = "X"
+Private Const COL_CRM_DATE As String = "Y"
+Private Const COL_CRM_STATUS As String = "Z"
+Private Const COL_RD_DATE As String = "AE"
+Private Const COL_RD_STATUS As String = "AF"
+
+Private Const COLOR_BLUE_DARK As Long = 6299648      ' RGB(0, 32, 96)
+Private Const COLOR_BLUE_LIGHT As Long = 16312794    ' RGB(218, 233, 248)
+Private Const COLOR_WEEKEND As Long = 15921906       ' RGB(242, 242, 242)
+Private Const COLOR_PENDING As Long = 13684944       ' RGB(208, 208, 208)
+Private Const COLOR_DONE As Long = 5287936           ' RGB(0, 176, 80)
+Private Const COLOR_OVERDUE As Long = 192            ' RGB(192, 0, 0)
+
+
+Public Sub AtualizarProjetosOnGoing()
+    Dim wbPM As Workbook
+    Dim wsPM As Worksheet
+    Dim wsCrono As Worksheet
+    Dim pmPath As String
+    Dim pmYear As Long
+    Dim pmWeek As Long
+    Dim lastPMRow As Long
+    Dim rowPM As Long
+    Dim projectName As String
+    Dim clientName As String
+    Dim deName As String
+    Dim status As String
+    Dim targetRow As Long
+    Dim calendarRange As Range
+    Dim ongoingProjects As Object
+    Dim jsonCompleto As String
+
+    On Error GoTo Falha
+    Application.ScreenUpdating = False
+    Application.EnableEvents = False
+
+    Set wsCrono = ThisWorkbook.Worksheets(TARGET_SHEET)
+    Set ongoingProjects = CreateObject("Scripting.Dictionary")
+
+    pmPath = EncontrarPlanilhaPM(pmYear, pmWeek)
+    If pmPath = "" Then
+        MsgBox "Nao encontrei uma planilha do PM valida em:" & vbCrLf & PM_FOLDER, vbCritical
+        GoTo Saida
+    End If
+
+    Set wbPM = Workbooks.Open(pmPath, ReadOnly:=True)
+    Set wsPM = wbPM.Worksheets(PM_SOURCE_SHEET)
+
+    GarantirCalendarioAte wsCrono, pmYear, pmWeek + 1
+    Set calendarRange = ObterRangeCalendario(wsCrono)
+
+    lastPMRow = wsPM.Cells(wsPM.Rows.Count, COL_PROJECT).End(xlUp).Row
+
+    For rowPM = FIRST_PM_ROW To lastPMRow
+        status = Trim$(CStr(wsPM.Cells(rowPM, COL_STATUS).Value))
+        If DeveSincronizarStatus(status) Then
+            projectName = Trim$(CStr(wsPM.Cells(rowPM, COL_PROJECT).Value))
+            If projectName <> "" Then
+                clientName = Trim$(CStr(wsPM.Cells(rowPM, COL_CLIENT).Value))
+                deName = Trim$(CStr(wsPM.Cells(rowPM, COL_DE).Value))
+
+                If status = "On Going" Then AdicionarSeNaoExiste ongoingProjects, projectName
+
+                targetRow = EncontrarOuCriarProjeto(wsCrono, projectName)
+                wsCrono.Cells(targetRow, "A").Value = clientName
+                wsCrono.Cells(targetRow, "C").Value = deName
+
+                AtualizarDocumento wsCrono, targetRow, calendarRange, wsPM.Cells(rowPM, COL_BOM_DATE).Value, "BOM", wsPM.Cells(rowPM, COL_BOM_STATUS).Value
+                AtualizarDocumento wsCrono, targetRow, calendarRange, wsPM.Cells(rowPM, COL_CRM_DATE).Value, "CRM", wsPM.Cells(rowPM, COL_CRM_STATUS).Value
+                AtualizarDocumento wsCrono, targetRow, calendarRange, wsPM.Cells(rowPM, COL_RD_DATE).Value, "R&D", wsPM.Cells(rowPM, COL_RD_STATUS).Value
+            End If
+        End If
+    Next rowPM
+
+    FormatarCronograma wsCrono
+    CriarOuAtualizarAbasSemanais ThisWorkbook, wsCrono, pmWeek + 1
+    jsonCompleto = ExportarJsonAcquisition(wsPM, pmPath, pmYear, pmWeek)
+    EnviarJsonCompletoParaFirestore jsonCompleto
+    AplicarFiltroOnGoing wsCrono, ongoingProjects
+
+    MsgBox "Atualizacao concluida com sucesso." & vbCrLf & _
+           "Planilha PM: cw" & Format$(pmWeek, "00") & vbCrLf & _
+           "Semana futura atualizada: w" & Format$(pmWeek + 1, "00") & vbCrLf & _
+           "JSON gerado em: " & CaminhoJsonAcquisition() & vbCrLf & _
+           "Firestore atualizado: " & FIRESTORE_COLLECTION & "/" & FIRESTORE_DOCUMENT, vbInformation
+
+Saida:
+    On Error Resume Next
+    If Not wbPM Is Nothing Then wbPM.Close SaveChanges:=False
+    Application.EnableEvents = True
+    Application.ScreenUpdating = True
+    On Error GoTo 0
+    Exit Sub
+
+Falha:
+    MsgBox "Erro ao atualizar acquisition: " & Err.Description, vbCritical
+    Resume Saida
+End Sub
+
+
+Public Sub Exportar_JSON_Acquisition()
+    Dim wbPM As Workbook
+    Dim wsPM As Worksheet
+    Dim pmPath As String
+    Dim pmYear As Long
+    Dim pmWeek As Long
+    Dim jsonCompleto As String
+
+    On Error GoTo Falha
+    Application.ScreenUpdating = False
+
+    pmPath = EncontrarPlanilhaPM(pmYear, pmWeek)
+    If pmPath = "" Then
+        MsgBox "Nao encontrei uma planilha do PM valida em:" & vbCrLf & PM_FOLDER, vbCritical
+        GoTo Saida
+    End If
+
+    Set wbPM = Workbooks.Open(pmPath, ReadOnly:=True)
+    Set wsPM = wbPM.Worksheets(PM_SOURCE_SHEET)
+    jsonCompleto = ExportarJsonAcquisition(wsPM, pmPath, pmYear, pmWeek)
+
+    MsgBox "Acquisition JSON exportado com sucesso." & vbCrLf & _
+           "Arquivo: " & CaminhoJsonAcquisition(), vbInformation
+
+Saida:
+    On Error Resume Next
+    If Not wbPM Is Nothing Then wbPM.Close SaveChanges:=False
+    Application.ScreenUpdating = True
+    On Error GoTo 0
+    Exit Sub
+
+Falha:
+    MsgBox "Erro ao exportar Acquisition JSON: " & Err.Description, vbCritical
+    Resume Saida
+End Sub
+
+
+Public Sub Enviar_JSON_Acquisition_Firebase()
+    Dim wbPM As Workbook
+    Dim wsPM As Worksheet
+    Dim pmPath As String
+    Dim pmYear As Long
+    Dim pmWeek As Long
+    Dim jsonCompleto As String
+
+    On Error GoTo Falha
+    Application.ScreenUpdating = False
+
+    pmPath = EncontrarPlanilhaPM(pmYear, pmWeek)
+    If pmPath = "" Then
+        MsgBox "Nao encontrei uma planilha do PM valida em:" & vbCrLf & PM_FOLDER, vbCritical
+        GoTo Saida
+    End If
+
+    Set wbPM = Workbooks.Open(pmPath, ReadOnly:=True)
+    Set wsPM = wbPM.Worksheets(PM_SOURCE_SHEET)
+
+    jsonCompleto = ExportarJsonAcquisition(wsPM, pmPath, pmYear, pmWeek)
+    EnviarJsonCompletoParaFirestore jsonCompleto
+
+    MsgBox "Acquisition JSON enviado ao Firebase com sucesso." & vbCrLf & _
+           "Arquivo local: " & CaminhoJsonAcquisition() & vbCrLf & _
+           "Firestore: " & FIRESTORE_COLLECTION & "/" & FIRESTORE_DOCUMENT, vbInformation
+
+Saida:
+    On Error Resume Next
+    If Not wbPM Is Nothing Then wbPM.Close SaveChanges:=False
+    Application.ScreenUpdating = True
+    On Error GoTo 0
+    Exit Sub
+
+Falha:
+    MsgBox "Erro ao enviar Acquisition JSON ao Firebase: " & Err.Description, vbCritical
+    Resume Saida
+End Sub
+
+
+Private Function EncontrarPlanilhaPM(ByRef pmYear As Long, ByRef pmWeek As Long) As String
+    Dim fileName As String
+    Dim bestFile As String
+    Dim bestSerial As Long
+    Dim fileYear As Long
+    Dim fileWeek As Long
+    fileName = Dir$(PM_FOLDER & PM_FILE_PREFIX & "*.xlsx")
+
+    Do While fileName <> ""
+        If ExtrairAnoSemanaPM(fileName, fileYear, fileWeek) Then
+            If fileYear * 100 + fileWeek > bestSerial Then
+                bestSerial = fileYear * 100 + fileWeek
+                bestFile = fileName
+                pmYear = fileYear
+                pmWeek = fileWeek
+            End If
+        End If
+        fileName = Dir$
+    Loop
+
+    If bestFile <> "" Then EncontrarPlanilhaPM = PM_FOLDER & bestFile
+End Function
+
+
+Private Function ExportarJsonAcquisition(ByVal wsPM As Worksheet, ByVal pmPath As String, ByVal pmYear As Long, ByVal pmWeek As Long) As String
+    Dim lastPMRow As Long
+    Dim rowPM As Long
+    Dim projectsJson As String
+    Dim projectJson As String
+    Dim summary As Object
+    Dim status As String
+    Dim projectCount As Long
+    Dim onGoingCount As Long
+    Dim json As String
+
+    Set summary = CriarResumoAcquisition()
+    lastPMRow = wsPM.Cells(wsPM.Rows.Count, COL_PROJECT).End(xlUp).Row
+
+    For rowPM = FIRST_PM_ROW To lastPMRow
+        status = Trim$(CStr(wsPM.Cells(rowPM, COL_STATUS).Value))
+        If DeveSincronizarStatus(status) Then
+            projectJson = MontarProjetoAcquisitionJson(wsPM, rowPM, summary)
+            If projectJson <> "" Then
+                If projectsJson <> "" Then projectsJson = projectsJson & ","
+                projectsJson = projectsJson & projectJson
+                projectCount = projectCount + 1
+                If status = "On Going" Then onGoingCount = onGoingCount + 1
+            End If
+        End If
+    Next rowPM
+
+    summary("totalProjects") = projectCount
+    summary("onGoingProjects") = onGoingCount
+
+    json = "{""version"":""acquisition-v1""," & _
+        """generatedAt"":""" & EscapeJson(IsoNowLocal()) & """," & _
+        """metadata"":{" & _
+            """sourceFile"":""" & EscapeJson(NomeArquivo(pmPath)) & """," & _
+            """sourceYear"":" & CStr(pmYear) & "," & _
+            """sourceWeek"":" & CStr(pmWeek) & "," & _
+            """actionWeek"":" & CStr(pmWeek + 1) & _
+        "}," & _
+        """summary"":" & MontarResumoJson(summary) & "," & _
+        """projects"":[" & projectsJson & "]" & _
+    "}"
+
+    GarantirPastaJsonAcquisition
+    EscreverArquivoTexto CaminhoJsonAcquisition(), json
+    ExportarJsonAcquisition = json
+End Function
+
+
+Private Function CriarResumoAcquisition() As Object
+    Dim summary As Object
+    Set summary = CreateObject("Scripting.Dictionary")
+
+    summary("totalProjects") = 0
+    summary("onGoingProjects") = 0
+    summary("totalDocuments") = 0
+    summary("completed") = 0
+    summary("overdue") = 0
+    summary("onTime") = 0
+    summary("future") = 0
+    summary("active") = 0
+
+    Set CriarResumoAcquisition = summary
+End Function
+
+
+Private Function MontarProjetoAcquisitionJson(ByVal wsPM As Worksheet, ByVal rowPM As Long, ByVal summary As Object) As String
+    Dim projectName As String
+    Dim docsJson As String
+    Dim status As String
+
+    projectName = Trim$(CStr(wsPM.Cells(rowPM, COL_PROJECT).Value))
+    If projectName = "" Then Exit Function
+
+    status = Trim$(CStr(wsPM.Cells(rowPM, COL_STATUS).Value))
+
+    docsJson = DocumentoAcquisitionJson(wsPM.Cells(rowPM, COL_BOM_DATE).Value, "BOM", wsPM.Cells(rowPM, COL_BOM_STATUS).Value, summary)
+    docsJson = ConcatenarJson(docsJson, DocumentoAcquisitionJson(wsPM.Cells(rowPM, COL_CRM_DATE).Value, "CRM", wsPM.Cells(rowPM, COL_CRM_STATUS).Value, summary))
+    docsJson = ConcatenarJson(docsJson, DocumentoAcquisitionJson(wsPM.Cells(rowPM, COL_RD_DATE).Value, "R&D", wsPM.Cells(rowPM, COL_RD_STATUS).Value, summary))
+
+    MontarProjetoAcquisitionJson = "{" & _
+        """id"":""" & EscapeJson(NormalizarIdProjeto(projectName)) & """," & _
+        """client"":""" & EscapeJson(Trim$(CStr(wsPM.Cells(rowPM, COL_CLIENT).Value))) & """," & _
+        """project"":""" & EscapeJson(projectName) & """," & _
+        """de"":""" & EscapeJson(Trim$(CStr(wsPM.Cells(rowPM, COL_DE).Value))) & """," & _
+        """status"":""" & EscapeJson(status) & """," & _
+        """documents"":[" & docsJson & "]" & _
+    "}"
+End Function
+
+
+Private Function DocumentoAcquisitionJson(ByVal dueDateValue As Variant, ByVal docName As String, ByVal statusValue As Variant, ByVal summary As Object) As String
+    Dim dueDate As Date
+    Dim state As String
+    Dim bucket As String
+    Dim daysFromToday As Long
+    Dim rawStatus As String
+
+    If Not IsDate(dueDateValue) Then Exit Function
+
+    dueDate = DateValue(dueDateValue)
+    rawStatus = Trim$(CStr(statusValue))
+    state = EstadoDocumentoAcquisition(dueDate, statusValue)
+    bucket = BucketDocumentoAcquisition(state)
+    daysFromToday = DateDiff("d", Date, dueDate)
+
+    summary("totalDocuments") = CLng(summary("totalDocuments")) + 1
+    summary(bucket) = CLng(summary(bucket)) + 1
+    If bucket <> "completed" Then summary("active") = CLng(summary("active")) + 1
+
+    DocumentoAcquisitionJson = "{" & _
+        """name"":""" & EscapeJson(docName) & """," & _
+        """dueDate"":""" & Format$(dueDate, "yyyy-mm-dd") & """," & _
+        """week"":" & CStr(Application.WorksheetFunction.WeekNum(dueDate, 2)) & "," & _
+        """state"":""" & EscapeJson(state) & """," & _
+        """bucket"":""" & EscapeJson(bucket) & """," & _
+        """daysFromToday"":" & CStr(daysFromToday) & "," & _
+        """sourceStatus"":""" & EscapeJson(rawStatus) & """" & _
+    "}"
+End Function
+
+
+Private Function EstadoDocumentoAcquisition(ByVal dueDate As Date, ByVal statusValue As Variant) As String
+    If IsNumeric(statusValue) And CLng(statusValue) >= 3 Then
+        EstadoDocumentoAcquisition = "completed"
+    ElseIf dueDate < Date Then
+        EstadoDocumentoAcquisition = "overdue"
+    ElseIf dueDate <= Date + 7 Then
+        EstadoDocumentoAcquisition = "onTime"
+    Else
+        EstadoDocumentoAcquisition = "future"
+    End If
+End Function
+
+
+Private Function BucketDocumentoAcquisition(ByVal state As String) As String
+    Select Case state
+        Case "completed"
+            BucketDocumentoAcquisition = "completed"
+        Case "overdue"
+            BucketDocumentoAcquisition = "overdue"
+        Case "onTime"
+            BucketDocumentoAcquisition = "onTime"
+        Case Else
+            BucketDocumentoAcquisition = "future"
+    End Select
+End Function
+
+
+Private Function ConcatenarJson(ByVal currentJson As String, ByVal nextJson As String) As String
+    If nextJson = "" Then
+        ConcatenarJson = currentJson
+    ElseIf currentJson = "" Then
+        ConcatenarJson = nextJson
+    Else
+        ConcatenarJson = currentJson & "," & nextJson
+    End If
+End Function
+
+
+Private Function MontarResumoJson(ByVal summary As Object) As String
+    Dim totalDocuments As Long
+    Dim completed As Long
+    Dim completionRate As Double
+
+    totalDocuments = CLng(summary("totalDocuments"))
+    completed = CLng(summary("completed"))
+    If totalDocuments > 0 Then completionRate = completed / totalDocuments
+
+    MontarResumoJson = "{" & _
+        """totalProjects"":" & CStr(summary("totalProjects")) & "," & _
+        """onGoingProjects"":" & CStr(summary("onGoingProjects")) & "," & _
+        """totalDocuments"":" & CStr(summary("totalDocuments")) & "," & _
+        """active"":" & CStr(summary("active")) & "," & _
+        """completed"":" & CStr(summary("completed")) & "," & _
+        """overdue"":" & CStr(summary("overdue")) & "," & _
+        """onTime"":" & CStr(summary("onTime")) & "," & _
+        """future"":" & CStr(summary("future")) & "," & _
+        """completionRate"":" & Replace$(Format$(completionRate, "0.0000"), ",", ".") & _
+    "}"
+End Function
+
+
+Private Function CaminhoJsonAcquisition() As String
+    CaminhoJsonAcquisition = ACQUISITION_JSON_OUTPUT_FOLDER & ACQUISITION_JSON_FILE_NAME
+End Function
+
+
+Private Sub GarantirPastaJsonAcquisition()
+    If Dir(ACQUISITION_JSON_OUTPUT_FOLDER, vbDirectory) = "" Then
+        MkDir ACQUISITION_JSON_OUTPUT_FOLDER
+    End If
+End Sub
+
+
+Private Sub EscreverArquivoTexto(ByVal path As String, ByVal text As String)
+    Dim textStream As Object
+    Dim binaryStream As Object
+
+    Set textStream = CreateObject("ADODB.Stream")
+    Set binaryStream = CreateObject("ADODB.Stream")
+
+    textStream.Type = 2
+    textStream.Charset = "utf-8"
+    textStream.Open
+    textStream.WriteText text
+    textStream.Position = 3
+
+    binaryStream.Type = 1
+    binaryStream.Open
+    textStream.CopyTo binaryStream
+    binaryStream.SaveToFile path, 2
+
+    binaryStream.Close
+    textStream.Close
+End Sub
+
+
+Private Sub EnviarJsonCompletoParaFirestore(ByVal jsonCompleto As String)
+    Dim idToken As String
+    Dim url As String
+    Dim body As String
+    Dim http As Object
+
+    If FIREBASE_AUTH_EMAIL = "" Or FIREBASE_AUTH_PASSWORD = "" Then
+        Err.Raise vbObjectError + 220, , "Configure FIREBASE_AUTH_EMAIL e FIREBASE_AUTH_PASSWORD no inicio do modulo."
+    End If
+
+    idToken = ObterFirebaseIdToken()
+
+    url = "https://firestore.googleapis.com/v1/projects/" & FIREBASE_PROJECT_ID & _
+          "/databases/(default)/documents/" & FIRESTORE_COLLECTION & "/" & FIRESTORE_DOCUMENT
+
+    body = "{""fields"":{""jsonCompleto"":{""stringValue"":""" & EscapeJson(jsonCompleto) & """}}}"
+
+    Set http = CreateObject("MSXML2.XMLHTTP")
+    http.Open "PATCH", url, False
+    http.setRequestHeader "Authorization", "Bearer " & idToken
+    http.setRequestHeader "Content-Type", "application/json"
+    http.Send body
+
+    If http.Status < 200 Or http.Status >= 300 Then
+        Err.Raise vbObjectError + 221, , "Firestore upload failed: " & http.Status & " - " & http.responseText
+    End If
+End Sub
+
+
+Private Function ObterFirebaseIdToken() As String
+    Dim url As String
+    Dim body As String
+    Dim http As Object
+    Dim token As String
+
+    url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" & FIREBASE_API_KEY
+    body = "{""email"":""" & EscapeJson(FIREBASE_AUTH_EMAIL) & """," & _
+           """password"":""" & EscapeJson(FIREBASE_AUTH_PASSWORD) & """," & _
+           """returnSecureToken"":true}"
+
+    Set http = CreateObject("MSXML2.XMLHTTP")
+    http.Open "POST", url, False
+    http.setRequestHeader "Content-Type", "application/json"
+    http.Send body
+
+    If http.Status < 200 Or http.Status >= 300 Then
+        Err.Raise vbObjectError + 222, , "Firebase Auth failed: " & http.Status & " - " & http.responseText
+    End If
+
+    token = ExtrairStringJson(http.responseText, "idToken")
+    If token = "" Then Err.Raise vbObjectError + 223, , "Firebase Auth returned no idToken."
+
+    ObterFirebaseIdToken = token
+End Function
+
+
+Private Function ExtrairStringJson(ByVal json As String, ByVal key As String) As String
+    Dim p As Long
+    Dim i As Long
+    Dim ch As String
+    Dim escaped As Boolean
+
+    p = InStr(1, json, """" & key & """", vbTextCompare)
+    If p = 0 Then Exit Function
+
+    p = InStr(p + Len(key) + 2, json, ":", vbTextCompare)
+    If p = 0 Then Exit Function
+
+    p = p + 1
+    Do While p <= Len(json)
+        ch = Mid$(json, p, 1)
+        If ch <> " " And ch <> vbTab And ch <> vbCr And ch <> vbLf Then Exit Do
+        p = p + 1
+    Loop
+
+    If Mid$(json, p, 1) <> """" Then Exit Function
+    p = p + 1
+
+    For i = p To Len(json)
+        ch = Mid$(json, i, 1)
+        If escaped Then
+            ExtrairStringJson = ExtrairStringJson & ch
+            escaped = False
+        ElseIf ch = "\" Then
+            escaped = True
+        ElseIf ch = """" Then
+            Exit Function
+        Else
+            ExtrairStringJson = ExtrairStringJson & ch
+        End If
+    Next i
+End Function
+
+
+Private Function EscapeJson(ByVal value As String) As String
+    value = Replace$(value, "\", "\\")
+    value = Replace$(value, """", "\""")
+    value = Replace$(value, vbCrLf, "\n")
+    value = Replace$(value, vbCr, "\n")
+    value = Replace$(value, vbLf, "\n")
+    value = Replace$(value, vbTab, " ")
+    EscapeJson = value
+End Function
+
+
+Private Function IsoNowLocal() As String
+    IsoNowLocal = Format$(Now, "yyyy-mm-dd\THH:nn:ss")
+End Function
+
+
+Private Function NomeArquivo(ByVal path As String) As String
+    NomeArquivo = Mid$(path, InStrRev(path, "\") + 1)
+End Function
+
+
+Private Function NormalizarIdProjeto(ByVal value As String) As String
+    Dim i As Long
+    Dim ch As String
+    Dim output As String
+
+    value = LCase$(Trim$(value))
+    For i = 1 To Len(value)
+        ch = Mid$(value, i, 1)
+        If ch Like "[a-z0-9]" Then
+            output = output & ch
+        ElseIf Len(output) > 0 And Right$(output, 1) <> "-" Then
+            output = output & "-"
+        End If
+    Next i
+
+    Do While Right$(output, 1) = "-"
+        output = Left$(output, Len(output) - 1)
+    Loop
+
+    NormalizarIdProjeto = output
+End Function
+
+
+Private Function ExtrairAnoSemanaPM(ByVal fileName As String, ByRef fileYear As Long, ByRef fileWeek As Long) As Boolean
+    Dim marker As String
+    Dim posYear As Long
+    Dim posCw As Long
+    Dim yearText As String
+    Dim weekText As String
+
+    marker = PM_FILE_PREFIX
+    posYear = InStr(1, fileName, marker, vbTextCompare)
+    posCw = InStr(1, fileName, " cw", vbTextCompare)
+
+    If posYear = 0 Or posCw = 0 Then Exit Function
+
+    yearText = Mid$(fileName, posYear + Len(marker), 4)
+    weekText = Mid$(fileName, posCw + 3)
+    weekText = Replace$(weekText, ".xlsx", "", , , vbTextCompare)
+
+    If IsNumeric(yearText) And IsNumeric(weekText) Then
+        fileYear = CLng(yearText)
+        fileWeek = CLng(weekText)
+        ExtrairAnoSemanaPM = (fileWeek >= 1 And fileWeek <= 53)
+    End If
+End Function
+
+
+Private Function DeveSincronizarStatus(ByVal status As String) As Boolean
+    Select Case status
+        Case "On Going", "Canceled", "On Hold", "Quoted"
+            DeveSincronizarStatus = True
+    End Select
+End Function
+
+
+Private Sub AdicionarSeNaoExiste(ByVal dict As Object, ByVal key As String)
+    If key <> "" Then
+        If Not dict.Exists(key) Then dict.Add key, True
+    End If
+End Sub
+
+
+Private Function EncontrarOuCriarProjeto(ByVal ws As Worksheet, ByVal projectName As String) As Long
+    Dim result As Variant
+
+    result = Application.Match(projectName, ws.Columns("B"), 0)
+    If IsError(result) Then
+        EncontrarOuCriarProjeto = ws.Cells(ws.Rows.Count, "B").End(xlUp).Row + 1
+        ws.Cells(EncontrarOuCriarProjeto, "B").Value = projectName
+    Else
+        EncontrarOuCriarProjeto = CLng(result)
+    End If
+End Function
+
+
+Private Sub GarantirCalendarioAte(ByVal ws As Worksheet, ByVal targetYear As Long, ByVal targetWeek As Long)
+    Dim lastCol As Long
+    Dim lastDate As Date
+    Dim limitDate As Date
+
+    lastCol = ws.Cells(DATE_HEADER_ROW, ws.Columns.Count).End(xlToLeft).Column
+    If Not IsDate(ws.Cells(DATE_HEADER_ROW, lastCol).Value) Then
+        Err.Raise vbObjectError + 100, , "Linha 6 precisa terminar com uma data valida."
+    End If
+
+    lastDate = DateValue(ws.Cells(DATE_HEADER_ROW, lastCol).Value)
+    limitDate = DomingoDaSemana(targetYear, targetWeek)
+
+    Do While lastDate < limitDate
+        lastCol = lastCol + 1
+        lastDate = lastDate + 1
+        ws.Cells(DATE_HEADER_ROW, lastCol).Value = lastDate
+        ws.Cells(DATE_HEADER_ROW, lastCol).NumberFormat = "dd/mmm"
+    Loop
+End Sub
+
+
+Private Function SegundaDaSemana(ByVal targetYear As Long, ByVal targetWeek As Long) As Date
+    Dim d As Date
+
+    d = DateSerial(targetYear, 1, 1) + ((targetWeek - 1) * 7)
+    SegundaDaSemana = d - (Weekday(d, vbMonday) - 1)
+End Function
+
+
+Private Function DomingoDaSemana(ByVal targetYear As Long, ByVal targetWeek As Long) As Date
+    DomingoDaSemana = SegundaDaSemana(targetYear, targetWeek) + 6
+End Function
+
+
+Private Function ObterRangeCalendario(ByVal ws As Worksheet) As Range
+    Dim lastCol As Long
+    lastCol = ws.Cells(DATE_HEADER_ROW, ws.Columns.Count).End(xlToLeft).Column
+    Set ObterRangeCalendario = ws.Range(ws.Cells(DATE_HEADER_ROW, FIRST_CALENDAR_COL), ws.Cells(DATE_HEADER_ROW, lastCol))
+End Function
+
+
+Private Sub AtualizarDocumento(ByVal ws As Worksheet, ByVal linha As Long, ByVal colCalendario As Range, _
+                               ByVal dataDocumento As Variant, ByVal nomeDocumento As String, _
+                               ByVal statusDocumento As Variant)
+    Dim cel As Range
+    Dim targetCol As Long
+    Dim targetDate As Date
+    Dim currentValue As String
+
+    If Not IsDate(dataDocumento) Then Exit Sub
+
+    targetDate = DateValue(dataDocumento)
+    For Each cel In colCalendario
+        If IsDate(cel.Value) Then
+            If DateValue(cel.Value) = targetDate Then
+                targetCol = cel.Column
+                Exit For
+            End If
+        End If
+    Next cel
+
+    If targetCol = 0 Then Exit Sub
+
+    RemoverDocumentoDeOutrasDatas ws, linha, colCalendario, targetCol, nomeDocumento
+
+    currentValue = Trim$(CStr(ws.Cells(linha, targetCol).Value))
+    If currentValue = "" Then
+        ws.Cells(linha, targetCol).Value = nomeDocumento
+    ElseIf InStr(1, currentValue, nomeDocumento, vbTextCompare) = 0 Then
+        ws.Cells(linha, targetCol).Value = currentValue & "/" & nomeDocumento
+    End If
+
+    With ws.Cells(linha, targetCol)
+        .Font.Bold = True
+        .Font.Italic = True
+        .Interior.Color = CorDocumento(targetDate, statusDocumento)
+    End With
+End Sub
+
+
+Private Sub RemoverDocumentoDeOutrasDatas(ByVal ws As Worksheet, ByVal linha As Long, ByVal colCalendario As Range, _
+                                          ByVal targetCol As Long, ByVal nomeDocumento As String)
+    Dim cel As Range
+    Dim newText As String
+
+    For Each cel In colCalendario
+        If cel.Column <> targetCol Then
+            If InStr(1, ws.Cells(linha, cel.Column).Value, nomeDocumento, vbTextCompare) > 0 Then
+                newText = RemoverDocumento(CStr(ws.Cells(linha, cel.Column).Value), nomeDocumento)
+                ws.Cells(linha, cel.Column).Value = newText
+                If Trim$(newText) = "" Then ws.Cells(linha, cel.Column).Interior.Pattern = xlNone
+            End If
+        End If
+    Next cel
+End Sub
+
+
+Private Function CorDocumento(ByVal dueDate As Date, ByVal statusDocumento As Variant) As Long
+    If dueDate > Date Then
+        CorDocumento = COLOR_PENDING
+    ElseIf IsNumeric(statusDocumento) And CLng(statusDocumento) >= 3 Then
+        CorDocumento = COLOR_DONE
+    Else
+        CorDocumento = COLOR_OVERDUE
+    End If
+End Function
+
+
+Private Function RemoverDocumento(ByVal texto As String, ByVal documento As String) As String
+    Dim partes() As String
+    Dim i As Long
+    Dim resultado As String
+    Dim parte As String
+
+    partes = Split(texto, "/")
+    For i = LBound(partes) To UBound(partes)
+        parte = Trim$(partes(i))
+        If StrComp(parte, documento, vbTextCompare) <> 0 Then
+            If resultado <> "" Then resultado = resultado & "/"
+            resultado = resultado & parte
+        End If
+    Next i
+
+    RemoverDocumento = resultado
+End Function
+
+
+Private Sub FormatarCronograma(ByVal ws As Worksheet)
+    Dim lastRow As Long
+    Dim lastCol As Long
+    Dim col As Long
+    Dim row As Long
+    Dim headerDate As Variant
+
+    lastRow = ws.Cells(ws.Rows.Count, "B").End(xlUp).Row
+    lastCol = ws.Cells(DATE_HEADER_ROW, ws.Columns.Count).End(xlToLeft).Column
+
+    With ws.Range(ws.Cells(FIRST_DATA_ROW, "A"), ws.Cells(lastRow, lastCol)).Borders
+        .LineStyle = xlContinuous
+        .Color = RGB(0, 0, 0)
+        .Weight = xlThin
+    End With
+
+    ws.Range(ws.Cells(FIRST_DATA_ROW, "A"), ws.Cells(lastRow, "C")).Interior.Color = COLOR_BLUE_LIGHT
+
+    With ws.Range(ws.Cells(DATE_HEADER_ROW, "A"), ws.Cells(DATE_HEADER_ROW, lastCol))
+        .Font.Bold = True
+        .Font.Color = RGB(255, 255, 255)
+        .Interior.Color = COLOR_BLUE_DARK
+    End With
+
+    For col = FIRST_CALENDAR_COL To lastCol
+        headerDate = ws.Cells(DATE_HEADER_ROW, col).Value
+        If IsDate(headerDate) Then
+            ws.Cells(DATE_HEADER_ROW, col).NumberFormat = "dd/mmm"
+            If Weekday(CDate(headerDate), vbMonday) >= 6 Then
+                For row = FIRST_DATA_ROW To lastRow
+                    If ws.Cells(row, col).Value = "" Then ws.Cells(row, col).Interior.Color = COLOR_WEEKEND
+                Next row
+            End If
+        End If
+    Next col
+
+    FormatarLinhaSemanas ws, lastRow, lastCol
+
+    With ws.Range(ws.Cells(WEEK_HEADER_ROW, "A"), ws.Cells(lastRow, lastCol)).Borders
+        .LineStyle = xlContinuous
+        .Color = RGB(0, 0, 0)
+        .Weight = xlThin
+    End With
+
+    ws.Columns("A:" & Split$(ws.Cells(1, lastCol).Address, "$")(1)).AutoFit
+End Sub
+
+
+Private Sub FormatarLinhaSemanas(ByVal ws As Worksheet, ByVal lastRow As Long, ByVal lastCol As Long)
+    Dim col As Long
+    Dim startCol As Long
+    Dim weekNumber As Long
+
+    ws.Range(ws.Cells(WEEK_HEADER_ROW, FIRST_CALENDAR_COL), ws.Cells(WEEK_HEADER_ROW, lastCol)).UnMerge
+    ws.Range(ws.Cells(WEEK_HEADER_ROW, FIRST_CALENDAR_COL), ws.Cells(WEEK_HEADER_ROW, lastCol)).ClearContents
+
+    col = FIRST_CALENDAR_COL
+    Do While col <= lastCol
+        If IsDate(ws.Cells(DATE_HEADER_ROW, col).Value) Then
+            If Weekday(ws.Cells(DATE_HEADER_ROW, col).Value, vbMonday) = 1 Then
+                startCol = col
+                weekNumber = Application.WorksheetFunction.WeekNum(ws.Cells(DATE_HEADER_ROW, col).Value, 2)
+
+                Do While col <= lastCol And Weekday(ws.Cells(DATE_HEADER_ROW, col).Value, vbMonday) <> 7
+                    col = col + 1
+                Loop
+
+                With ws.Range(ws.Cells(WEEK_HEADER_ROW, startCol), ws.Cells(WEEK_HEADER_ROW, col))
+                    .Merge
+                    .Value = "w" & weekNumber
+                    .Interior.Color = COLOR_BLUE_DARK
+                    .Font.Color = RGB(255, 255, 255)
+                    .Font.Bold = True
+                    .HorizontalAlignment = xlCenter
+                    .VerticalAlignment = xlCenter
+                End With
+            End If
+        End If
+        col = col + 1
+    Loop
+End Sub
+
+
+Private Sub CriarOuAtualizarAbasSemanais(ByVal wb As Workbook, ByVal wsCronograma As Worksheet, ByVal futureWeek As Long)
+    Dim lastHistoryWeek As Long
+    Dim weekToBuild As Long
+
+    lastHistoryWeek = UltimaSemanaComAba(wb)
+
+    If lastHistoryWeek > 0 And lastHistoryWeek + 1 < futureWeek Then
+        For weekToBuild = lastHistoryWeek + 1 To futureWeek
+            CriarUmaAbaSemanal wb, wsCronograma, weekToBuild
+        Next weekToBuild
+    Else
+        CriarUmaAbaSemanal wb, wsCronograma, futureWeek
+    End If
+End Sub
+
+
+Private Function UltimaSemanaComAba(ByVal wb As Workbook) As Long
+    Dim ws As Worksheet
+    Dim weekText As String
+
+    For Each ws In wb.Worksheets
+        If LCase$(Left$(ws.Name, 1)) = "w" Then
+            weekText = Mid$(ws.Name, 2)
+            If IsNumeric(weekText) Then
+                If CLng(weekText) > UltimaSemanaComAba Then UltimaSemanaComAba = CLng(weekText)
+            End If
+        End If
+    Next ws
+End Function
+
+
+Private Sub CriarUmaAbaSemanal(ByVal wb As Workbook, ByVal wsCronograma As Worksheet, ByVal semanaAlvo As Long)
+    Dim wsSemana As Worksheet
+    Dim lastRow As Long
+    Dim lastCol As Long
+    Dim col As Long
+    Dim row As Long
+    Dim targetRow As Long
+    Dim targetCol As Long
+    Dim key As Variant
+    Dim weekCols As Object
+    Dim sheetName As String
+
+    Set weekCols = CreateObject("Scripting.Dictionary")
+    sheetName = "w" & Format$(semanaAlvo, "00")
+
+    lastRow = wsCronograma.Cells(wsCronograma.Rows.Count, "B").End(xlUp).Row
+    lastCol = wsCronograma.Cells(DATE_HEADER_ROW, wsCronograma.Columns.Count).End(xlToLeft).Column
+
+    For col = FIRST_CALENDAR_COL To lastCol
+        If IsDate(wsCronograma.Cells(DATE_HEADER_ROW, col).Value) Then
+            If Application.WorksheetFunction.WeekNum(wsCronograma.Cells(DATE_HEADER_ROW, col).Value, 2) = semanaAlvo Then
+                For row = FIRST_DATA_ROW To lastRow
+                    If Trim$(CStr(wsCronograma.Cells(row, col).Value)) <> "" Then
+                        weekCols(col) = wsCronograma.Cells(DATE_HEADER_ROW, col).Value
+                        Exit For
+                    End If
+                Next row
+            End If
+        End If
+    Next col
+
+    If weekCols.Count = 0 Then Exit Sub
+
+    Set wsSemana = ObterOuCriarAba(wb, sheetName)
+    wsSemana.Cells.Clear
+
+    wsSemana.Cells(3, "B").Value = "Cliente"
+    wsSemana.Cells(3, "C").Value = "Projeto"
+    wsSemana.Cells(3, "D").Value = "DE"
+
+    targetCol = 5
+    For Each key In weekCols.Keys
+        wsSemana.Cells(3, targetCol).Value = Format$(weekCols(key), "dd/mmm")
+        targetCol = targetCol + 1
+    Next key
+
+    targetRow = 4
+    For row = FIRST_DATA_ROW To lastRow
+        If LinhaTemItemSemana(wsCronograma, row, weekCols) Then
+            wsSemana.Cells(targetRow, "B").Value = wsCronograma.Cells(row, "A").Value
+            wsSemana.Cells(targetRow, "C").Value = wsCronograma.Cells(row, "B").Value
+            wsSemana.Cells(targetRow, "D").Value = wsCronograma.Cells(row, "C").Value
+
+            targetCol = 5
+            For Each key In weekCols.Keys
+                If Trim$(CStr(wsCronograma.Cells(row, key).Value)) <> "" Then
+                    With wsSemana.Cells(targetRow, targetCol)
+                        .Value = wsCronograma.Cells(row, key).Value
+                        .Interior.Color = wsCronograma.Cells(row, key).Interior.Color
+                        .Font.Bold = wsCronograma.Cells(row, key).Font.Bold
+                        .Font.Italic = wsCronograma.Cells(row, key).Font.Italic
+                        .HorizontalAlignment = xlCenter
+                        .VerticalAlignment = xlCenter
+                    End With
+                End If
+                targetCol = targetCol + 1
+            Next key
+
+            targetRow = targetRow + 1
+        End If
+    Next row
+
+    FormatarAbaSemanal wsSemana, sheetName, targetRow - 1
+End Sub
+
+
+Private Function ObterOuCriarAba(ByVal wb As Workbook, ByVal sheetName As String) As Worksheet
+    If WorksheetExists(wb, sheetName) Then
+        Set ObterOuCriarAba = wb.Worksheets(sheetName)
+    Else
+        Set ObterOuCriarAba = wb.Worksheets.Add(After:=wb.Worksheets(wb.Worksheets.Count))
+        ObterOuCriarAba.Name = sheetName
+    End If
+End Function
+
+
+Private Function WorksheetExists(ByVal wb As Workbook, ByVal sheetName As String) As Boolean
+    Dim ws As Worksheet
+
+    On Error Resume Next
+    Set ws = wb.Worksheets(sheetName)
+    WorksheetExists = Not ws Is Nothing
+    On Error GoTo 0
+End Function
+
+
+Private Function LinhaTemItemSemana(ByVal ws As Worksheet, ByVal row As Long, ByVal weekCols As Object) As Boolean
+    Dim key As Variant
+    For Each key In weekCols.Keys
+        If Trim$(CStr(ws.Cells(row, key).Value)) <> "" Then
+            LinhaTemItemSemana = True
+            Exit Function
+        End If
+    Next key
+End Function
+
+
+Private Sub FormatarAbaSemanal(ByVal ws As Worksheet, ByVal sheetName As String, ByVal lastDataRow As Long)
+    Dim lastCol As Long
+    Dim row As Long
+    Dim col As Long
+
+    lastCol = ws.Cells(3, ws.Columns.Count).End(xlToLeft).Column
+    ws.Cells.Font.Size = 11
+
+    With ws.Range(ws.Cells(2, "B"), ws.Cells(2, lastCol))
+        .Merge
+        .Value = sheetName
+        .Interior.Color = COLOR_BLUE_DARK
+        .Font.Color = RGB(255, 255, 255)
+        .Font.Bold = True
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+    End With
+
+    With ws.Range(ws.Cells(3, "B"), ws.Cells(3, lastCol))
+        .Font.Bold = True
+        .Font.Color = RGB(255, 255, 255)
+        .Interior.Color = COLOR_BLUE_DARK
+        .HorizontalAlignment = xlCenter
+    End With
+
+    If lastDataRow >= 4 Then
+        ws.Range(ws.Cells(4, "B"), ws.Cells(lastDataRow, "D")).Interior.Color = COLOR_BLUE_LIGHT
+        ws.Rows("4:" & lastDataRow).RowHeight = 30
+    End If
+
+    With ws.Range(ws.Cells(3, "B"), ws.Cells(Application.Max(3, lastDataRow), lastCol)).Borders
+        .LineStyle = xlContinuous
+        .Color = RGB(0, 0, 0)
+        .Weight = xlThin
+    End With
+
+    For row = 4 To lastDataRow
+        For col = 4 To lastCol
+            If ws.Cells(row, col).Value <> "" Then
+                ws.Cells(row, col).HorizontalAlignment = xlCenter
+                ws.Cells(row, col).VerticalAlignment = xlCenter
+            End If
+        Next col
+    Next row
+
+    ws.Columns("B:" & Split$(ws.Cells(1, lastCol).Address, "$")(1)).AutoFit
+End Sub
+
+
+Private Sub AplicarFiltroOnGoing(ByVal ws As Worksheet, ByVal ongoingProjects As Object)
+    Dim row As Long
+    Dim lastRow As Long
+    Dim projectName As String
+
+    ws.Rows.Hidden = False
+    lastRow = ws.Cells(ws.Rows.Count, "B").End(xlUp).Row
+
+    For row = FIRST_DATA_ROW To lastRow
+        projectName = Trim$(CStr(ws.Cells(row, "B").Value))
+        If projectName <> "" Then
+            ws.Rows(row).Hidden = Not ongoingProjects.Exists(projectName)
+        End If
+    Next row
+End Sub
+
+
+Public Sub MostrarTodosProjetos(Optional ByVal showMessage As Boolean = True)
+    ThisWorkbook.Worksheets(TARGET_SHEET).Rows.Hidden = False
+    If showMessage Then MsgBox "Todos os projetos estao visiveis.", vbInformation
+End Sub
+
+
+Public Sub MostrarSomenteOnGoing()
+    Dim wbPM As Workbook
+    Dim wsPM As Worksheet
+    Dim wsCrono As Worksheet
+    Dim ongoingProjects As Object
+    Dim pmPath As String
+    Dim pmYear As Long
+    Dim pmWeek As Long
+    Dim rowPM As Long
+    Dim lastPMRow As Long
+    Dim status As String
+    Dim projectName As String
+
+    On Error GoTo Falha
+    Application.ScreenUpdating = False
+
+    Set wsCrono = ThisWorkbook.Worksheets(TARGET_SHEET)
+    Set ongoingProjects = CreateObject("Scripting.Dictionary")
+
+    pmPath = EncontrarPlanilhaPM(pmYear, pmWeek)
+    If pmPath = "" Then
+        MsgBox "Nao encontrei uma planilha do PM valida.", vbCritical
+        GoTo Saida
+    End If
+
+    Set wbPM = Workbooks.Open(pmPath, ReadOnly:=True)
+    Set wsPM = wbPM.Worksheets(PM_SOURCE_SHEET)
+    lastPMRow = wsPM.Cells(wsPM.Rows.Count, COL_PROJECT).End(xlUp).Row
+
+    For rowPM = FIRST_PM_ROW To lastPMRow
+        status = Trim$(CStr(wsPM.Cells(rowPM, COL_STATUS).Value))
+        If status = "On Going" Then
+            projectName = Trim$(CStr(wsPM.Cells(rowPM, COL_PROJECT).Value))
+            AdicionarSeNaoExiste ongoingProjects, projectName
+        End If
+    Next rowPM
+
+    AplicarFiltroOnGoing wsCrono, ongoingProjects
+    MsgBox "Exibindo apenas projetos On Going.", vbInformation
+
+Saida:
+    On Error Resume Next
+    If Not wbPM Is Nothing Then wbPM.Close SaveChanges:=False
+    Application.ScreenUpdating = True
+    On Error GoTo 0
+    Exit Sub
+
+Falha:
+    MsgBox "Erro ao filtrar projetos On Going: " & Err.Description, vbCritical
+    Resume Saida
+End Sub
+
+
+Public Sub CriarEmailPendenciasSemana()
+    Dim wb As Workbook
+    Dim outApp As Object
+    Dim outMail As Object
+    Dim frm As frmSelecionarSemanas
+    Dim selectedWeeks As Collection
+    Dim weekName As Variant
+    Dim weekNumber As Long
+    Dim maxWeek As Long
+    Dim htmlBody As String
+    Dim tempPath As String
+
+    Set wb = ThisWorkbook
+    Set selectedWeeks = New Collection
+    Set frm = New frmSelecionarSemanas
+
+    frm.Show vbModal
+    For weekNumber = 0 To frm.lstSemanas.ListCount - 1
+        If frm.lstSemanas.Selected(weekNumber) Then
+            selectedWeeks.Add frm.lstSemanas.List(weekNumber)
+            If CLng(Mid$(frm.lstSemanas.List(weekNumber), 2)) > maxWeek Then
+                maxWeek = CLng(Mid$(frm.lstSemanas.List(weekNumber), 2))
+            End If
+        End If
+    Next weekNumber
+    Unload frm
+
+    If selectedWeeks.Count = 0 Then
+        MsgBox "Nenhuma semana selecionada.", vbInformation
+        Exit Sub
+    End If
+
+    htmlBody = "<p>Ola time,</p>" & _
+               "<p>Segue abaixo a lista de itens com vencimento da proxima semana, conforme a planilha de acquisition do PM.</p>" & _
+               "<p>Em anexo, encaminho tambem a planilha com o cronograma completo de vencimentos de todos os acquisition.</p>"
+
+    For Each weekName In selectedWeeks
+        htmlBody = htmlBody & RangetoHTML(RangeTabelaSemana(wb.Worksheets(CStr(weekName)))) & "<br>"
+    Next weekName
+
+    tempPath = Environ$("TEMP") & "\Cronograma_Acquisition_w" & Format$(maxWeek, "00") & ".xlsm"
+    wb.SaveCopyAs tempPath
+
+    Set outApp = CreateObject("Outlook.Application")
+    Set outMail = outApp.CreateItem(0)
+    outMail.Display
+
+    With outMail
+        .HTMLBody = htmlBody & .HTMLBody
+        .To = "Bruno De Aguiar <bruno.de.aguiar@mahle.com>; Armando Higa <armando.higa@mahle.com>; Bruno Caetano <bruno.caetano@mahle.com>; Bruno Ferreira Rossanes <Bruno.Rossanes@mahle.com>; Caio Oliveira <caio.oliveira@mahle.com>; Jose Bazaneli <jose.bazaneli@mahle.com>; Tadeu Domingues <tadeu.domingues@mahle.com>; Thiago Amaral <thiago.amaral@mahle.com>; Thiago Hora <thiago.hora@mahle.com>; Willian Moura <willian.moura@mahle.com>; Eduardo Bellini <eduardo.bellini@mahle.com>; Evaldo Hatimine <evaldo.hatimine@mahle.com>; Fabio Ramos <fabio.ramos@mahle.com>; Hilton Costa <hilton.costa@mahle.com>; Marcelo Ney Wood <marcelo.wood@mahle.com>"
+        .Subject = "BU2 Fluids - Cronograma Projetos em Cotacao OEM (Gestao de MSPs) - w" & Format$(maxWeek, "00")
+        .Attachments.Add tempPath
+        .Display
+    End With
+End Sub
+
+
+Private Function RangeTabelaSemana(ByVal ws As Worksheet) As Range
+    Dim lastRow As Long
+    Dim lastCol As Long
+
+    lastRow = ws.Cells(ws.Rows.Count, "B").End(xlUp).Row
+    lastCol = ws.Cells(3, ws.Columns.Count).End(xlToLeft).Column
+    Set RangeTabelaSemana = ws.Range(ws.Cells(2, "B"), ws.Cells(lastRow, lastCol))
+End Function
+
+
+Private Function RangetoHTML(ByVal rng As Range) As String
+    Dim fso As Object
+    Dim ts As Object
+    Dim tempFile As String
+    Dim tempWB As Workbook
+
+    tempFile = Environ$("TEMP") & "\" & Format$(Now, "dd-mm-yy h-mm-ss") & ".htm"
+
+    rng.Copy
+    Set tempWB = Workbooks.Add(1)
+
+    With tempWB.Sheets(1)
+        .Cells(1).PasteSpecial Paste:=8
+        .Cells(1).PasteSpecial xlPasteValues
+        .Cells(1).PasteSpecial xlPasteFormats
+        Application.CutCopyMode = False
+    End With
+
+    With tempWB.PublishObjects.Add(SourceType:=xlSourceRange, Filename:=tempFile, _
+        Sheet:=tempWB.Sheets(1).Name, Source:=tempWB.Sheets(1).UsedRange.Address, HtmlType:=xlHtmlStatic)
+        .Publish True
+    End With
+
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Set ts = fso.GetFile(tempFile).OpenAsTextStream(1, -2)
+    RangetoHTML = ts.ReadAll
+    ts.Close
+
+    RangetoHTML = Replace$(RangetoHTML, "<table", "<table style='font-size:13px;margin-left:0;margin-right:auto;'")
+    RangetoHTML = Replace$(RangetoHTML, "align=center", "")
+
+    tempWB.Close SaveChanges:=False
+    Kill tempFile
+End Function

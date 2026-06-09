@@ -1,0 +1,660 @@
+/* ==========================
+   ACQUISITION WORKSPACE
+========================== */
+
+.acquisition-shell {
+  width: 100%;
+}
+
+@keyframes acquisitionFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes acquisitionScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.acquisition-hero,
+.acquisition-panel,
+.acquisition-kpi,
+.acquisition-action-card,
+.acquisition-table-card {
+  background: white;
+  border: 1px solid #e7edf8;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  animation: acquisitionFadeUp .34s ease both;
+}
+
+.acquisition-hero {
+  padding: 26px;
+  margin-bottom: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.acquisition-eyebrow {
+  color: var(--mahle-blue);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.acquisition-hero h2 {
+  margin: 7px 0 8px;
+  color: var(--text);
+  font-size: 30px;
+  line-height: 1.12;
+}
+
+.acquisition-hero p {
+  color: var(--text-soft);
+  font-size: 15px;
+  line-height: 1.45;
+  max-width: 760px;
+}
+
+.acquisition-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.acquisition-pill {
+  background: #f2f6fd;
+  border: 1px solid #dce6f4;
+  border-radius: 8px;
+  color: #40536f;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.acquisition-refresh-btn {
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  color: var(--text);
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.acquisition-refresh-btn:hover {
+  background: #f5f8ff;
+  border-color: #bfd0f4;
+  transform: translateY(-1px);
+}
+
+.acquisition-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.acquisition-kpi {
+  padding: 16px;
+  min-height: 108px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 4px solid #d7e1ef;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.acquisition-kpi:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(13, 31, 61, .08);
+}
+
+.acquisition-kpi:nth-child(2) { animation-delay: .03s; }
+.acquisition-kpi:nth-child(3) { animation-delay: .06s; }
+.acquisition-kpi:nth-child(4) { animation-delay: .09s; }
+.acquisition-kpi:nth-child(5) { animation-delay: .12s; }
+.acquisition-kpi:nth-child(6) { animation-delay: .15s; }
+
+.acquisition-kpi strong {
+  color: var(--text);
+  font-size: 30px;
+  line-height: 1;
+}
+
+.acquisition-kpi span {
+  color: #6d7d95;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.acquisition-kpi small {
+  color: var(--text-soft);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.acquisition-kpi.overdue {
+  border-left-color: #ca221f;
+}
+
+.acquisition-kpi.ontime {
+  border-left-color: var(--mahle-blue);
+}
+
+.acquisition-kpi.future {
+  border-left-color: #8ea2b8;
+}
+
+.acquisition-kpi.completed {
+  border-left-color: #249157;
+}
+
+.acquisition-controls {
+  background: white;
+  border: 1px solid #e7edf8;
+  border-radius: 12px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 1.2fr repeat(3, minmax(150px, 0.6fr));
+  gap: 12px;
+  margin-bottom: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  animation: acquisitionFadeUp .34s ease both;
+}
+
+.acquisition-control {
+  min-height: 48px;
+  border: 1px solid #dbe4f0;
+  border-radius: 10px;
+  background: #fbfdff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  color: #6d7d95;
+  cursor: pointer;
+  position: relative;
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.acquisition-control:focus-within,
+.acquisition-control:hover {
+  background: #ffffff;
+  border-color: #b9c9e3;
+  box-shadow: 0 0 0 3px rgba(0, 42, 143, .08);
+}
+
+.acquisition-control i {
+  color: var(--mahle-blue);
+}
+
+.acquisition-control input,
+.acquisition-control select {
+  width: 100%;
+  min-height: 46px;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: inherit;
+}
+
+.acquisition-control input {
+  cursor: text;
+}
+
+.acquisition-control select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 22px;
+}
+
+.acquisition-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(360px, 0.65fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.acquisition-panel {
+  padding: 20px;
+}
+
+.acquisition-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #e7edf8;
+}
+
+.acquisition-panel-header h3 {
+  color: var(--text);
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.acquisition-panel-header p {
+  color: var(--text-soft);
+  line-height: 1.45;
+}
+
+.acquisition-count {
+  color: #40536f;
+  background: #f2f6fd;
+  border: 1px solid #dce6f4;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.acquisition-action-groups {
+  display: grid;
+  gap: 14px;
+}
+
+.acquisition-action-group {
+  border: 1px solid #e7edf8;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fbfdff;
+  animation: acquisitionScaleIn .28s ease both;
+}
+
+.acquisition-action-group:nth-child(2) { animation-delay: .05s; }
+.acquisition-action-group:nth-child(3) { animation-delay: .1s; }
+
+.acquisition-action-group h4 {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 14px;
+  color: var(--text);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  border-bottom: 1px solid #e7edf8;
+}
+
+.acquisition-action-group h4 span {
+  color: #6d7d95;
+  font-size: 12px;
+}
+
+.acquisition-action-list {
+  display: grid;
+}
+
+.acquisition-action-card {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(318px, 318px);
+  gap: 16px;
+  border-bottom: 1px solid #eef3fb;
+  transition: background .18s ease, transform .18s ease;
+}
+
+.acquisition-action-card:hover {
+  background: #ffffff;
+  transform: translateX(2px);
+}
+
+.acquisition-action-card:last-child {
+  border-bottom: 0;
+}
+
+.acquisition-project-name {
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.acquisition-project-meta {
+  margin-top: 7px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  color: #5d6f89;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.acquisition-doc-stack {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  justify-content: end;
+  align-content: start;
+  width: 318px;
+  min-width: 318px;
+  max-width: 318px;
+  overflow-x: auto;
+  padding: 1px 0 5px 1px;
+  scrollbar-width: thin;
+}
+
+.acquisition-doc-chip,
+.acquisition-doc-tile {
+  border: 1px solid #dbe4f0;
+  border-radius: 8px;
+  padding: 9px 8px;
+  background: white;
+  color: var(--text);
+  font-weight: 900;
+}
+
+.acquisition-doc-tile {
+  width: 96px;
+  flex: 0 0 96px;
+  min-height: 86px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.acquisition-doc-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px rgba(13, 31, 61, .08);
+}
+
+.acquisition-doc-tile strong {
+  color: inherit;
+  font-size: 13px;
+  line-height: 1.15;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.acquisition-doc-tile small {
+  min-width: 68px;
+  padding: 4px 7px;
+  border-radius: 6px;
+  background: #e7edf8;
+  color: #1f3350;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.acquisition-doc-chip.overdue,
+.acquisition-doc-tile.overdue {
+  border-color: rgba(202, 34, 31, 0.28);
+  background: #fff7f7;
+  color: var(--text);
+}
+
+.acquisition-doc-tile.overdue small {
+  background: rgba(202, 34, 31, 0.13);
+  color: #971f1d;
+}
+
+.acquisition-doc-chip.onTime,
+.acquisition-doc-tile.onTime {
+  border-color: rgba(0, 42, 143, 0.24);
+  background: #f7faff;
+  color: var(--text);
+}
+
+.acquisition-doc-tile.onTime small {
+  background: rgba(0, 42, 143, 0.12);
+  color: var(--mahle-blue);
+}
+
+.acquisition-doc-chip.future,
+.acquisition-doc-tile.future {
+  background: #f6f8fb;
+  color: var(--text);
+}
+
+.acquisition-doc-tile.future small {
+  background: #dfe7f1;
+  color: #40536f;
+}
+
+.acquisition-doc-chip.completed,
+.acquisition-doc-tile.completed {
+  border-color: rgba(36, 145, 87, 0.24);
+  background: #f6fbf8;
+  color: var(--text);
+}
+
+.acquisition-doc-tile.completed small {
+  background: rgba(36, 145, 87, 0.13);
+  color: #1f7148;
+}
+
+.acquisition-side-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.acquisition-table-card {
+  padding: 18px;
+}
+
+.acquisition-table-card h3 {
+  color: var(--text);
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.acquisition-mini-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.acquisition-mini-table th,
+.acquisition-mini-table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #eef3fb;
+  text-align: left;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.acquisition-mini-table th {
+  color: #6d7d95;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.acquisition-mini-table td:last-child,
+.acquisition-mini-table th:last-child {
+  text-align: right;
+  font-weight: 900;
+}
+
+.acquisition-history-list {
+  display: grid;
+  gap: 8px;
+  max-height: 330px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.acquisition-history-card {
+  animation-delay: .04s;
+}
+
+.acquisition-history-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.acquisition-history-heading h3 {
+  margin-bottom: 0;
+}
+
+.acquisition-history-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(120px, .7fr) minmax(110px, .65fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.acquisition-history-controls .acquisition-control {
+  min-height: 42px;
+  border-radius: 8px;
+}
+
+.acquisition-history-controls .acquisition-control input,
+.acquisition-history-controls .acquisition-control select {
+  min-height: 40px;
+  font-size: 12px;
+}
+
+.acquisition-history-item {
+  border: 1px solid #e7edf8;
+  border-left: 4px solid #249157;
+  border-radius: 8px;
+  padding: 10px;
+  background: #fbfdff;
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.acquisition-history-item:hover {
+  background: #ffffff;
+  box-shadow: 0 8px 16px rgba(13, 31, 61, .06);
+  transform: translateX(2px);
+}
+
+.acquisition-history-item strong {
+  display: block;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.acquisition-history-item span {
+  display: block;
+  color: #667891;
+  font-size: 12px;
+  font-weight: 800;
+  margin-top: 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .acquisition-hero,
+  .acquisition-panel,
+  .acquisition-kpi,
+  .acquisition-action-card,
+  .acquisition-table-card,
+  .acquisition-action-group,
+  .acquisition-doc-tile,
+  .acquisition-history-item {
+    animation: none;
+    transition: none;
+  }
+}
+
+.acquisition-empty {
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #7b8da5;
+  font-weight: 800;
+  text-align: center;
+}
+
+.acquisition-empty-compact {
+  min-height: 58px;
+  padding: 10px 14px;
+  flex-direction: row;
+}
+
+.acquisition-empty.acquisition-empty-compact i {
+  font-size: 18px;
+}
+
+.acquisition-empty i {
+  color: var(--mahle-blue);
+  font-size: 30px;
+}
+
+@media (max-width: 1280px) {
+  .acquisition-kpi-grid {
+    grid-template-columns: repeat(3, minmax(140px, 1fr));
+  }
+
+  .acquisition-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .acquisition-hero,
+  .acquisition-panel-header,
+  .acquisition-action-card {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .acquisition-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .acquisition-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .acquisition-doc-stack {
+    justify-content: flex-start;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .acquisition-history-controls {
+    grid-template-columns: 1fr;
+  }
+}
