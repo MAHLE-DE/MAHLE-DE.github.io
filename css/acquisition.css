@@ -564,6 +564,19 @@
   transform: translateX(2px);
 }
 
+.acquisition-inactive-overdue-list {
+  max-height: 420px;
+}
+
+.acquisition-inactive-overdue-item {
+  border-left-color: #8ea2b8;
+  background: #f8fafc;
+}
+
+.acquisition-inactive-overdue-item span {
+  color: #5f718b;
+}
+
 .acquisition-history-item strong {
   display: block;
   color: var(--text);

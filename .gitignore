@@ -2,5 +2,8 @@ backup_*/
 backups/
 info_dash/*
 !info_dash/bas/
+!info_dash/bas/Audit_json.bas
+!info_dash/bas/Dash_json.bas
 !info_dash/bas/macro_acquisition.txt
 site_atual/
+audit_schedule.json

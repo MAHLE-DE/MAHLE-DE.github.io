@@ -72,10 +72,9 @@
 
 .projects-grid {
 
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  column-count: 3;
+  column-gap: 22px;
 
-  gap: 22px;
 }
 
 /* ==========================
@@ -95,6 +94,13 @@
 
   animation:
     fadeUp .5s ease;
+
+  align-self: start;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 22px;
 }
 
 .card:hover {
@@ -485,8 +491,7 @@
 
   .projects-grid {
 
-    grid-template-columns:
-      repeat(2, 1fr);
+    column-count: 2;
   }
 }
 
@@ -494,8 +499,7 @@
 
   .projects-grid {
 
-    grid-template-columns:
-      1fr;
+    column-count: 1;
   }
 
   .controls-container {

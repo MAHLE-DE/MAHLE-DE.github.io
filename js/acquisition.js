@@ -128,6 +128,7 @@ function renderAcquisition() {
           ${_renderManagementTable("Workload by DE", _groupAcquisitionDocs(docs, "de"))}
           ${_renderManagementTable("Client pressure", _groupAcquisitionDocs(docs, "client"))}
           ${_renderCompletedHistoryPanel(docs)}
+          ${_renderInactiveOverduePanel(docs)}
         </div>
       </div>
     </div>
@@ -330,7 +331,10 @@ function _renderAcquisitionSelect(id, icon, value, options) {
 }
 
 function _renderActionBoard(docs) {
-  const activeDocs = docs.filter(doc => doc.state !== "completed");
+  const activeDocs = docs.filter(doc =>
+    doc.state !== "completed" &&
+    !(doc.state === "overdue" && !_isAcquisitionOnGoing(doc.projectStatus))
+  );
   return `
     <section class="acquisition-panel">
       <div class="acquisition-panel-header">
@@ -424,8 +428,7 @@ function _renderCompletedHistoryPanel(docs) {
     .filter(doc => {
       if (!term) return true;
       return _normalizeAcquisitionSearch(`${doc.project} ${doc.client} ${doc.de} ${doc.name}`).includes(term);
-    })
-    .slice(0, 24);
+    });
 
   return `
     <section class="acquisition-table-card acquisition-history-card">
@@ -448,6 +451,29 @@ function _renderCompletedHistoryPanel(docs) {
             <span>${_escapeAcquisition(doc.name)} - ${_escapeAcquisition(doc.client)} - ${_escapeAcquisition(doc.de || "No DE")} - ${_escapeAcquisition(_formatAcquisitionDate(doc.dueDate))}</span>
           </div>
         `).join("") : _renderAcquisitionEmptySmall("No completed documents for current history filters.")}
+      </div>
+    </section>
+  `;
+}
+
+function _renderInactiveOverduePanel(docs) {
+  const overdue = docs
+    .filter(doc => doc.state === "overdue" && !_isAcquisitionOnGoing(doc.projectStatus))
+    .sort((a, b) => _parseAcquisitionDate(a.dueDate) - _parseAcquisitionDate(b.dueDate));
+
+  return `
+    <section class="acquisition-table-card acquisition-history-card">
+      <div class="acquisition-history-heading">
+        <h3>Inactive Overdue</h3>
+        <span class="acquisition-count">${overdue.length} archived</span>
+      </div>
+      <div class="acquisition-history-list acquisition-inactive-overdue-list">
+        ${overdue.length ? overdue.map(doc => `
+          <div class="acquisition-history-item acquisition-inactive-overdue-item">
+            <strong>${_escapeAcquisition(doc.project)}</strong>
+            <span>${_escapeAcquisition(doc.name)} - ${_escapeAcquisition(doc.client)} - ${_escapeAcquisition(doc.de || "No DE")} - ${_escapeAcquisition(doc.projectStatus || "No status")} - ${_escapeAcquisition(_formatAcquisitionDate(doc.dueDate))}</span>
+          </div>
+        `).join("") : _renderAcquisitionEmptySmall("No inactive overdue documents for current filters.")}
       </div>
     </section>
   `;
@@ -590,6 +616,10 @@ function _countAcquisitionStates(docs) {
     acc[state] = (acc[state] || 0) + 1;
     return acc;
   }, { completed: 0, overdue: 0, onTime: 0, future: 0 });
+}
+
+function _isAcquisitionOnGoing(status) {
+  return _normalizeAcquisitionSearch(status).replace(/\s+/g, " ") === "on going";
 }
 
 function _formatAcquisitionDate(value) {

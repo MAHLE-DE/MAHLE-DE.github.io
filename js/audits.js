@@ -14,6 +14,7 @@ const auditDetailState = {
   projectId: null,
   activeContext: null,
   view: "home",
+  homeSearch: "",
   visibleGatesByProject: new Map()
 };
 
@@ -260,7 +261,9 @@ function _getDashboardProjetosUnicos() {
         const canonicalId = normalizarAuditProjectId(proj.id);
         if (!canonicalId) return;
 
-        const existente = projetos.get(canonicalId);
+        const existente =
+          projetos.get(canonicalId) ||
+          _encontrarProjetoAuditEquivalente(projetos, proj);
         const ocorrencia = {
           ano,
           idOriginal: proj.id,
@@ -270,8 +273,10 @@ function _getDashboardProjetosUnicos() {
         };
 
         if (existente) {
-          existente.nome = nomeExibicao(proj.nome || proj.nomeGrafico || existente.nome);
-          existente.nomeGrafico = nomeExibicao(proj.nomeGrafico || proj.nome || existente.nomeGrafico);
+          if (!existente.auditLinked) {
+            existente.nome = nomeExibicao(proj.nome || proj.nomeGrafico || existente.nome);
+            existente.nomeGrafico = nomeExibicao(proj.nomeGrafico || proj.nome || existente.nomeGrafico);
+          }
           existente.ocorrencias.push(ocorrencia);
           return;
         }
@@ -295,8 +300,58 @@ function _getAuditProjetosUnicos() {
     canonicalId: audit.canonicalId || normalizarAuditProjectId(audit.id),
     nome: audit.projectName || audit.nome || audit.canonicalId || audit.id,
     nomeGrafico: audit.projectName || audit.nome || audit.canonicalId || audit.id,
+    auditLinked: true,
     ocorrencias: []
   })).filter(proj => proj.canonicalId);
+}
+
+function _encontrarProjetoAuditEquivalente(projetos, dashboardProject) {
+  const dashboardNames = [
+    dashboardProject.nome,
+    dashboardProject.nomeGrafico,
+    dashboardProject.projectName,
+    dashboardProject.id
+  ].filter(Boolean);
+
+  return [...projetos.values()].find(projeto => {
+    const audit = _getAuditRecord(projeto.canonicalId);
+    if (!audit) return false;
+
+    const auditNames = [
+      projeto.nome,
+      projeto.nomeGrafico,
+      audit.projectName,
+      audit.nome,
+      audit.backlogProjectName,
+      audit.dashboardName,
+      ...(Array.isArray(audit.aliases) ? audit.aliases : [])
+    ].filter(Boolean);
+
+    return dashboardNames.some(dashName =>
+      auditNames.some(auditName =>
+        _nomesProjetosEquivalentes(dashName, auditName)
+      )
+    );
+  });
+}
+
+function _nomesProjetosEquivalentes(a, b) {
+  const tokensA = _tokensProjeto(a);
+  const tokensB = _tokensProjeto(b);
+  if (tokensA.length < 2 || tokensB.length < 2) return false;
+
+  const shorter = tokensA.length <= tokensB.length ? tokensA : tokensB;
+  const longer = tokensA.length <= tokensB.length ? tokensB : tokensA;
+  const matches = shorter.filter(token => longer.includes(token)).length;
+
+  return matches >= Math.max(2, Math.ceil(shorter.length * 0.75));
+}
+
+function _tokensProjeto(value) {
+  return _normalizeText(value)
+    .split(" ")
+    .filter(token => token.length >= 2)
+    .filter(token => !["oes", "oem", "the", "and", "for"].includes(token));
 }
 
 function _getAuditRecord(canonicalId) {
@@ -382,6 +437,7 @@ function renderAuditsHome() {
               type="search"
               placeholder="Search audit project..."
               autocomplete="off"
+              value="${_escapeHtml(auditDetailState.homeSearch)}"
             >
           </label>
         </div>
@@ -424,8 +480,10 @@ function renderAuditsHome() {
   const searchInput = document.getElementById("auditProjectSearch");
   if (searchInput) {
     searchInput.addEventListener("input", () => {
+      auditDetailState.homeSearch = searchInput.value;
       _filtrarAuditProjectRows(searchInput.value);
     });
+    _filtrarAuditProjectRows(auditDetailState.homeSearch);
   }
 }
 
@@ -440,10 +498,12 @@ function _filtrarAuditProjectRows(searchValue) {
       row.dataset.auditName,
       row.dataset.auditId,
       row.dataset.auditYears,
+      row.dataset.auditDe,
       row.textContent
     ].join(" "));
     const visible = !term || haystack.includes(term);
     row.hidden = !visible;
+    row.classList.toggle("audit-project-row-hidden", !visible);
     if (visible) visibleCount += 1;
   });
 
@@ -457,6 +517,7 @@ function _renderAuditProjectRow(projeto) {
   const anos = [...new Set(projeto.ocorrencias.map(item => item.ano))].sort();
   const sequencias = projeto.ocorrencias.filter(item => item.auditSequence).length;
   const yearText = anos.length ? anos.join(", ") : "Audit JSON";
+  const responsible = audit?.developmentEngineer?.name || audit?.de || audit?.responsible || "";
 
   return `
     <button
@@ -465,11 +526,12 @@ function _renderAuditProjectRow(projeto) {
       data-audit-id="${_escapeHtml(projeto.canonicalId)}"
       data-audit-name="${_escapeHtml(projeto.nome)}"
       data-audit-years="${_escapeHtml(yearText)}"
+      data-audit-de="${_escapeHtml(responsible)}"
       data-audit-sequence="${sequencias ? "true" : "false"}"
     >
       <span class="audit-project-main">
         <strong>${_escapeHtml(projeto.nome)}</strong>
-        <small>${_escapeHtml(projeto.canonicalId)}</small>
+        <small>${_escapeHtml(responsible)}</small>
       </span>
       <span class="audit-project-meta">
         <span>${_escapeHtml(yearText)}</span>
@@ -645,7 +707,7 @@ function _renderProjectAuditBlock(project, contexto, isSequence) {
         <span class="audit-eyebrow">Project Audit</span>
         <h2>${_escapeHtml(project.projectName)}</h2>
         <div class="audit-detail-meta">
-          <span>ID: ${_escapeHtml(project.canonicalId)}</span>
+          ${project.developmentEngineer.name ? `<span>${_escapeHtml(project.developmentEngineer.name)}</span>` : ""}
           ${isSequence ? `<span class="audit-sequence-pill">${AUDIT_SEQUENCE_SYMBOL} Audit Sequence route</span>` : ""}
           ${project.completionDate ? `<span class="audit-completed-pill"><i class="fa-solid fa-circle-check"></i> Completed: ${_escapeHtml(_formatAuditDate(project.completionDate))}</span>` : ""}
           ${contexto.loading ? `<span class="audit-data-pill">Loading...</span>` : project.audit ? `<span class="audit-data-pill ok">Audit data ready</span>` : `<span class="audit-data-pill">Pending JSON</span>`}
@@ -1212,15 +1274,6 @@ function abrirAuditsHome() {
 }
 
 function abrirAuditsAtual() {
-  if (auditDetailState.view === "detail" && auditDetailState.activeContext) {
-    carregarAudits().then(() => _carregarAuditoriaDetalhe(auditDetailState.activeContext));
-    _carregarAuditoriaDetalhe({
-      ...auditDetailState.activeContext,
-      loading: auditState.loading || !auditState.loaded
-    });
-    return;
-  }
-
   abrirAuditsHome();
 }
 

@@ -1,4 +1,5 @@
 let dados = {};
+let backlogAuditScores = new Map();
 
 /* ==========================
    INICIAR SITE
@@ -7,6 +8,8 @@ let dados = {};
 function iniciarSite() {
 
   mostrarLoading();
+
+  carregarBacklogAuditScores();
 
   firebase.firestore()
     .collection("projetos")
@@ -184,7 +187,18 @@ function renderizarProjetos() {
 
 function getCorNota(nota) {
 
+  if (
+    nota === null ||
+    nota === undefined ||
+    nota === ""
+  ) {
+    return "#8ea2b8";
+  }
+
   nota = Number(nota);
+  if (!Number.isFinite(nota)) {
+    return "#8ea2b8";
+  }
 
   // limita entre 0 e 10
   nota = Math.max(0, Math.min(10, nota));
@@ -201,7 +215,19 @@ function getCorNota(nota) {
 
 function getCorSombra(nota) {
 
+  if (
+    nota === null ||
+    nota === undefined ||
+    nota === ""
+  ) {
+    return "rgba(142, 162, 184, 0.28)";
+  }
+
   nota = Number(nota);
+  if (!Number.isFinite(nota)) {
+    return "rgba(142, 162, 184, 0.28)";
+  }
+
   nota = Math.max(0, Math.min(10, nota));
 
   const hue =
@@ -229,21 +255,20 @@ function criarCardProjeto(
       info.documentos
     );
 
-  const notas =
-    documentos.map(
-      ([_, doc]) =>
-        Number(doc.pontuacao || 0)
+  const auditScore =
+    obterAuditScoreBacklog(
+      nomeProjeto
     );
 
-  const media =
-    notas.length
-      ? (
-          notas.reduce(
-            (a, b) => a + b,
-            0
-          ) / notas.length
-        ).toFixed(1)
-      : 0;
+  const scoreNota =
+    Number.isFinite(auditScore)
+      ? auditScore * 10
+      : null;
+
+  const scoreTexto =
+    Number.isFinite(auditScore)
+      ? `${Math.round(auditScore * 100)}%`
+      : "N/A";
 
   const gates = {};
 
@@ -278,15 +303,16 @@ function criarCardProjeto(
 
       <div
           class="project-score"
+          title="Audit project score"
           style="
-            background:${getCorNota(media)};
+            background:${getCorNota(scoreNota)};
             box-shadow:
               0 14px 28px
-              ${getCorSombra(media)};
+              ${getCorSombra(scoreNota)};
           "
         >
 
-          ${media}
+          ${scoreTexto}
 
         </div>
 
@@ -419,6 +445,94 @@ function mostrarLoading() {
   container.innerHTML = `
     ${renderSiteLoading("Loading projects", "Fetching backlog documents from Firestore.")}
   `;
+}
+
+function carregarBacklogAuditScores() {
+  if (typeof carregarAudits !== "function") {
+    return Promise.resolve();
+  }
+
+  return carregarAudits()
+    .then(state => {
+      backlogAuditScores = montarIndiceBacklogAuditScores(state.raw);
+      renderizarProjetos();
+    })
+    .catch(error => {
+      backlogAuditScores = new Map();
+      console.error("Erro ao carregar notas de audits para backlogs:", error);
+    });
+}
+
+function montarIndiceBacklogAuditScores(rawAudits) {
+  const map = new Map();
+
+  extrairBacklogAuditProjects(rawAudits).forEach(project => {
+    const score = Number(project.projectScore);
+    if (!Number.isFinite(score)) return;
+
+    [
+      project.projectName,
+      project.nome,
+      project.backlogProjectName,
+      project.dashboardName,
+      project.id,
+      ...(Array.isArray(project.aliases) ? project.aliases : [])
+    ].forEach(name => {
+      const key = normalizarBacklogAuditName(name);
+      if (key && !map.has(key)) {
+        map.set(key, score);
+      }
+    });
+  });
+
+  return map;
+}
+
+function extrairBacklogAuditProjects(raw) {
+  if (!raw) return [];
+  if (Array.isArray(raw)) return raw;
+  if (Array.isArray(raw.projects)) return raw.projects;
+  if (Array.isArray(raw.audits)) return raw.audits;
+  if (Array.isArray(raw.projetos)) return raw.projetos;
+
+  if (raw.projects && typeof raw.projects === "object") {
+    return Object.entries(raw.projects).map(([id, value]) => ({ id, ...value }));
+  }
+
+  if (raw.audits && typeof raw.audits === "object") {
+    return Object.entries(raw.audits).map(([id, value]) => ({ id, ...value }));
+  }
+
+  if (raw.projetos && typeof raw.projetos === "object") {
+    return Object.entries(raw.projetos).map(([id, value]) => ({ id, ...value }));
+  }
+
+  return [];
+}
+
+function normalizarBacklogAuditName(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[{}\[\]]/g, "")
+    .replace(/[^a-zA-Z0-9]+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+function obterAuditScoreBacklog(nomeProjeto) {
+  const key = normalizarBacklogAuditName(nomeProjeto);
+  if (!key) return null;
+
+  if (backlogAuditScores.has(key)) {
+    return backlogAuditScores.get(key);
+  }
+
+  const fuzzy = [...backlogAuditScores.entries()].find(([auditName]) =>
+    auditName.includes(key) || key.includes(auditName)
+  );
+
+  return fuzzy ? fuzzy[1] : null;
 }
 
 function renderSiteLoading(title, message, compact = false) {

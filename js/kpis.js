@@ -2,17 +2,15 @@
    KPI CHART
 ========================== */
 let deOverviewChart = null;
+let kpiAuditScoresRequested = false;
 
-function calcularMediaProjeto(info) {
-  const documentos = Object.values(info.documentos || {});
-  const notas = documentos
-    .map(doc => Number(doc.pontuacao || 0))
-    .filter(nota => !isNaN(nota));
+function calcularMediaProjeto(info, nomeProjeto) {
+  if (typeof obterAuditScoreBacklog !== "function") {
+    return null;
+  }
 
-  if (!notas.length) return 0;
-
-  const media = notas.reduce((acc, valor) => acc + valor, 0) / notas.length;
-  return media; // escala 0–10
+  const auditScore = obterAuditScoreBacklog(nomeProjeto);
+  return Number.isFinite(auditScore) ? auditScore * 10 : null;
 }
 
 function normalizarQuantidadeProjetos(valores) {
@@ -21,13 +19,13 @@ function normalizarQuantidadeProjetos(valores) {
   const minimo = Math.min(...valores);
   const maximo = Math.max(...valores);
 
-  // caso especial: só 1 DE (ou todos com mesma quantidade)
+  // caso especial: sÃ³ 1 DE (ou todos com mesma quantidade)
   if (minimo === maximo) {
-    return valores.map(() => 45);
+    return valores.map(() => 48);
   }
 
   return valores.map(valor => {
-    return 10 + ((valor - minimo) / (maximo - minimo)) * 70;
+    return 18 + ((valor - minimo) / (maximo - minimo)) * 54;
   });
 }
 
@@ -35,15 +33,30 @@ function gerarGraficoDEs() {
   const canvas = document.getElementById("deOverviewChart");
   if (!canvas) return;
 
-  // monta estatísticas por DE
+  if (
+    !kpiAuditScoresRequested &&
+    typeof carregarBacklogAuditScores === "function"
+  ) {
+    kpiAuditScoresRequested = true;
+    carregarBacklogAuditScores().then(() => {
+      const kpiSection = document.getElementById("kpis-section");
+      if (kpiSection && kpiSection.classList.contains("active-section")) {
+        gerarGraficoDEs();
+      }
+    });
+  }
+
+  // monta estatÃ­sticas por DE
   let stats = Object.entries(dados)
     .map(([de, info]) => {
       const projetos = Object.entries(info.projetos || {});
       if (!projetos.length) return null;
 
-      const mediasProjetos = projetos.map(([_, projetoInfo]) =>
-        calcularMediaProjeto(projetoInfo)
-      );
+      const mediasProjetos = projetos
+        .map(([nomeProjeto, projetoInfo]) =>
+          calcularMediaProjeto(projetoInfo, nomeProjeto)
+        )
+        .filter(media => Number.isFinite(media));
 
       const mediaDE = mediasProjetos.length
         ? mediasProjetos.reduce((a, b) => a + b, 0) / mediasProjetos.length
@@ -51,16 +64,16 @@ function gerarGraficoDEs() {
 
       return {
         de,
-        scoring: Math.round(mediaDE * 10), // 0–100
+        scoring: Math.round(mediaDE * 10), // 0â€“100
         amount: projetos.length
       };
     })
     .filter(Boolean);
 
-  // remove DE sem projeto (regra que você pediu)
+  // remove DE sem projeto (regra que vocÃª pediu)
   stats = stats.filter(item => item.amount > 0);
 
-  // ordenação: maior scoring à esquerda, depois decrescente
+  // ordenaÃ§Ã£o: maior scoring Ã  esquerda, depois decrescente
   // se empatar, maior quantidade primeiro
   stats.sort((a, b) => {
     if (b.scoring !== a.scoring) return b.scoring - a.scoring;
@@ -72,6 +85,9 @@ function gerarGraficoDEs() {
   const scoringData = stats.map(item => item.scoring);
   const amountReal = stats.map(item => item.amount);
   const amountVisual = normalizarQuantidadeProjetos(amountReal);
+  const chartWrap = canvas.parentElement;
+  const chartWidth = Math.max(chartWrap?.clientWidth || 0, labels.length * 70, 540);
+  canvas.style.setProperty("--de-overview-width", `${chartWidth}px`);
 
   if (deOverviewChart) {
     deOverviewChart.destroy();
@@ -92,12 +108,33 @@ function gerarGraficoDEs() {
           categoryPercentage: 0.72,
           order: 1,
           datalabels: {
-            color: "#ffffff",
-            anchor: "center",
-            align: "center",
+            color: "#10233f",
+            anchor: "end",
+            align: context => {
+              const idx = context.dataIndex;
+              const score = Number(context.dataset.data[idx] || 0);
+              const amount = Number(amountVisual[idx] || 0);
+              return score < 8 || Math.abs(score - amount) < 12 ? "top" : "end";
+            },
+            offset: context => {
+              const idx = context.dataIndex;
+              const score = Number(context.dataset.data[idx] || 0);
+              const amount = Number(amountVisual[idx] || 0);
+              return score < 8 || Math.abs(score - amount) < 12 ? 18 : 7;
+            },
+            backgroundColor: "rgba(255, 255, 255, 0.96)",
+            borderColor: "rgba(0, 42, 143, 0.2)",
+            borderWidth: 1,
+            borderRadius: 6,
+            padding: {
+              top: 3,
+              right: 6,
+              bottom: 3,
+              left: 6
+            },
             font: {
-              weight: "700",
-              size: 14
+              weight: "900",
+              size: 12
             },
             formatter: value => `${Math.round(value)}%`
           }
@@ -111,8 +148,8 @@ function gerarGraficoDEs() {
           borderWidth: 3,
           tension: 0,
           fill: false,
-          pointRadius: 15,
-          pointHoverRadius: 15,
+          pointRadius: 13,
+          pointHoverRadius: 14,
           pointStyle: "rectRounded",
           pointBackgroundColor: "#18a8ff",
           pointBorderColor: "#18a8ff",
@@ -122,9 +159,18 @@ function gerarGraficoDEs() {
             color: "#ffffff",
             anchor: "center",
             align: "center",
+            backgroundColor: "#18a8ff",
+            borderColor: "#18a8ff",
+            borderRadius: 7,
+            padding: {
+              top: 4,
+              right: 7,
+              bottom: 4,
+              left: 7
+            },
             font: {
-              weight: "700",
-              size: 12
+              weight: "900",
+              size: 11
             },
             formatter: (_, ctx) => amountReal[ctx.dataIndex]
           }
@@ -139,23 +185,25 @@ function gerarGraficoDEs() {
       },
       layout: {
         padding: {
-          top: 10,
-          right: 18,
-          bottom: 8,
-          left: 8
+          top: 18,
+          right: 16,
+          bottom: 24,
+          left: 6
         }
       },
       plugins: {
         legend: {
-          position: "bottom",
+          position: "top",
+          align: "end",
           labels: {
             color: "#203554",
-            boxWidth: 18,
-            boxHeight: 8,
+            boxWidth: 16,
+            boxHeight: 7,
             usePointStyle: false,
+            padding: 10,
             font: {
-              size: 13,
-              weight: "600"
+              size: 12,
+              weight: "700"
             }
           }
         },
@@ -177,13 +225,15 @@ function gerarGraficoDEs() {
             display: false
           },
           ticks: {
-            color: "#203554",
+            color: "#314562",
+            autoSkip: false,
+            padding: 8,
             font: {
-              size: 12,
-              weight: "600"
+              size: 11,
+              weight: "700"
             },
-            maxRotation: 0,
-            minRotation: 0
+            maxRotation: 50,
+            minRotation: 50
           },
           border: {
             color: "#0a3f8c"
@@ -202,7 +252,8 @@ function gerarGraficoDEs() {
             }
           },
           grid: {
-            display: false
+            color: "rgba(95, 113, 139, 0.12)",
+            drawBorder: false
           },
           border: {
             display: false
@@ -213,4 +264,3 @@ function gerarGraficoDEs() {
     plugins: [ChartDataLabels]
   });
 }
-

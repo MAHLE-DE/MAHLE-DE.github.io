@@ -198,6 +198,10 @@
   transform: translateY(-1px);
 }
 
+.audit-project-row-hidden {
+  display: none;
+}
+
 .audit-project-main {
   display: flex;
   flex-direction: column;
