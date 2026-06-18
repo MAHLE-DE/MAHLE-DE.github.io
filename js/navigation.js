@@ -104,6 +104,10 @@ document.addEventListener(
           const section =
             item.dataset.section;
 
+          resetarFiltrosDaSecao(
+            section
+          );
+
           document
             .querySelectorAll(
               ".page-section"
@@ -140,6 +144,9 @@ document.addEventListener(
 			  nomes[section];
 
 			if (section === "kpis") {
+        if (typeof resetarFiltrosDashboard === "function") {
+          resetarFiltrosDashboard();
+        }
 			  setTimeout(() => {
 				gerarGraficoDEs();
 				carregarDashboard();
@@ -156,10 +163,41 @@ document.addEventListener(
             if (section === "acquisition") {
               abrirAcquisition();
             }
+
+            if (section === "audit-schedule") {
+              abrirAuditSchedule();
+            }
         }
       );
     });
   });
+
+function resetarFiltrosDaSecao(section) {
+  if (
+    section === "pendencias" &&
+    typeof resetarFiltrosBacklogs === "function"
+  ) {
+    resetarFiltrosBacklogs();
+  }
+
+  if (
+    section === "acquisition" &&
+    typeof resetarFiltrosAcquisition === "function"
+  ) {
+    resetarFiltrosAcquisition();
+  }
+
+  if (
+    section === "auditorias" &&
+    typeof resetarFiltrosAudits === "function"
+  ) {
+    resetarFiltrosAudits();
+  }
+
+  if (typeof aplicarBotoesLimparBusca === "function") {
+    aplicarBotoesLimparBusca();
+  }
+}
 
 /* ==========================
    ENTER LOGIN
@@ -265,5 +303,105 @@ document.addEventListener(
     if (logoutBtn) {
       logoutBtn.addEventListener("click", logout);
     }
+
+    configurarBotoesLimparBusca();
   }
 );
+
+/* ==========================
+   CLEAR SEARCH BUTTONS
+========================== */
+
+function configurarBotoesLimparBusca() {
+  aplicarBotoesLimparBusca();
+
+  document.addEventListener("input", event => {
+    if (_ehCampoBuscaLimpavel(event.target)) {
+      _atualizarBotaoLimparBusca(event.target);
+    }
+  });
+
+  const observer =
+    new MutationObserver(() => {
+      aplicarBotoesLimparBusca();
+    });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+}
+
+function aplicarBotoesLimparBusca() {
+  document
+    .querySelectorAll("input[type='search'], #searchProjeto")
+    .forEach(input => {
+      if (!_ehCampoBuscaLimpavel(input)) return;
+
+      const host =
+        input.parentElement;
+
+      if (!host) return;
+
+      host.classList.add("search-clear-host");
+      input.dataset.searchClear = "true";
+
+      let button =
+        host.querySelector(
+          ".search-clear-btn"
+        );
+
+      if (!button) {
+        button =
+          document.createElement("button");
+
+        button.type = "button";
+        button.className = "search-clear-btn";
+        button.setAttribute("aria-label", "Clear search");
+        button.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+
+        button.addEventListener("click", event => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          input.value = "";
+          input.dispatchEvent(
+            new Event("input", {
+              bubbles: true
+            })
+          );
+          input.focus();
+          _atualizarBotaoLimparBusca(input);
+        });
+
+        host.appendChild(button);
+      }
+
+      _atualizarBotaoLimparBusca(input);
+    });
+}
+
+function _ehCampoBuscaLimpavel(input) {
+  return (
+    input &&
+    input.tagName === "INPUT" &&
+    (
+      input.type === "search" ||
+      input.id === "searchProjeto"
+    )
+  );
+}
+
+function _atualizarBotaoLimparBusca(input) {
+  const button =
+    input.parentElement?.querySelector(
+      ".search-clear-btn"
+    );
+
+  if (!button) return;
+
+  button.classList.toggle(
+    "visible",
+    Boolean(input.value)
+  );
+}

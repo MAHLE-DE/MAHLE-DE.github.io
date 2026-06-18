@@ -122,3 +122,66 @@ body {
   overflow: hidden;
 }
 
+/* ==========================
+   SEARCH CLEAR BUTTON
+========================== */
+
+.search-clear-host {
+  position: relative;
+}
+
+.search-clear-host input[type="search"],
+.search-clear-host input[data-search-clear="true"],
+.search-clear-host #searchProjeto {
+  padding-right: 44px !important;
+}
+
+.search-clear-btn {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(22, 33, 62, 0.07);
+  color: #6f7d96;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%) scale(.92);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity .16s ease,
+    visibility .16s ease,
+    background .16s ease,
+    color .16s ease,
+    transform .16s ease;
+  z-index: 5;
+}
+
+.search-clear-btn i {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+  font-size: 11px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.search-clear-btn.visible {
+  opacity: .72;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(-50%) scale(1);
+}
+
+.search-clear-btn:hover {
+  opacity: 1;
+  background: rgba(0, 42, 143, 0.1);
+  color: var(--mahle-blue);
+}
+

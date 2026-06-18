@@ -17,7 +17,8 @@ const acquisitionState = {
     search: "",
     document: "all",
     month: "all"
-  }
+  },
+  quietRender: false
 };
 
 function carregarAcquisition(force = false) {
@@ -65,13 +66,34 @@ function abrirAcquisition() {
   }
 }
 
+function resetarFiltrosAcquisition() {
+  acquisitionState.filters = {
+    search: "",
+    week: "all",
+    de: "all",
+    client: "all"
+  };
+
+  acquisitionState.historyFilters = {
+    search: "",
+    document: "all",
+    month: "all"
+  };
+
+  acquisitionState.quietRender = false;
+}
+
 function renderAcquisition() {
   const sec = document.getElementById("acquisition-section");
   if (!sec) return;
+  const shellClass =
+    acquisitionState.quietRender
+      ? "acquisition-shell acquisition-shell-quiet"
+      : "acquisition-shell";
 
   if (acquisitionState.loading) {
     sec.innerHTML = `
-      <div class="acquisition-shell">
+      <div class="${shellClass}">
         ${_renderAcquisitionHero(null)}
         ${_renderAcquisitionLoading()}
       </div>
@@ -81,7 +103,7 @@ function renderAcquisition() {
 
   if (acquisitionState.error) {
     sec.innerHTML = `
-      <div class="acquisition-shell">
+      <div class="${shellClass}">
         ${_renderAcquisitionHero(null)}
         <div class="acquisition-panel">
           <div class="acquisition-empty">
@@ -99,7 +121,7 @@ function renderAcquisition() {
 
   if (!data.projects.length) {
     sec.innerHTML = `
-      <div class="acquisition-shell">
+      <div class="${shellClass}">
         ${_renderAcquisitionHero(data)}
         <div class="acquisition-panel">
           <div class="acquisition-empty">
@@ -118,7 +140,7 @@ function renderAcquisition() {
   const docs = _flattenAcquisitionDocs(filtered.projects);
 
   sec.innerHTML = `
-    <div class="acquisition-shell">
+    <div class="${shellClass}">
       ${_renderAcquisitionHero(data)}
       ${_renderAcquisitionKpis(docs)}
       ${_renderAcquisitionControls(data)}
@@ -518,7 +540,7 @@ function _bindAcquisitionEvents() {
   const search = document.getElementById("acquisitionSearch");
   if (search) search.addEventListener("input", event => {
     acquisitionState.filters.search = event.target.value;
-    renderAcquisition();
+    _renderAcquisitionFromTyping();
     const nextSearch = document.getElementById("acquisitionSearch");
     if (nextSearch) {
       nextSearch.focus();
@@ -541,7 +563,7 @@ function _bindAcquisitionEvents() {
   const historySearch = document.getElementById("acquisitionHistorySearch");
   if (historySearch) historySearch.addEventListener("input", event => {
     acquisitionState.historyFilters.search = event.target.value;
-    renderAcquisition();
+    _renderAcquisitionFromTyping();
     const nextSearch = document.getElementById("acquisitionHistorySearch");
     if (nextSearch) {
       nextSearch.focus();
@@ -558,6 +580,15 @@ function _bindAcquisitionEvents() {
       acquisitionState.historyFilters[key] = event.target.value;
       renderAcquisition();
     });
+  });
+}
+
+function _renderAcquisitionFromTyping() {
+  acquisitionState.quietRender = true;
+  renderAcquisition();
+
+  window.requestAnimationFrame(() => {
+    acquisitionState.quietRender = false;
   });
 }
 

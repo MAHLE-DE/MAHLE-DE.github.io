@@ -490,6 +490,7 @@
 .audit-overview-card {
   padding: 24px;
   margin-bottom: 24px;
+  overflow: visible;
 }
 
 .audit-overview-header,
@@ -596,8 +597,8 @@
 }
 
 .audit-doc-scroll {
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-x: visible;
+  overflow-y: visible;
   padding-bottom: 8px;
 }
 
@@ -611,7 +612,7 @@
   align-items: stretch;
   border: 1px solid #e7edf8;
   border-radius: 0;
-  overflow: hidden;
+  overflow: visible;
   background: #f8fafc;
   transform-origin: center top;
   transition: opacity 180ms ease, transform 340ms cubic-bezier(.2,.8,.2,1);
@@ -645,6 +646,11 @@
   flex-direction: column;
   justify-content: flex-end;
   position: relative;
+  overflow: visible;
+}
+
+.audit-gate-group:hover {
+  z-index: 60;
 }
 
 .audit-gate-group[data-gate]::after {
@@ -754,8 +760,14 @@
   z-index: 1;
 }
 
+.audit-gate-group:hover .audit-gate-bars,
+.audit-gate-group:focus-within .audit-gate-bars {
+  z-index: 90;
+}
+
 .audit-doc-bar-wrap {
   --audit-bar-w: 28px;
+  --audit-bar-visible-h: 0px;
   flex: 1 1 0;
   width: auto;
   min-width: 0;
@@ -770,6 +782,12 @@
   align-items: end;
   position: relative;
   cursor: pointer;
+  z-index: 1;
+}
+
+.audit-doc-bar-wrap:hover,
+.audit-doc-bar-wrap:focus-visible {
+  z-index: 120;
 }
 
 .audit-doc-bar {
@@ -800,6 +818,122 @@
 .audit-doc-bar-wrap:hover .audit-doc-bar {
   transform: translateY(-6px);
   filter: brightness(1.08);
+}
+
+.audit-backlog-tooltip {
+  width: min(320px, 78vw);
+  position: absolute;
+  left: 50%;
+  top: calc(360px - var(--audit-bar-visible-h) - 16px);
+  transform: translate(-50%, calc(-100% + 10px)) scale(.98);
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  padding: 15px;
+  border: 1px solid #d8e2f0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.18);
+  color: var(--text);
+  text-align: left;
+  transition:
+    opacity .18s ease,
+    visibility .18s ease,
+    transform .22s cubic-bezier(.22,1,.36,1);
+}
+
+.audit-backlog-tooltip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  border-right: 1px solid #d8e2f0;
+  border-bottom: 1px solid #d8e2f0;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.audit-doc-bar-wrap:hover .audit-backlog-tooltip,
+.audit-doc-bar-wrap:focus-visible .audit-backlog-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -100%) scale(1);
+}
+
+.audit-backlog-tooltip-kicker {
+  display: block;
+  color: var(--mahle-blue);
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.audit-backlog-tooltip strong {
+  display: block;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.25;
+  margin-bottom: 9px;
+}
+
+.audit-backlog-tooltip-list {
+  display: grid;
+  gap: 7px;
+}
+
+.audit-backlog-tooltip-list span {
+  position: relative;
+  display: block;
+  padding-left: 13px;
+  color: #40536f;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.audit-backlog-tooltip-list span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .55em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--mahle-blue);
+}
+
+.audit-backlog-tooltip.is-na .audit-backlog-tooltip-kicker {
+  color: #5f718b;
+}
+
+.audit-backlog-tooltip.is-na .audit-backlog-tooltip-list span::before {
+  background: #8ea2b8;
+}
+
+.audit-backlog-tooltip.is-resolved {
+  border-color: rgba(36, 145, 87, .22);
+}
+
+.audit-backlog-tooltip.is-resolved .audit-backlog-tooltip-kicker {
+  color: #249157;
+}
+
+.audit-backlog-tooltip.is-resolved .audit-backlog-tooltip-list span::before {
+  background: #249157;
+}
+
+.audit-backlog-tooltip em {
+  display: block;
+  margin-top: 9px;
+  color: #6f7d96;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 850;
 }
 
 @keyframes auditBarGrow {

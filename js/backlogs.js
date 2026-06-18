@@ -1,5 +1,7 @@
 let dados = {};
 let backlogAuditScores = new Map();
+let backlogProjectsLoaded = false;
+let backlogResizeTimer = null;
 
 /* ==========================
    INICIAR SITE
@@ -7,6 +9,7 @@ let backlogAuditScores = new Map();
 
 function iniciarSite() {
 
+  backlogProjectsLoaded = false;
   mostrarLoading();
 
   carregarBacklogAuditScores();
@@ -62,6 +65,7 @@ function iniciarSite() {
 
       preencherLista();
 
+      backlogProjectsLoaded = true;
       esconderLoading();
 
     })
@@ -126,11 +130,29 @@ document.addEventListener(
   }
 );
 
+window.addEventListener("resize", () => {
+  if (!backlogProjectsLoaded) return;
+
+  window.clearTimeout(backlogResizeTimer);
+  backlogResizeTimer = window.setTimeout(() => {
+    const section =
+      document.getElementById("pendencias-section");
+
+    if (
+      section &&
+      section.classList.contains("active-section")
+    ) {
+      renderizarProjetos();
+    }
+  }, 160);
+});
+
 /* ==========================
    RENDER PROJETOS
 ========================== */
 
 function renderizarProjetos() {
+  if (!backlogProjectsLoaded) return;
 
   const de =
     document.getElementById("lista")
@@ -148,6 +170,7 @@ function renderizarProjetos() {
       "projetos"
     );
 
+  container.classList.remove("loading");
   container.innerHTML = "";
 
   if (!de || !dados[de]) return;
@@ -176,9 +199,92 @@ function renderizarProjetos() {
       card.style.animationDelay =
         `${index * 0.08}s`;
 
-      container.appendChild(card);
+      const columns =
+        prepararColunasBacklog(
+          container,
+          projetos.length
+        );
+
+      columns[index % columns.length]
+        .appendChild(card);
     }
   );
+}
+
+function prepararColunasBacklog(container, totalCards) {
+  const columnCount =
+    Math.min(
+      totalCards || 1,
+      obterQuantidadeColunasBacklog()
+    );
+
+  if (
+    container.dataset.columnCount ===
+    String(columnCount)
+  ) {
+    const existentes =
+      [...container.querySelectorAll(
+        ".project-column"
+      )];
+
+    if (existentes.length === columnCount) {
+      return existentes;
+    }
+  }
+
+  container.innerHTML = "";
+  container.dataset.columnCount =
+    String(columnCount);
+
+  return Array.from(
+    { length: columnCount },
+    () => {
+      const column =
+        document.createElement("div");
+
+      column.className =
+        "project-column";
+
+      container.appendChild(column);
+      return column;
+    }
+  );
+}
+
+function obterQuantidadeColunasBacklog() {
+  if (window.matchMedia("(max-width: 900px)").matches) {
+    return 1;
+  }
+
+  if (window.matchMedia("(max-width: 1100px)").matches) {
+    return 2;
+  }
+
+  return 3;
+}
+
+function resetarFiltrosBacklogs() {
+  const select =
+    document.getElementById("lista");
+
+  const search =
+    document.getElementById("searchProjeto");
+
+  if (select) {
+    select.value = "";
+  }
+
+  if (search) {
+    search.value = "";
+  }
+
+  if (backlogProjectsLoaded) {
+    renderizarProjetos();
+  }
+
+  if (typeof aplicarBotoesLimparBusca === "function") {
+    aplicarBotoesLimparBusca();
+  }
 }
 
 /* ==========================
@@ -442,6 +548,7 @@ function mostrarLoading() {
       "projetos"
     );
 
+  container.classList.add("loading");
   container.innerHTML = `
     ${renderSiteLoading("Loading projects", "Fetching backlog documents from Firestore.")}
   `;
@@ -455,7 +562,9 @@ function carregarBacklogAuditScores() {
   return carregarAudits()
     .then(state => {
       backlogAuditScores = montarIndiceBacklogAuditScores(state.raw);
-      renderizarProjetos();
+      if (backlogProjectsLoaded) {
+        renderizarProjetos();
+      }
     })
     .catch(error => {
       backlogAuditScores = new Map();
@@ -566,6 +675,10 @@ function esconderLoading() {
     )
   ) {
     container.innerHTML = "";
+  }
+
+  if (container) {
+    container.classList.remove("loading");
   }
 }
 

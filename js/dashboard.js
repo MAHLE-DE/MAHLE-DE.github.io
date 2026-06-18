@@ -284,6 +284,19 @@ function renderizarDashboard() {
   _renderizarTudo(anos);
 }
 
+function resetarFiltrosDashboard() {
+  const anos =
+    _getTodosAnosDashboard();
+
+  dashboardAnosVisiveis =
+    new Set(anos);
+
+  if (anos.length) {
+    _preencherDropdownOpcoes(anos);
+    _atualizarLabelBtn(anos);
+  }
+}
+
 let _dropdownConfigurado = false;
 
 function _configurarDropdown(anos) {
@@ -644,6 +657,8 @@ function _criarBarra(proj, ano) {
     abrirAuditoria(proj.id, nomeCompl, ano, {
       auditSequence: auditSeq,
       dashboardId: proj.id,
+      dashboardName: nomeCompl,
+      dashboardChartName: nomeCurto,
       gate: proj.gate,
       score: proj.score
     });

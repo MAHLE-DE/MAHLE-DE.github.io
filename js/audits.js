@@ -348,10 +348,23 @@ function _nomesProjetosEquivalentes(a, b) {
 }
 
 function _tokensProjeto(value) {
-  return _normalizeText(value)
+  const tokens = _normalizeText(value)
     .split(" ")
     .filter(token => token.length >= 2)
     .filter(token => !["oes", "oem", "the", "and", "for"].includes(token));
+
+  const expanded = [];
+  tokens.forEach(token => {
+    expanded.push(token);
+
+    const numeric = token.match(/\d{2,}/g);
+    if (numeric) expanded.push(...numeric);
+
+    const alpha = token.match(/[a-z]{2,}/g);
+    if (alpha) expanded.push(...alpha);
+  });
+
+  return [...new Set(expanded)];
 }
 
 function _getAuditRecord(canonicalId) {
@@ -590,12 +603,87 @@ function abrirAuditoria(projetoId, projetoNome, ano, meta = {}) {
   auditDetailState.view = "detail";
 
   carregarAudits()
-    .then(() => _carregarAuditoriaDetalhe(detailContext));
+    .then(() => {
+      const resolvedContext =
+        _resolverContextoAuditoria(detailContext);
+
+      auditDetailState.projectId = resolvedContext.canonicalId;
+      auditDetailState.activeContext = resolvedContext;
+      _carregarAuditoriaDetalhe(resolvedContext);
+    });
 
   _carregarAuditoriaDetalhe({
     ...detailContext,
     loading: true
   });
+}
+
+function _resolverContextoAuditoria(contexto) {
+  const resolvedId =
+    _resolverCanonicalAuditId(
+      contexto.originalId,
+      contexto.nome,
+      contexto.meta
+    );
+
+  if (!resolvedId || resolvedId === contexto.canonicalId) {
+    return contexto;
+  }
+
+  return {
+    ...contexto,
+    canonicalId: resolvedId,
+    meta: {
+      ...contexto.meta,
+      resolvedFromDashboard: true
+    }
+  };
+}
+
+function _resolverCanonicalAuditId(projetoId, projetoNome, meta = {}) {
+  const directId = normalizarAuditProjectId(meta.canonicalId || projetoId);
+
+  if (directId && _getAuditRecord(directId)) {
+    return directId;
+  }
+
+  const dashboardNames = [
+    projetoNome,
+    meta.dashboardName,
+    meta.dashboardChartName,
+    meta.projectName,
+    meta.dashboardId,
+    projetoId
+  ].filter(Boolean);
+
+  for (const audit of auditState.byProjectId.values()) {
+    const auditNames = [
+      audit.canonicalId,
+      audit.id,
+      audit.projectId,
+      audit.projetoId,
+      audit.dashboardId,
+      audit.projectName,
+      audit.nome,
+      audit.backlogProjectName,
+      audit.dashboardName,
+      ...(Array.isArray(audit.aliases) ? audit.aliases : [])
+    ].filter(Boolean);
+
+    const equivalent = dashboardNames.some(dashName =>
+      auditNames.some(auditName =>
+        _normalizeText(dashName) === _normalizeText(auditName) ||
+        normalizarAuditProjectId(dashName) === normalizarAuditProjectId(auditName) ||
+        _nomesProjetosEquivalentes(dashName, auditName)
+      )
+    );
+
+    if (equivalent) {
+      return audit.canonicalId || normalizarAuditProjectId(audit.id);
+    }
+  }
+
+  return directId;
 }
 
 function _carregarAuditoriaDetalhe(contexto) {
@@ -653,7 +741,14 @@ function _normalizarAuditDetalhe(audit, contexto) {
         shortName: doc.shortName || doc.name || doc.nome || `Doc ${index + 1}`,
         score: doc.status === 4 ? 1 : doc.score,
         rawScore: doc.score,
-        status: Number(doc.status || 4)
+        status: Number(doc.status || 4),
+        naJustification:
+          doc.naJustification ||
+          doc.justification ||
+          doc.naReason ||
+          doc.reason ||
+          doc.observation ||
+          ""
       }))
     : [];
 
@@ -919,6 +1014,8 @@ function _renderAuditDocumentBar(doc, project) {
     ? 0
     : Math.max(18, Math.round(effectiveScore * 360));
   const chartName = _compactAuditDocName(doc.shortName || doc.name);
+  const tooltip =
+    _getAuditDocumentTooltip(project, doc, effectiveScore);
 
   return `
     <button
@@ -927,8 +1024,8 @@ function _renderAuditDocumentBar(doc, project) {
       data-project-id="${_escapeHtml(project.canonicalId)}"
       data-project-name="${_escapeHtml(project.projectName)}"
       data-doc-id="${_escapeHtml(doc.id)}"
-      title="${_escapeHtml(doc.name)}"
-      style="--audit-bar-w:${_getAuditBarWidth(project.documents.length)}px;"
+      aria-label="${_escapeHtml(doc.name)}"
+      style="--audit-bar-w:${_getAuditBarWidth(project.documents.length)}px;--audit-bar-visible-h:${height}px;"
     >
       <span class="audit-doc-bar ${isZeroScore ? "audit-doc-bar-zero" : ""}" style="height:${height}px;">
         <span class="audit-doc-status-diamond ${status.className}" aria-label="${_escapeHtml(status.label)}"></span>
@@ -936,8 +1033,237 @@ function _renderAuditDocumentBar(doc, project) {
       <span class="audit-doc-name-wrap">
         <span class="audit-doc-name">${_escapeHtml(chartName)}</span>
       </span>
+      ${_renderAuditBacklogTooltip(tooltip)}
     </button>
   `;
+}
+
+function _renderAuditBacklogTooltip(tooltip) {
+  return `
+    <span class="audit-backlog-tooltip ${_escapeHtml(tooltip.tone || "")}" role="tooltip">
+      <span class="audit-backlog-tooltip-kicker">${_escapeHtml(tooltip.kicker)}</span>
+      <strong>${_escapeHtml(tooltip.title)}</strong>
+      <span class="audit-backlog-tooltip-list">
+        ${tooltip.items.slice(0, 5).map(item => `
+          <span>${_escapeHtml(item)}</span>
+        `).join("")}
+      </span>
+      ${tooltip.items.length > 5 ? `<em>+${tooltip.items.length - 5} additional item(s)</em>` : ""}
+    </span>
+  `;
+}
+
+function _getAuditDocumentTooltip(project, auditDoc, effectiveScore) {
+  if (Number(auditDoc.status) === 4) {
+    const justification =
+      _getAuditNAJustification(project, auditDoc);
+
+    return {
+      kicker: "N/A justification",
+      title: "Reason registered for this document",
+      tone: "is-na",
+      items: [
+        justification ||
+        "N/A justification has not been specified for this document."
+      ]
+    };
+  }
+
+  if (effectiveScore >= 1) {
+    return {
+      kicker: "Backlog findings",
+      title: "Document fully resolved",
+      tone: "is-resolved",
+      items: [
+        "All backlog findings for this document are resolved."
+      ]
+    };
+  }
+
+  const findings =
+    _getAuditBacklogFindings(project, auditDoc);
+
+  return {
+    kicker: "Backlog findings",
+    title: "Open items for this document",
+    tone: "is-open",
+    items: findings.length
+      ? findings
+      : ["Backlog finding not specified for this document."]
+  };
+}
+
+function _getAuditNAJustification(project, auditDoc) {
+  if (auditDoc.naJustification) {
+    return auditDoc.naJustification;
+  }
+
+  const justifications =
+    _extractAuditNAJustifications(project.importantInfo);
+
+  if (!justifications.length) return "";
+
+  const targetNames = [
+    auditDoc.name,
+    auditDoc.shortName,
+    auditDoc.id
+  ].filter(Boolean);
+  const targetGate =
+    _normalizeText(auditDoc.gate || "");
+
+  const candidates = justifications
+    .map(item => {
+      const itemGate =
+        _normalizeText(item.gate || "");
+      const itemDoc =
+        _normalizeText(item.document || item.documentName || item.name || item.doc || "");
+
+      let score = 0;
+      if (targetGate && itemGate === targetGate) score += 4;
+
+      targetNames
+        .map(_normalizeText)
+        .filter(Boolean)
+        .forEach(target => {
+          if (itemDoc && itemDoc === target) score += 12;
+          if (itemDoc && (itemDoc.includes(target) || target.includes(itemDoc))) score += 8;
+          if (itemDoc && _nomesProjetosEquivalentes(itemDoc, target)) score += 6;
+        });
+
+      return {
+        justification: item.justification || item.reason || item.text || "",
+        score
+      };
+    })
+    .filter(item => item.score > 0 && item.justification)
+    .sort((a, b) => b.score - a.score);
+
+  return candidates[0]?.justification || "";
+}
+
+function _extractAuditNAJustifications(info) {
+  if (!info) return [];
+  if (Array.isArray(info)) return info;
+  if (Array.isArray(info.naJustifications)) return info.naJustifications;
+  if (Array.isArray(info.justifications)) return info.justifications;
+  if (Array.isArray(info.items)) return info.items;
+  return [];
+}
+
+function _getAuditBacklogFindings(project, auditDoc) {
+  const backlogProject =
+    _findAuditBacklogProject(project);
+
+  if (!backlogProject?.info?.documentos) {
+    return [];
+  }
+
+  const targetDocNames = [
+    auditDoc.name,
+    auditDoc.shortName,
+    auditDoc.id
+  ].filter(Boolean);
+
+  const candidates =
+    Object.entries(backlogProject.info.documentos)
+      .map(([nomeDoc, backlogDoc]) => ({
+        nomeDoc,
+        backlogDoc,
+        score: _scoreAuditBacklogDocumentMatch(
+          targetDocNames,
+          auditDoc.gate,
+          nomeDoc,
+          backlogDoc
+        )
+      }))
+      .filter(item => item.score > 0)
+      .sort((a, b) => b.score - a.score);
+
+  const best = candidates[0];
+  if (!best || !Array.isArray(best.backlogDoc.pendencias)) {
+    return [];
+  }
+
+  return best.backlogDoc.pendencias
+    .map(item => String(item || "").trim())
+    .filter(Boolean);
+}
+
+function _findAuditBacklogProject(project) {
+  if (!dados || typeof dados !== "object") return null;
+
+  const projectNames = [
+    project.audit?.backlogProjectName,
+    project.projectName,
+    project.audit?.dashboardName,
+    project.id,
+    project.canonicalId,
+    ...(Array.isArray(project.audit?.aliases) ? project.audit.aliases : [])
+  ].filter(Boolean);
+
+  const targetNames = projectNames
+    .map(_normalizeText)
+    .filter(Boolean);
+
+  const targetResponsible =
+    _normalizeText(project.developmentEngineer?.name || "");
+
+  const candidates = [];
+
+  Object.entries(dados).forEach(([de, group]) => {
+    Object.entries(group.projetos || {}).forEach(([nomeProjeto, info]) => {
+      const name = _normalizeText(nomeProjeto);
+      const deScore = targetResponsible && _normalizeText(de) === targetResponsible ? 3 : 0;
+      const exactScore = targetNames.some(target => name === target) ? 8 : 0;
+      const containsScore = targetNames.some(target =>
+        name.includes(target) || target.includes(name)
+      ) ? 3 : 0;
+      const fuzzyScore = targetNames.some(target =>
+        _nomesProjetosEquivalentes(target, name)
+      ) ? 4 : 0;
+
+      candidates.push({
+        de,
+        projectName: nomeProjeto,
+        info,
+        score: deScore + exactScore + containsScore + fuzzyScore
+      });
+    });
+  });
+
+  return candidates
+    .filter(item => item.score > 0)
+    .sort((a, b) => b.score - a.score)[0] || null;
+}
+
+function _scoreAuditBacklogDocumentMatch(targetDocNames, auditGate, backlogDocName, backlogDoc) {
+  const backlogName =
+    _normalizeText(backlogDocName);
+  const backlogGate =
+    _normalizeText(backlogDoc?.gate || "");
+  const targetGate =
+    _normalizeText(auditGate || "");
+
+  let score = 0;
+
+  targetDocNames
+    .map(_normalizeText)
+    .filter(Boolean)
+    .forEach(target => {
+      if (backlogName === target) score = Math.max(score, 12);
+      if (backlogName.includes(target) || target.includes(backlogName)) {
+        score = Math.max(score, 8);
+      }
+      if (_nomesProjetosEquivalentes(backlogName, target)) {
+        score = Math.max(score, 6);
+      }
+    });
+
+  if (score > 0 && targetGate && backlogGate === targetGate) {
+    score += 3;
+  }
+
+  return score;
 }
 
 function _getAuditBarWidth(docCount) {
@@ -1273,7 +1599,13 @@ function abrirAuditsHome() {
   renderAuditsHome();
 }
 
+function resetarFiltrosAudits() {
+  auditDetailState.homeSearch = "";
+  auditDetailState.visibleGatesByProject = new Map();
+}
+
 function abrirAuditsAtual() {
+  resetarFiltrosAudits();
   abrirAuditsHome();
 }
 

@@ -40,6 +40,18 @@
   animation: acquisitionFadeUp .34s ease both;
 }
 
+.acquisition-shell-quiet .acquisition-hero,
+.acquisition-shell-quiet .acquisition-panel,
+.acquisition-shell-quiet .acquisition-kpi,
+.acquisition-shell-quiet .acquisition-action-card,
+.acquisition-shell-quiet .acquisition-table-card,
+.acquisition-shell-quiet .acquisition-action-group,
+.acquisition-shell-quiet .acquisition-doc-tile,
+.acquisition-shell-quiet .acquisition-history-item,
+.acquisition-shell-quiet .acquisition-controls {
+  animation: none !important;
+}
+
 .acquisition-hero {
   padding: 26px;
   margin-bottom: 22px;
