@@ -1,0 +1,378 @@
+#arquivo vai rodar em python e deve instalar pip install pandas numpy scikit-learn sentence-transformers
+
+import json
+import re
+import html
+import unicodedata
+from pathlib import Path
+from collections import Counter, defaultdict
+
+import numpy as np
+import pandas as pd
+
+
+# ============================================================
+# CONFIGURAÇÕES
+# ============================================================
+
+PASTA_BASE = Path(r"C:\Users\M0242198\cauaferrari\site")
+PASTA_HISTORICO = PASTA_BASE / "historico_json"
+
+ARQUIVO_REVISAO = PASTA_BASE / "revisao_lista_pendencias.csv"
+ARQUIVO_LISTA_PADRAO = PASTA_BASE / "lista_pendencias_padrao.json"
+
+# Quanto menor, mais grupos serão criados.
+# Quanto maior, mais pendências diferentes serão agrupadas juntas.
+LIMIAR_DISTANCIA_CLUSTER = 0.32
+
+# Quantos exemplos salvar por grupo na lista padrão
+MAX_EXEMPLOS_POR_GRUPO = 10
+
+
+# ============================================================
+# FUNÇÕES DE TEXTO
+# ============================================================
+
+def remover_acentos(texto: str) -> str:
+    texto = unicodedata.normalize("NFD", texto)
+    texto = "".join(ch for ch in texto if unicodedata.category(ch) != "Mn")
+    return texto
+
+
+def normalizar_texto(texto: str) -> str:
+    if texto is None:
+        return ""
+
+    texto = str(texto)
+    texto = html.unescape(texto)
+    texto = texto.lower()
+    texto = remover_acentos(texto)
+
+    texto = texto.replace("&", " e ")
+    texto = re.sub(r"[^a-z0-9\s]", " ", texto)
+    texto = re.sub(r"\s+", " ", texto).strip()
+
+    return texto
+
+
+def texto_para_embedding_contextual(documento: str, gate: str, pendencia: str) -> str:
+    """
+    O contexto ajuda a IA a entender que uma mesma frase pode ter significado
+    diferente dependendo do documento.
+    """
+    return (
+        f"documento: {documento} | "
+        f"gate: {gate} | "
+        f"pendencia: {pendencia}"
+    )
+
+
+# ============================================================
+# LEITURA DOS JSONS
+# ============================================================
+
+def carregar_json(caminho: Path) -> dict:
+    with open(caminho, "r", encoding="utf-8-sig") as f:
+        return json.load(f)
+
+
+def extrair_pendencias_de_json(caminho: Path) -> list:
+    """
+    Lê um JSON no formato da sua macro e devolve uma lista de pendências.
+    """
+    dados = carregar_json(caminho)
+
+    de = html.unescape(str(dados.get("DE", "")).strip())
+    projeto = html.unescape(str(dados.get("projeto", "")).strip())
+    documentos = dados.get("documentos", {})
+
+    registros = []
+
+    for nome_documento, info_doc in documentos.items():
+        documento = html.unescape(str(nome_documento).strip())
+        gate = html.unescape(str(info_doc.get("gate", "")).strip())
+        pontuacao = info_doc.get("pontuacao", None)
+        pendencias = info_doc.get("pendencias", [])
+
+        if not isinstance(pendencias, list):
+            continue
+
+        for pendencia in pendencias:
+            pendencia_original = html.unescape(str(pendencia).strip())
+
+            if not pendencia_original:
+                continue
+
+            registros.append({
+                "arquivo_origem": caminho.name,
+                "DE": de,
+                "projeto": projeto,
+                "documento": documento,
+                "gate": gate,
+                "pontuacao": pontuacao,
+                "pendencia_original": pendencia_original,
+                "pendencia_normalizada": normalizar_texto(pendencia_original),
+                "texto_contextual": texto_para_embedding_contextual(
+                    documento,
+                    gate,
+                    pendencia_original
+                )
+            })
+
+    return registros
+
+
+def carregar_todos_os_historicos() -> pd.DataFrame:
+    arquivos = sorted(PASTA_HISTORICO.glob("*.json"))
+
+    if not arquivos:
+        raise FileNotFoundError(
+            f"Nenhum arquivo .json encontrado em: {PASTA_HISTORICO}"
+        )
+
+    todos = []
+
+    for caminho in arquivos:
+        try:
+            registros = extrair_pendencias_de_json(caminho)
+            todos.extend(registros)
+        except Exception as e:
+            print(f"[AVISO] Erro ao ler {caminho.name}: {e}")
+
+    if not todos:
+        raise ValueError("Nenhuma pendência foi encontrada nos JSONs históricos.")
+
+    return pd.DataFrame(todos)
+
+
+# ============================================================
+# EMBEDDINGS E CLUSTERIZAÇÃO
+# ============================================================
+
+def gerar_embeddings(textos: list) -> np.ndarray:
+    """
+    Usa sentence-transformers localmente.
+    O modelo será baixado na primeira execução.
+    """
+    from sentence_transformers import SentenceTransformer
+
+    modelo = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+    embeddings = modelo.encode(
+        textos,
+        normalize_embeddings=True,
+        show_progress_bar=True
+    )
+
+    return np.array(embeddings)
+
+
+def clusterizar_embeddings(embeddings: np.ndarray) -> np.ndarray:
+    """
+    Agrupa textos semanticamente parecidos usando distância cosseno.
+    """
+    from sklearn.cluster import AgglomerativeClustering
+
+    try:
+        clusterizador = AgglomerativeClustering(
+            n_clusters=None,
+            metric="cosine",
+            linkage="average",
+            distance_threshold=LIMIAR_DISTANCIA_CLUSTER
+        )
+    except TypeError:
+        # Compatibilidade com versões mais antigas do scikit-learn
+        clusterizador = AgglomerativeClustering(
+            n_clusters=None,
+            affinity="cosine",
+            linkage="average",
+            distance_threshold=LIMIAR_DISTANCIA_CLUSTER
+        )
+
+    labels = clusterizador.fit_predict(embeddings)
+    return labels
+
+
+# ============================================================
+# SUGESTÃO DE NOMES DOS GRUPOS
+# ============================================================
+
+def contem(texto: str, termos: list) -> bool:
+    return any(termo in texto for termo in termos)
+
+
+def motivo_baseline(documentos: list, pendencias: list) -> str:
+    texto_total = normalizar_texto(" ".join(documentos + pendencias))
+
+    if contem(texto_total, ["stackup", "stack up", "mockup", "mock up"]):
+        return "baseline StackUp não realizado"
+
+    if contem(texto_total, ["2d", "dl5"]) and contem(texto_total, ["status 10", "in work"]):
+        return "baseline 2D DL5 com desenho em status incorreto"
+
+    if contem(texto_total, ["3d", "dl5"]) and contem(texto_total, ["status 10", "in work"]):
+        return "baseline 3D DL5 com desenho em status incorreto"
+
+    if contem(texto_total, ["cliente", "customer"]) and contem(texto_total, ["desenho", "drawing"]):
+        return "baseline desenho do cliente ausente"
+
+    if contem(texto_total, ["status 10", "in work"]):
+        return "baseline com documento em status incorreto"
+
+    return "baseline específica não atendida"
+
+
+def sugerir_nome_grupo(df_grupo: pd.DataFrame) -> str:
+    pendencias = df_grupo["pendencia_original"].astype(str).tolist()
+    documentos = df_grupo["documento"].astype(str).tolist()
+
+    texto_total = normalizar_texto(" ".join(pendencias + documentos))
+
+    # Baseline vem primeiro porque precisa ser mais específica
+    if "baseline" in texto_total:
+        return motivo_baseline(documentos, pendencias)
+
+    if contem(texto_total, ["assinatura", "assinaturas", "assinado", "signoff", "sign off"]):
+        return "ausência de assinatura/signoff"
+
+    if contem(texto_total, ["upload", "easy", "anexado", "anexo"]):
+        return "ausência de upload/evidência no Easy"
+
+    if contem(texto_total, ["revisao", "revisado", "alteracoes", "alteracao"]):
+        return "ausência de revisão/controle de alterações"
+
+    if contem(texto_total, ["report", "relatorio", "evidencia", "evidencias"]):
+        return "ausência de evidência/report"
+
+    if contem(texto_total, ["teste", "testes", "resultado", "resultados", "material", "materiais"]):
+        return "resultado de teste/evidência técnica ausente"
+
+    if contem(texto_total, ["status", "in work", "desenho", "drawing"]):
+        return "status documental/desenho incompatível"
+
+    return "pendência documental geral"
+
+
+def escolher_exemplos(df_grupo: pd.DataFrame, max_exemplos: int) -> list:
+    """
+    Pega exemplos mais frequentes dentro do grupo.
+    """
+    contador = Counter(df_grupo["pendencia_original"].astype(str).tolist())
+    exemplos = [texto for texto, _ in contador.most_common(max_exemplos)]
+    return exemplos
+
+
+# ============================================================
+# GERAÇÃO DOS ARQUIVOS
+# ============================================================
+
+def gerar_arquivo_revisao(df: pd.DataFrame) -> None:
+    colunas = [
+        "cluster_id",
+        "categoria_sugerida",
+        "arquivo_origem",
+        "DE",
+        "projeto",
+        "documento",
+        "gate",
+        "pendencia_original",
+        "qtd_no_grupo"
+    ]
+
+    df_saida = df[colunas].sort_values(
+        by=["categoria_sugerida", "documento", "gate", "pendencia_original"]
+    )
+
+    df_saida.to_csv(
+        ARQUIVO_REVISAO,
+        index=False,
+        encoding="utf-8-sig",
+        sep=";"
+    )
+
+
+def gerar_lista_padrao_json(df: pd.DataFrame) -> None:
+    lista_padrao = []
+
+    grupos = sorted(df["cluster_id"].unique())
+
+    for idx, cluster_id in enumerate(grupos, start=1):
+        df_grupo = df[df["cluster_id"] == cluster_id].copy()
+
+        categoria = df_grupo["categoria_sugerida"].iloc[0]
+
+        documentos = sorted(df_grupo["documento"].dropna().astype(str).unique().tolist())
+        gates = sorted(df_grupo["gate"].dropna().astype(str).unique().tolist())
+        exemplos = escolher_exemplos(df_grupo, MAX_EXEMPLOS_POR_GRUPO)
+
+        item = {
+            "id": f"P{idx:03d}",
+            "nome": categoria,
+            "documentos_relacionados": documentos,
+            "gates_relacionados": gates,
+            "frequencia_historica": int(len(df_grupo)),
+            "exemplos": exemplos
+        }
+
+        lista_padrao.append(item)
+
+    with open(ARQUIVO_LISTA_PADRAO, "w", encoding="utf-8") as f:
+        json.dump(lista_padrao, f, ensure_ascii=False, indent=2)
+
+
+# ============================================================
+# EXECUÇÃO PRINCIPAL
+# ============================================================
+
+def main():
+    print("==============================================")
+    print("PIPELINE A - GERAR LISTA PADRÃO DE PENDÊNCIAS")
+    print("==============================================")
+
+    print(f"Lendo JSONs da pasta: {PASTA_HISTORICO}")
+    df = carregar_todos_os_historicos()
+
+    print(f"Total de pendências extraídas: {len(df)}")
+
+    textos = df["texto_contextual"].astype(str).tolist()
+
+    print("Gerando embeddings...")
+    embeddings = gerar_embeddings(textos)
+
+    print("Agrupando pendências parecidas...")
+    labels = clusterizar_embeddings(embeddings)
+
+    df["cluster_id"] = labels
+
+    print("Sugerindo nomes dos grupos...")
+    categorias_por_cluster = {}
+
+    for cluster_id in sorted(df["cluster_id"].unique()):
+        df_grupo = df[df["cluster_id"] == cluster_id]
+        categorias_por_cluster[cluster_id] = sugerir_nome_grupo(df_grupo)
+
+    df["categoria_sugerida"] = df["cluster_id"].map(categorias_por_cluster)
+
+    qtd_por_cluster = df.groupby("cluster_id").size().to_dict()
+    df["qtd_no_grupo"] = df["cluster_id"].map(qtd_por_cluster)
+
+    print("Gerando arquivo de revisão...")
+    gerar_arquivo_revisao(df)
+
+    print("Gerando lista padrão inicial...")
+    gerar_lista_padrao_json(df)
+
+    print("")
+    print("Concluído com sucesso.")
+    print(f"Arquivo de revisão gerado em:")
+    print(f"  {ARQUIVO_REVISAO}")
+    print(f"Lista padrão inicial gerada em:")
+    print(f"  {ARQUIVO_LISTA_PADRAO}")
+    print("")
+    print("Próximo passo:")
+    print("1. Abra o arquivo revisao_lista_pendencias.csv")
+    print("2. Veja se os grupos fazem sentido")
+    print("3. Depois ajustamos a lista_pendencias_padrao.json se necessário")
+
+
+if __name__ == "__main__":
+    main()
