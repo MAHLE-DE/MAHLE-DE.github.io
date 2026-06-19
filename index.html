@@ -158,6 +158,9 @@
 
           <div class="kpi-chart-header">
             <h2>Overall Analysis by Development Engineer</h2>
+            <button class="export-png-btn" type="button" data-export-selector=".kpi-chart-card" data-export-name="overall-analysis-development-engineer">
+              <i class="fa-regular fa-image"></i>
+            </button>
           </div>
 
           <div class="kpi-chart-wrap">
@@ -178,7 +181,6 @@
               <div class="dashboard-title-box">
                 Score of Projects
               </div>
-
               <!-- ✅ LEGENDA CORRIGIDA -->
               <div class="dashboard-legend">
 
@@ -210,13 +212,19 @@
 
             </div>
 
-            <!-- FILTRO -->
-            <div class="time-filter">
-              <button class="time-filter-btn">
-                Years
-                <i class="fa-solid fa-chevron-down"></i>
+            <div class="dashboard-actions">
+              <button class="export-png-btn dashboard-export-btn" type="button" data-export-selector=".dashboard-card" data-export-name="score-of-projects-dashboard">
+                <i class="fa-regular fa-image"></i>
               </button>
-              <div class="time-dropdown"></div>
+
+              <!-- FILTRO -->
+              <div class="time-filter">
+                <button class="time-filter-btn">
+                  Years
+                  <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="time-dropdown"></div>
+              </div>
             </div>
 
           </div>
@@ -289,6 +297,7 @@
   <!-- CHART -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
   <!-- APP SCRIPTS -->
   <script src="js/firebase-config.js"></script>
@@ -298,6 +307,7 @@
   <script src="js/audits.js"></script>
   <script src="js/acquisition.js"></script>
   <script src="js/audit-schedule.js"></script>
+  <script src="js/export-tools.js"></script>
   <script src="js/navigation.js"></script>
 
 </body>

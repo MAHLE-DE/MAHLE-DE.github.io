@@ -6,14 +6,16 @@
   background: white;
   border-radius: 28px;
   padding: 24px 28px 22px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 8px 18px rgba(13, 31, 61, .055);
   margin: 0;
 }
 
 .kpi-chart-header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
   margin-bottom: 8px;
 }
 
@@ -35,6 +37,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 0;
+  overscroll-behavior-x: contain;
 }
 
 #deOverviewChart {

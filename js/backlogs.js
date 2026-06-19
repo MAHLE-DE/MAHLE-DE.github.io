@@ -1,6 +1,7 @@
 let dados = {};
 let backlogAuditScores = new Map();
 let backlogProjectsLoaded = false;
+let backlogProjectsLoading = false;
 let backlogResizeTimer = null;
 
 /* ==========================
@@ -8,8 +9,13 @@ let backlogResizeTimer = null;
 ========================== */
 
 function iniciarSite() {
+  if (backlogProjectsLoading) {
+    mostrarLoading();
+    return;
+  }
 
   backlogProjectsLoaded = false;
+  backlogProjectsLoading = true;
   mostrarLoading();
 
   carregarBacklogAuditScores();
@@ -66,12 +72,14 @@ function iniciarSite() {
       preencherLista();
 
       backlogProjectsLoaded = true;
+      backlogProjectsLoading = false;
       esconderLoading();
 
     })
 
     .catch(err => {
 
+      backlogProjectsLoading = false;
       esconderLoading();
 
       console.error(err);
@@ -548,9 +556,16 @@ function mostrarLoading() {
       "projetos"
     );
 
+  if (!container) return;
+
   container.classList.add("loading");
+
+  if (container.querySelector("[data-loading='backlogs']")) {
+    return;
+  }
+
   container.innerHTML = `
-    ${renderSiteLoading("Loading projects", "Fetching backlog documents from Firestore.")}
+    ${renderSiteLoading("Loading projects", "Fetching backlog documents from Firestore.").replace("data-loading=\"true\"", "data-loading=\"backlogs\"")}
   `;
 }
 

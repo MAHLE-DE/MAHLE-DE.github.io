@@ -3,6 +3,7 @@
 ========================== */
 let deOverviewChart = null;
 let kpiAuditScoresRequested = false;
+let deOverviewChartSignature = "";
 
 function calcularMediaProjeto(info, nomeProjeto) {
   if (typeof obterAuditScoreBacklog !== "function") {
@@ -88,10 +89,22 @@ function gerarGraficoDEs() {
   const chartWrap = canvas.parentElement;
   const chartWidth = Math.max(chartWrap?.clientWidth || 0, labels.length * 70, 540);
   canvas.style.setProperty("--de-overview-width", `${chartWidth}px`);
+  const nextSignature = JSON.stringify({
+    labels,
+    scoringData,
+    amountReal,
+    chartWidth
+  });
+
+  if (deOverviewChart && deOverviewChartSignature === nextSignature) {
+    deOverviewChart.resize();
+    return;
+  }
 
   if (deOverviewChart) {
     deOverviewChart.destroy();
   }
+  deOverviewChartSignature = nextSignature;
 
   deOverviewChart = new Chart(canvas, {
     type: "bar",
@@ -180,8 +193,9 @@ function gerarGraficoDEs() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      resizeDelay: 120,
       animation: {
-        duration: 800
+        duration: 320
       },
       layout: {
         padding: {

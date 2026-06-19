@@ -84,8 +84,8 @@ function _escapeHtml(value) {
 
 function _formatAuditDate(value) {
   if (!value) return "Not defined";
-  const text = String(value);
-  const date = new Date(text);
+  const text = String(value).trim();
+  const date = _parseAuditDateLocal(text);
   if (Number.isNaN(date.getTime())) return text;
   return date.toLocaleDateString("en-US", {
     year: "numeric",
@@ -96,7 +96,7 @@ function _formatAuditDate(value) {
 
 function _formatAuditDateTime(value) {
   if (!value) return "Not defined";
-  const date = new Date(value);
+  const date = _parseAuditDateLocal(value, true);
   if (Number.isNaN(date.getTime())) return String(value);
   return date.toLocaleString("en-US", {
     year: "numeric",
@@ -105,6 +105,53 @@ function _formatAuditDateTime(value) {
     hour: "2-digit",
     minute: "2-digit"
   });
+}
+
+function _parseAuditDateLocal(value, allowTime = false) {
+  if (!value) return new Date(NaN);
+  if (value instanceof Date) {
+    return new Date(
+      value.getFullYear(),
+      value.getMonth(),
+      value.getDate(),
+      allowTime ? value.getHours() : 0,
+      allowTime ? value.getMinutes() : 0
+    );
+  }
+
+  if (typeof value === "number") {
+    // Excel serial date, using the 1900 date system.
+    const excelEpoch = new Date(1899, 11, 30);
+    excelEpoch.setDate(excelEpoch.getDate() + Math.floor(value));
+    return excelEpoch;
+  }
+
+  const text = String(value).trim();
+  const iso = text.match(/^(\d{4})-(\d{2})-(\d{2})(?:[T\s](\d{2}):(\d{2}))?/);
+  if (iso) {
+    return new Date(
+      Number(iso[1]),
+      Number(iso[2]) - 1,
+      Number(iso[3]),
+      allowTime ? Number(iso[4] || 0) : 0,
+      allowTime ? Number(iso[5] || 0) : 0
+    );
+  }
+
+  const br = text.match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?(?:\s+(\d{1,2}):(\d{2}))?/);
+  if (br) {
+    const yearText = br[3] || String(new Date().getFullYear());
+    const year = yearText.length === 2 ? Number(`20${yearText}`) : Number(yearText);
+    return new Date(
+      year,
+      Number(br[2]) - 1,
+      Number(br[1]),
+      allowTime ? Number(br[4] || 0) : 0,
+      allowTime ? Number(br[5] || 0) : 0
+    );
+  }
+
+  return new Date(text);
 }
 
 function _formatAuditPercent(value) {
@@ -765,6 +812,13 @@ function _normalizarAuditDetalhe(audit, contexto) {
     developmentEngineer: audit?.developmentEngineer || {},
     projectScore: audit?.projectScore,
     gates: audit?.gates || {},
+    lastAuditedGate:
+      audit?.ultimo_gate_audit ||
+      audit?.lastAuditedGate ||
+      audit?.last_audited_gate ||
+      audit?.gates?.lastAudited ||
+      audit?.gates?.lastAudit ||
+      "",
     productImage: audit?.productImage || {},
     documents,
     gatesAvailable,
@@ -817,10 +871,11 @@ function _renderProjectAuditBlock(project, contexto, isSequence) {
 
       <div class="project-audit-right">
         <div class="audit-general-data">
-          ${_renderAuditFact("Responsible", project.developmentEngineer.name || "Not defined")}
-          ${_renderAuditFact("Actual Gate", project.gates.current || "Not defined")}
-          ${_renderAuditFact("Next Gate", project.gates.next || "Not defined")}
-          ${_renderAuditFact("Next Gate date", _formatAuditDate(project.gates.nextGateDate))}
+          ${_renderAuditFact("Responsible", project.developmentEngineer.name || "Not defined", "audit-fact-wide")}
+          ${_renderAuditFact("Actual Gate", project.gates.current || "Not defined", "audit-fact-wide")}
+          ${_renderAuditFact("Next Gate", project.gates.next || "Not defined", "audit-fact-third")}
+          ${_renderAuditFact("Next Gate date", _formatAuditDate(project.gates.nextGateDate), "audit-fact-third")}
+          ${_renderAuditFact("Last Audited Gate", project.lastAuditedGate || "Not informed", "audit-fact-third")}
         </div>
         <div class="audit-score-tile" style="background:${scoreColor}">
           <span>Project Score</span>
@@ -832,16 +887,17 @@ function _renderProjectAuditBlock(project, contexto, isSequence) {
   `;
 }
 
-function _renderAuditFact(label, value) {
+function _renderAuditFact(label, value, className = "") {
   const icons = {
     "Responsible": "fa-user-tie",
     "Actual Gate": "fa-location-dot",
     "Next Gate": "fa-route",
-    "Next Gate date": "fa-calendar-check"
+    "Next Gate date": "fa-calendar-check",
+    "Last Audited Gate": "fa-clipboard-check"
   };
 
   return `
-    <div class="audit-fact">
+    <div class="audit-fact ${_escapeHtml(className)}">
       <div class="audit-fact-icon">
         <i class="fa-solid ${icons[label] || "fa-circle-info"}"></i>
       </div>
@@ -909,6 +965,9 @@ function _renderAuditOverview(project, loading) {
           <h3>Overview</h3>
           <p>Document scores grouped by audited gate.</p>
         </div>
+        <button class="export-png-btn" type="button" data-export-selector="#auditDocChart" data-export-name="${_escapeHtml(project.canonicalId)}-audit-documents">
+          <i class="fa-regular fa-image"></i>
+        </button>
         <div class="audit-gate-filter">
           <button class="audit-gate-filter-btn" id="auditGateFilterBtn" type="button">
             Gates

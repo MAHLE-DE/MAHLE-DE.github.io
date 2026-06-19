@@ -4,8 +4,11 @@
 
 .audit-schedule-shell {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   display: grid;
   gap: 16px;
+  overflow-x: clip;
 }
 
 @keyframes auditScheduleSlideIn {
@@ -35,6 +38,9 @@
 .audit-schedule-calendar-board,
 .audit-schedule-queue-strip,
 .audit-schedule-panel {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
   background: #ffffff;
   border: 1px solid #e2e9f4;
   border-radius: 10px;
@@ -44,11 +50,15 @@
 .audit-schedule-header {
   padding: 18px 20px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px auto;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 300px) minmax(104px, auto);
   gap: 14px;
   align-items: center;
   border-left: 6px solid var(--mahle-blue);
   animation: auditScheduleSlideIn .28s ease both;
+}
+
+.audit-schedule-heading {
+  min-width: 0;
 }
 
 .audit-schedule-eyebrow {
@@ -160,7 +170,7 @@
   z-index: 20;
   padding: 12px;
   display: grid;
-  grid-template-columns: minmax(280px, 1.4fr) repeat(3, minmax(150px, .55fr));
+  grid-template-columns: minmax(220px, 1.4fr) repeat(3, minmax(130px, .55fr));
   gap: 10px;
   animation: auditScheduleSlideIn .28s ease both;
 }
@@ -322,7 +332,7 @@
   font-weight: 750;
 }
 
-.audit-schedule-calendar-head > span,
+.audit-schedule-calendar-actions > span,
 .audit-schedule-queue-heading > span,
 .audit-schedule-count {
   border: 1px solid #d5dfed;
@@ -335,7 +345,16 @@
   white-space: nowrap;
 }
 
+.audit-schedule-calendar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .audit-schedule-calendar-scroll {
+  max-width: 100%;
   padding: 14px;
   display: flex;
   gap: 12px;
@@ -629,6 +648,7 @@
 .audit-schedule-queue-list {
   display: flex;
   gap: 10px;
+  max-width: 100%;
   overflow-x: auto;
   padding-bottom: 4px;
 }

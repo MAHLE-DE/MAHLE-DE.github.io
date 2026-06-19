@@ -94,6 +94,39 @@
   line-height: 1.45;
 }
 
+.export-png-btn {
+  width: 54px;
+  min-width: 54px;
+  min-height: 48px;
+  border: 1px solid #d7e1ef;
+  border-radius: 8px;
+  background: #f7faff;
+  color: var(--text);
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  font-size: 18px;
+  font-weight: 900;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+.export-png-btn:hover {
+  background: #ffffff;
+  border-color: #b8c9e2;
+  transform: translateY(-1px);
+}
+
+.export-png-btn:disabled {
+  opacity: .7;
+  cursor: wait;
+  transform: none;
+}
+
 @keyframes siteLoaderSpin {
   to {
     transform: rotate(360deg);

@@ -148,11 +148,23 @@ document.addEventListener(
           resetarFiltrosDashboard();
         }
 			  setTimeout(() => {
-				gerarGraficoDEs();
-				carregarDashboard();
+          if (typeof carregarDashboard === "function") {
+            carregarDashboard();
+          }
+        }, 50);
+			  setTimeout(() => {
+          if (typeof gerarGraficoDEs === "function") {
+            try {
+              gerarGraficoDEs();
+            } catch (error) {
+              console.error("KPI overview chart error:", error);
+            }
+          }
 			  }, 50);
 			  setTimeout(() => {
-				recalcularDashboard();
+          if (typeof recalcularDashboard === "function") {
+            recalcularDashboard();
+          }
 			  }, 120);
 			}
 

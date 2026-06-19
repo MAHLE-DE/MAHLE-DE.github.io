@@ -28,7 +28,7 @@ function corBarra(score) {
 
 function corBarraSombra(score) {
   // Sombra neutra para barras do Dashboard
-  return "rgba(80, 100, 140, 0.16)";
+  return "transparent";
 }
 
 /* ---------- detectar audit sequence e nomes ---------- */
@@ -240,24 +240,42 @@ function _scheduleDashboardMeasure(todosAnos = _getTodosAnosDashboard(), delay =
 
   window.setTimeout(() => {
     requestAnimationFrame(() => {
-      _aplicarLayoutDashboard(todosAnos);
-
-      requestAnimationFrame(() => {
+      try {
         _aplicarLayoutDashboard(todosAnos);
 
         requestAnimationFrame(() => {
-          _desenharTargetLines(_getAnosVisiveisOrdenados(todosAnos));
-          _atualizarSeparadores(todosAnos);
+          try {
+            _aplicarLayoutDashboard(todosAnos);
 
-          const chart = document.getElementById("dashboardChart");
-          if (chart) {
-            chart.classList.remove("is-entering", "is-changing");
-            chart.classList.add("is-ready");
+            requestAnimationFrame(() => {
+              try {
+                _desenharTargetLines(_getAnosVisiveisOrdenados(todosAnos));
+                _atualizarSeparadores(todosAnos);
+              } catch (error) {
+                console.error("Dashboard measure error:", error);
+              } finally {
+                _finalizarDashboardReady();
+              }
+            });
+          } catch (error) {
+            console.error("Dashboard layout error:", error);
+            _finalizarDashboardReady();
           }
         });
-      });
+      } catch (error) {
+        console.error("Dashboard schedule error:", error);
+        _finalizarDashboardReady();
+      }
     });
   }, delay);
+}
+
+function _finalizarDashboardReady() {
+  const chart = document.getElementById("dashboardChart");
+  if (chart) {
+    chart.classList.remove("is-entering", "is-changing");
+    chart.classList.add("is-ready");
+  }
 }
 
 function renderizarDashboard() {
@@ -522,6 +540,14 @@ function _renderizarTudo(todosAnos = _getTodosAnosDashboard(), animacao = null) 
 
   const anosVisiveis = _getAnosVisiveisOrdenados(todosAnos);
 
+  if (!anosVisiveis.length && todosAnos.length) {
+    dashboardAnosVisiveis = new Set(todosAnos);
+    _preencherDropdownOpcoes(todosAnos);
+    _atualizarLabelBtn(todosAnos);
+    _renderizarTudo(todosAnos, animacao);
+    return;
+  }
+
   anosVisiveis.forEach((ano, idx) => {
     const dadosAno = dashboardDados.anos[ano];
     if (!dadosAno) return;
@@ -597,7 +623,7 @@ function _criarBarra(proj, ano) {
   barra.dataset.ano = ano;
   barra.style.height = `${alturaPx}px`;
   barra.style.background = corBarra(proj.score);
-  barra.style.boxShadow = `0 8px 22px ${corBarraSombra(proj.score)}`;
+  barra.style.boxShadow = "none";
 
   const gateWrap = document.createElement("span");
   gateWrap.className = "gate-wrap";
@@ -639,7 +665,6 @@ function _criarBarra(proj, ano) {
     nameEl.style.fontWeight = "800";
     nameEl.style.color = "#0a2a6e";
     barra.style.transform = "translateY(-6px)";
-    barra.style.filter = "brightness(1.07)";
     barra.style.zIndex = "10";
   });
 
@@ -649,7 +674,6 @@ function _criarBarra(proj, ano) {
     nameEl.style.fontWeight = "";
     nameEl.style.color = "";
     barra.style.transform = "";
-    barra.style.filter = "";
     barra.style.zIndex = "";
   });
 

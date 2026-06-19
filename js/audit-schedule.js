@@ -377,14 +377,14 @@ function _renderAuditScheduleControls(data) {
         <i class="fa-solid fa-magnifying-glass"></i>
         <input id="auditScheduleSearch" type="search" placeholder="Search project, gate or month..." value="${_escapeAuditSchedule(filters.search)}">
       </label>
-      ${_renderAuditScheduleMultiFilter("auditScheduleMonths", "fa-calendar-days", "Months", filters.months, months)}
+      ${_renderAuditScheduleMultiFilter("auditScheduleMonths", "fa-calendar-days", "Months", filters.months, months, false, true)}
       ${_renderAuditScheduleMultiFilter("auditScheduleGates", "fa-code-branch", "Gates", filters.gates, gates.map(gate => [gate, gate]))}
       ${_renderAuditScheduleMultiFilter("auditScheduleYears", "fa-calendar", "Year", filters.years, years.map(item => [item, item]), true)}
     </section>
   `;
 }
 
-function _renderAuditScheduleMultiFilter(id, icon, label, selected, options, single = false) {
+function _renderAuditScheduleMultiFilter(id, icon, label, selected, options, single = false, checkAllWhenEmpty = false) {
   const selectedSet = new Set(selected);
   const caption = selected.length
     ? selected.map(value => options.find(([optionValue]) => optionValue === value)?.[1] || value).join(", ")
@@ -403,7 +403,7 @@ function _renderAuditScheduleMultiFilter(id, icon, label, selected, options, sin
             <input
               type="checkbox"
               value="${_escapeAuditSchedule(optionValue)}"
-              ${selectedSet.has(String(optionValue)) ? "checked" : ""}
+              ${selectedSet.has(String(optionValue)) || (checkAllWhenEmpty && !selected.length) ? "checked" : ""}
             >
             <span>${_escapeAuditSchedule(optionLabel)}</span>
           </label>
@@ -425,7 +425,12 @@ function _renderAuditScheduleCalendar(months) {
           <h3>Calendar</h3>
           <p>Each lane is a PMO month. Audit gates carry the audit deadline at month end.</p>
         </div>
-        <span>${months.reduce((sum, month) => sum + month.events.length, 0)} visible event(s)</span>
+        <div class="audit-schedule-calendar-actions">
+          <button class="export-png-btn" type="button" data-export-selector=".audit-schedule-calendar-board" data-export-name="audit-schedule-calendar">
+            <i class="fa-regular fa-image"></i>
+          </button>
+          <span>${months.reduce((sum, month) => sum + month.events.length, 0)} visible event(s)</span>
+        </div>
       </div>
       <div class="audit-schedule-calendar-scroll">
         ${months.map(_renderAuditScheduleMonthLane).join("")}
@@ -600,8 +605,12 @@ function _bindAuditScheduleEvents() {
           });
         }
 
-        auditScheduleState.filters[key] = [...menu.querySelectorAll("input[type='checkbox']:checked")]
+        const checkedValues = [...menu.querySelectorAll("input[type='checkbox']:checked")]
           .map(item => item.value);
+        const totalOptions = menu.querySelectorAll("input[type='checkbox']").length;
+        auditScheduleState.filters[key] = key === "months" && checkedValues.length === totalOptions
+          ? []
+          : checkedValues;
         auditScheduleState.openFilter = id;
         renderAuditSchedule();
       });
