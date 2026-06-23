@@ -1,0 +1,185 @@
+﻿{
+    "DE":  "Tadeu Domingues",
+    "projeto":  "Porsche OC1049/2 Spin-on",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  4,
+                                                      "pendencias":  [
+                                                                         "There is no reference to them.",
+                                                                         "There is no reference to it.",
+                                                                         "The Deviation column was not filled in.",
+                                                                         "It was not found.",
+                                                                         "The Status at Customer column was not filled in.",
+                                                                         "It is not in EasyDMS."
+                                                                     ]
+                                                  },
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  9,
+                                       "pendencias":  [
+                                                          "That definition was made, but there is no CRM/CAM signoff for prooving that PB and PE agreeded with that."
+                                                      ]
+                                   },
+                       "CRM/CAM":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  6,
+                                       "pendencias":  [
+                                                          "There is no signature.",
+                                                          "There is no signature, and it is still in a network folder.",
+                                                          "There is no signature, and it is still in a network folder yet."
+                                                      ]
+                                   },
+                       "ADVP\u0026R MS0":  {
+                                               "gate":  "MS0",
+                                               "pontuacao":  5,
+                                               "pendencias":  [
+                                                                  "An outdated version was used.",
+                                                                  "No virtual analysis is included in ADVP.",
+                                                                  "No evidence was found."
+                                                              ]
+                                           },
+                       "R\u0026D Costs MS0":  {
+                                                  "gate":  "MS0",
+                                                  "pontuacao":  9,
+                                                  "pendencias":  [
+                                                                     "The commercial offer was not found."
+                                                                 ]
+                                              },
+                       "2D DL3":  {
+                                      "gate":  "MS0",
+                                      "pontuacao":  7,
+                                      "pendencias":  [
+                                                         "Drawing DL5, and there is no CAM signed off."
+                                                     ]
+                                  },
+                       "3D DL3":  {
+                                      "gate":  "MS0",
+                                      "pontuacao":  5,
+                                      "pendencias":  [
+                                                         "3D Model DL5, and there is no CAM signed off."
+                                                     ]
+                                  },
+                       "MAHLE Perf. Specif MS1":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  4,
+                                                      "pendencias":  [
+                                                                         "Não foi analisado nenhum dos itens "
+                                                                     ]
+                                                  },
+                       "Special Caracteristic list MS1":  {
+                                                              "gate":  "MS1",
+                                                              "pontuacao":  7,
+                                                              "pendencias":  [
+                                                                                 "Project number and Application fields are missing.",
+                                                                                 "The Drawing column was not filled in.",
+                                                                                 "The Customer Symbol column was not filled in."
+                                                                             ]
+                                                          },
+                       "BOM MS1 (PN workflow)":  {
+                                                     "gate":  "MS1",
+                                                     "pontuacao":  8,
+                                                     "pendencias":  [
+                                                                        "It is still QG0."
+                                                                    ]
+                                                 },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  8,
+                                          "pendencias":  [
+                                                             "No virtual analysis is included in ADVP.",
+                                                             "No evidence was found."
+                                                         ]
+                                      },
+                       "Stack up (Mockup)":  {
+                                                 "gate":  "MS1",
+                                                 "pontuacao":  5,
+                                                 "pendencias":  [
+                                                                    "No Stack-up analysis mension in DFMEA. Moreover, the dimension in Drawing is marked as CC S, but the matching characteristic in DFMEA has severity of 5.",
+                                                                    "No evidence that it was approved.",
+                                                                    "After the Design Freeze DL4 (MS1 due date)."
+                                                                ]
+                                             },
+                       "Traceability":  {
+                                            "gate":  "MS1",
+                                            "pontuacao":  3,
+                                            "pendencias":  [
+                                                               "No evidence was found, because no standard is referenced on drawing for traceability.",
+                                                               "There is no DRM/DAM signoff for prooving that PE agreeded with that.",
+                                                               "No evidence was found.",
+                                                               "Neither any customer drawing was found nor MAHLE drawings were available before Design Freeze DL4 (MS1 due date)."
+                                                           ]
+                                        },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  4,
+                                     "pendencias":  [
+                                                        "It is a spreadsheet file.",
+                                                        "It seems the global generic DFMEA for OC.",
+                                                        "It is just a form, instead of being in APIS.",
+                                                        "There is no AP value. Beasides, there is not even an \u0027AP\u0027 column. By the way, it seems that is according to AIAG 4th ed. (outdated standard), instead of AIAG\u0026VDA 1st ed.",
+                                                        "There is no signature on FMEA cover sheet. By the way, that is empty."
+                                                    ]
+                                 },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "Não está no Easy"
+                                                                     ]
+                                                  },
+                       "DRM/DAM":  {
+                                       "gate":  "MS1",
+                                       "pontuacao":  6,
+                                       "pendencias":  [
+                                                          "There is no DRM signed off.",
+                                                          "There is no DAM signed off."
+                                                      ]
+                                   },
+                       "Special Caracteristic list QG2":  {
+                                                              "gate":  "QG2",
+                                                              "pontuacao":  2,
+                                                              "pendencias":  [
+                                                                                 "It is still QG1.",
+                                                                                 "The Drawing column was not filled in.",
+                                                                                 "It has not changed, and it seems that SCL was not updated for QG2."
+                                                                             ]
+                                                          },
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  9,
+                                      "pendencias":  [
+                                                         "There is no DAM signed off."
+                                                     ]
+                                  },
+                       "3D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  8,
+                                      "pendencias":  [
+                                                         "There is no DAM signed off."
+                                                     ]
+                                  },
+                       "BOM QG2":  {
+                                       "gate":  "QG2",
+                                       "pontuacao":  0,
+                                       "pendencias":  [
+                                                          "The QTY Process losses column was not filled in."
+                                                      ]
+                                   },
+                       "DVP\u0026R concluded":  {
+                                                    "gate":  "QG2",
+                                                    "pontuacao":  5,
+                                                    "pendencias":  [
+                                                                       "No evidence was found.",
+                                                                       "It is not in EasyDMS."
+                                                                   ]
+                                                },
+                       "PV Validation concluded":  {
+                                                       "gate":  "QG3",
+                                                       "pontuacao":  8,
+                                                       "pendencias":  [
+                                                                          "Não contem evidencia de assinatura"
+                                                                      ]
+                                                   }
+                   }
+}

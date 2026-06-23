@@ -1,0 +1,66 @@
+﻿{
+    "DE":  "Bruno Rossanes",
+    "projeto":  "Horse LLR0123 HR13",
+    "documentos":  {
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  0,
+                                          "pendencias":  [
+                                                             "DVP not signed off by customer",
+                                                             "Not information about DFMEA Test Plan",
+                                                             "Not information about Test Plan by suppliers"
+                                                         ]
+                                      },
+                       "Numerical Simulation":  {
+                                                    "gate":  "MS1",
+                                                    "pontuacao":  0,
+                                                    "pendencias":  [
+                                                                       "Not results",
+                                                                       "Not exist evidence"
+                                                                   ]
+                                                },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  0,
+                                     "pendencias":  [
+                                                        "Not found"
+                                                    ]
+                                 },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  0,
+                                                      "pendencias":  [
+                                                                         "All components not defined or register"
+                                                                     ]
+                                                  },
+                       "Special Caracteristic list QG2":  {
+                                                              "gate":  "QG2",
+                                                              "pontuacao":  7,
+                                                              "pendencias":  [
+                                                                                 "Não preenchido todos",
+                                                                                 "Não preenchido"
+                                                                             ]
+                                                          },
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  1,
+                                      "pendencias":  [
+                                                         "Status 10 - in work"
+                                                     ]
+                                  },
+                       "3D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  2,
+                                      "pendencias":  [
+                                                         "Status 10 - in work"
+                                                     ]
+                                  },
+                       "Design approved by customer":  {
+                                                           "gate":  "QG2",
+                                                           "pontuacao":  0,
+                                                           "pendencias":  [
+                                                                              "Status 10 - in work"
+                                                                          ]
+                                                       }
+                   }
+}

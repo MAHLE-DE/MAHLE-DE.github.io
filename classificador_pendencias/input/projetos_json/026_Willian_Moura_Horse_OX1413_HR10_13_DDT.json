@@ -1,0 +1,27 @@
+﻿{
+    "DE":  "Willian Moura",
+    "projeto":  "Horse OX1413 HR10/13 DDT",
+    "documentos":  {
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  9,
+                                      "pendencias":  [
+                                                         "Os desenhos estão no SAP porém não foram alocados antes do Hard Tooling"
+                                                     ]
+                                  },
+                       "3D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  9,
+                                      "pendencias":  [
+                                                         "Desenhos 3D estão no Windchill em status 50, porém não foi alocado antes do Hard Tooling"
+                                                     ]
+                                  },
+                       "BOM QG2":  {
+                                       "gate":  "QG2",
+                                       "pontuacao":  8,
+                                       "pendencias":  [
+                                                          "BOM está no EasyDMS porém não foi alocado antes do Design Freeze"
+                                                      ]
+                                   }
+                   }
+}

@@ -1,0 +1,100 @@
+﻿{
+    "DE":  "Hilton Costa",
+    "projeto":  "Honda LP 28MY AP2Di NEXT FFV",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  7,
+                                                      "pendencias":  [
+                                                                         "Just LOR was analyzed",
+                                                                         "Need to upload customer agreement in EasyDMS"
+                                                                     ]
+                                                  },
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  9,
+                                       "pendencias":  [
+                                                          "Project Number is not completed"
+                                                      ]
+                                   },
+                       "CRM/CAM":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  0,
+                                       "pendencias":  [
+                                                          "Item 1.16 was not aswered in CRM",
+                                                          "Item 2.3 / 2.4 / 2.6 / 2.7 / 5.1 / 5.2 / 7.4 was not answered in CAM",
+                                                          "Was not signed off before MSP calculation"
+                                                      ]
+                                   },
+                       "Special Caracteristic list MS1":  {
+                                                              "gate":  "MS1",
+                                                              "pontuacao":  9,
+                                                              "pendencias":  [
+                                                                                 "Customer symbols are not listed"
+                                                                             ]
+                                                          },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  9,
+                                          "pendencias":  [
+                                                             "\u0027Customer description of sample stage\u0027 is not defined"
+                                                         ]
+                                      },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  8,
+                                     "pendencias":  [
+                                                        "There is no plan for risks",
+                                                        "Missing signatures"
+                                                    ]
+                                 },
+                       "2D DL4":  {
+                                      "gate":  "MS1",
+                                      "pontuacao":  7,
+                                      "pendencias":  [
+                                                         "Project has just 1 design check list (2241566A00-020)",
+                                                         "LP 3073:  - 2286345A00-020 (2D and 3D are not in SAP because DE is defining which Insert will use) - 2241566A00-020 (2D is not in SAP)  LD 0140: Drawings are in Status 17",
+                                                         "Drawings were updated after Soft Tooling"
+                                                     ]
+                                  },
+                       "3D DL4":  {
+                                      "gate":  "MS1",
+                                      "pontuacao":  5,
+                                      "pendencias":  [
+                                                         "LD 0140 drawings are in State 17",
+                                                         "Drawings were updated after Soft Tooling"
+                                                     ]
+                                  },
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  9,
+                                      "pendencias":  [
+                                                         "DAM Não existe"
+                                                     ]
+                                  },
+                       "3D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  8,
+                                      "pendencias":  [
+                                                         "Não existe o documento "
+                                                     ]
+                                  },
+                       "BOM QG2":  {
+                                       "gate":  "QG2",
+                                       "pontuacao":  0,
+                                       "pendencias":  [
+                                                          "Não foi definid perda de processo",
+                                                          "Não teve avanço de gate",
+                                                          "Diversos itens não contem N° do desenho",
+                                                          "-"
+                                                      ]
+                                   },
+                       "Design approved by customer":  {
+                                                           "gate":  "QG2",
+                                                           "pontuacao":  8,
+                                                           "pendencias":  [
+                                                                              "Não existe o documento"
+                                                                          ]
+                                                       }
+                   }
+}

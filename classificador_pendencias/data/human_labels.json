@@ -1,0 +1,2513 @@
+{
+  "taxonomyVersion": "1.0.0-reviewed",
+  "labels": [
+    {
+      "normalized_text": "need to upload in ectr / windchill",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "missing the agreement of costumer about cleanliness criteria",
+      "primary_category": "customer_alignment_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "it is just a form, instead of being in apis.",
+      "primary_category": "template_noncompliance",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "doc 004 is not in sap",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "ponto concept process accepted nok",
+      "primary_category": "open_actions_not_closed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "cae results were approved after 2023/nov",
+      "primary_category": "late_submission_or_update",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "resultado com wc status 'nok'",
+      "primary_category": "open_actions_not_closed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "doc 003 is in status 80",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "soft toolings started in out/22",
+      "primary_category": "late_submission_or_update",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "2ds are not in windchill",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "itens sem definição de make or buy",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "application is not correct",
+      "primary_category": "information_inconsistency",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "missing some definitions",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "the oldest drawing available in sap dates from 28/aug/2024, where as the msp calculation due date was on 5/jun/2023.",
+      "primary_category": "late_submission_or_update",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "tinta em pó preto brilhante spin-on is missing definition of make or buy",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "ld 0140 drawings are in state 17",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "contém itens sem preenchimento na severidade, ocorrência e detecção",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "bom br está na pasta errada, 4.2.1 -> 4.1",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "found in the project folder.",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "bom sem avanço de gate: ms2",
+      "primary_category": "gate_progression_issue",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "scl qg2 não existe",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "1 item faltando",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "just lor was analysed",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "just lor analyzed",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "customer symbols are not listed",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "an outdated version was used.",
+      "primary_category": "template_noncompliance",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não há scl brasil",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "special characteristic list is not in easydms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "dfmea is in excel format",
+      "primary_category": "template_noncompliance",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "missing project number",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não existe scl japonesa",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "foi preenchido apenas o cabeçalho",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "just lor was analyzed",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "project number and application fields are missing.",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "step 6 não esta completo",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "some deviations has no solution strategy",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "step 3 não esta completo",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "collar screw lenght analysis was not approved",
+      "primary_category": "open_actions_not_closed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "contem 1 material que esta parado no status 'eng. processo', e o hot melt não contem cadastro",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "deviation column was not filled",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "schedule columns were not filled",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "dam itens was not aswered",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "documento na pasta projeto",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "região de gravação não discutida e acordada com o pe",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "nem todos foram criados",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "was not agreeded with costumer",
+      "primary_category": "customer_alignment_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "that definition was made, but there is no crm/cam signoff for prooving that pb and pe agreeded with that.",
+      "primary_category": "missing_signature_or_signoff",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "item 2.1 do cam não preenchido",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "need to upload in sap",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "faltando project number",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "somente a bom ddo cc0732 as outras duas não estão no easy",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "it has not changed, and it seems that scl was not updated for qg2.",
+      "primary_category": "gate_progression_issue",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "2d drawings is not in sap",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "drawing revision is not in excel ecm 03.07",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "modified date noted in dfmea is 28/oct/22, but qg2 started on jan/22",
+      "primary_category": "late_submission_or_update",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "missing definitions",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não contem desenho da materia prima",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "scl brasil não existe",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "simbologia equivalente do desenho do cliente não foi preenchida",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "2ds are not in sap",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "there is no explanation of modifications",
+      "primary_category": "template_noncompliance",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "somente o componente 5047101895500 foi cadastrado mas o mesmo consta com status 'solicitante'",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "there is no revision in ms1",
+      "primary_category": "revision_information_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não há desenhos 3d do 731/1",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "the cadastre started after tooling construction",
+      "primary_category": "late_submission_or_update",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "bom ms1 não existe",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "scl não tem descrição de revisão e nem assinatura",
+      "primary_category": "missing_signature_or_signoff",
+      "secondary_categories": [
+        "revision_information_missing"
+      ],
+      "is_compound": true,
+      "needs_review": false,
+      "review_note": "também serve na categoria de revision",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "patent check was not done because we don ́t have a patent for spin-on, and polaris asked for a shelf part to mahle",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "timing columns was not filled",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "no virtual analysis is included in advp.",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "item 1.16 was not aswered in crm",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "dfmea brasil não existe",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "all components not defined or register",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "existe um componente que esta com status 'solicitante'",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "informações com status 'nok'",
+      "primary_category": "open_actions_not_closed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "nem todos os desenhos estão em estado 17 (nos 3 cc)",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não esta com status 50",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "cae results were approved after dvp realize",
+      "primary_category": "late_submission_or_update",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "need to upload customer agreement in easydms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "the qty process losses column was not filled in.",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "the customer symbol column was not filled in.",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "drawing dl5, and there is no cam signed off.",
+      "primary_category": "missing_signature_or_signoff",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "diversos itens não contem n° do desenho",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "ultimo nível possui correction factor = 1.1 na cover",
+      "primary_category": "information_inconsistency",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "cover sheet nao tem revisão de qg3",
+      "primary_category": "revision_information_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "pns não definidos na bom também precisam ser cadastrados no sap (workflow)",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "there is no dam signed off.",
+      "primary_category": "missing_signature_or_signoff",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "drawing is not in sap",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "two checklists are missing and information is missing from the assembly checklist",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não preenchido todos",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "ultima atualização não foi explicado o motivo (consultar i2)",
+      "primary_category": "template_noncompliance",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "stack up list was not uploaded in easy dms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "drawings is not in status 70",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "there is no plan for risks",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não definido fator de correção para todos os componentes injetados",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "there is no ap value. beasides, there is not even an 'ap' column. by the way, it seems that is according to aiag 4th ed. (outdated standard), instead of aiag&vda 1st ed.",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não contem drm",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "'runner length' has no comment of analysis",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "itens na bom sem cadastro no notes",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "the deviation column was not filled in.",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "severidades fora de conformidade com o dfmea genérico",
+      "primary_category": "information_inconsistency",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "precisa subir o cae para o easydms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "project number is not completed",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não tem os desenhos series",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não encontrado cam",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "item 1.1 não preenchido",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "item 2.3 / 2.4 / 2.6 / 2.7 / 5.1 / 5.2 / 7.4 was not answered in cam",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "há itens na bom sem pn definido",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "analisado somente iso",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "missing some 2d designs",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "drawings is not in sap",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "dam sign off was not done",
+      "primary_category": "missing_signature_or_signoff",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "missing revision 8 explanation",
+      "primary_category": "revision_information_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "desenhos 2d no sap dl4 status 70 (nok)",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "essa pendência precisa ser melhor reescrita",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não contem todos os workflow",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "patent check não realizado",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "missing cam sign off in easydms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "3d model dl5, and there is no cam signed off.",
+      "primary_category": "missing_signature_or_signoff",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "it is a spreadsheet file.",
+      "primary_category": "template_noncompliance",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "does not analyzed mahle wna",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "desenhos 2d não estão no windchill, apenas 3d",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não localizado no one plm",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "dvp&r template is not in easydms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "international norms (norm (commum)) were not analyzed",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "'customer description of sample stage' is not defined",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "cam não encontrado",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "contem falhas nas ligações pois alguns itens estão faltando informações",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "dvp not signed off by customer",
+      "primary_category": "customer_alignment_missing",
+      "secondary_categories": [
+        "missing_signature_or_signoff"
+      ],
+      "is_compound": true,
+      "needs_review": false,
+      "review_note": "também valeria para missing signoff, verificar se seria uma boa ideia colocar uma pendência em mais de um tipo e computar isso",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "ultima revision não foi explicado o motivo",
+      "primary_category": "revision_information_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "baseline não cumprida pois os itens do 'by pass valve' não consta a analise e 2 itens do 'filter element' não consta analise",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "dam was not done",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "nem todos os resultados estão em verde porem podem ter sido considerados no 2d",
+      "primary_category": "information_inconsistency",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não esta no local correto",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "baseline não cumprida pois os itens do by pass valve e 2 itens do filter element não consta analise não constam a análise",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "there is no evicence in easy dms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não contem preenchimento do campo",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "falta de preenchimento do item 2.11",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "results were not uploaded in dvp",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "resultados de teste dos materiais não estão no easy",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "resultados de teste de materiais não estão no easy",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não contem nenhum desvio devido a falta de analise do mps",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "revisão de desenho não registrada no excel ecm 03.07",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "está completo porém não está com a data atualizada",
+      "primary_category": "information_inconsistency",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "baseline não cumprida pois pns sap não foram definidos",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não esta no easy",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "cabeçalho com gate desatualizado",
+      "primary_category": "gate_progression_issue",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "not found",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não foi gerado desenho 004",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Desenho do cliente não foi feito e portanto a atividade não foi completa",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "gate não está atualizado na header da bom",
+      "primary_category": "gate_progression_issue",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "gate não atualizado na header",
+      "primary_category": "gate_progression_issue",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "revision 4 was not uploaded in easy dms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "was not signed off before msp calculation",
+      "primary_category": "late_submission_or_update",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "no dvp&r só contem a informação de aprovação de um teste, faltando a informação do outro",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "sem evidências de desenhos de protótipo",
+      "primary_category": "missing_objective_evidence",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não localizado",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "Talvez mudar o nome dessa categoria para algo mais entendível (tradução profissional de não encontrado/não existe documento)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "missing signatures and need to upload in easydms",
+      "primary_category": "missing_signature_or_signoff",
+      "secondary_categories": [
+        "repository_record_missing"
+      ],
+      "is_compound": true,
+      "needs_review": false,
+      "review_note": "essa pendência cabe em 2 categorias de verdade (missing signoff e record missing)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não contem revisão",
+      "primary_category": "revision_information_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "eu separaria a categoria em 2 (uma para revisão e uma para template, o caso dessa é revisão)",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não contem analise dos topicos de requerimento",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "test plan identificado no dfmea (dfmea brasil não existe)",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "sem evidência de aprovação de design e processos para protótipo",
+      "primary_category": "missing_signature_or_signoff",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "pv dvp não tem evidência de assinatura do cliente",
+      "primary_category": "customer_alignment_missing",
+      "secondary_categories": [
+        "missing_signature_or_signoff"
+      ],
+      "is_compound": true,
+      "needs_review": false,
+      "review_note": "também valeria para missing signoff, verificar se seria uma boa ideia colocar uma pendência em mais de um tipo e computar isso",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não foi analisado nenhum dos itens",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não consta no easy",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "ainda existem resultados que não foram liberados devido ao cronograma de teste",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não há evidência de aceitação do cliente para o mps",
+      "primary_category": "customer_alignment_missing",
+      "secondary_categories": [
+        "missing_signature_or_signoff"
+      ],
+      "is_compound": true,
+      "needs_review": false,
+      "review_note": "também valeria para missing signoff, verificar se seria uma boa ideia colocar uma pendência em mais de um tipo e computar isso",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "testes adicionais vindos do dfmea não constatados",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não foi definido cae plan",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "baseline não cumprida pois não há evidência de teste de materiais do fornecedor",
+      "primary_category": "missing_objective_evidence",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não contem evidencia de assinatura do cliente",
+      "primary_category": "customer_alignment_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "não há evidências de aprovação do cliente",
+      "primary_category": "customer_alignment_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "documento ainda não está aprovado",
+      "primary_category": "missing_signature_or_signoff",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-22T04:41:31.201Z"
+    },
+    {
+      "normalized_text": "was not uploaded in dvp",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "does not agreement customer upload in easydms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "ainda não foi realizada a reunião com o core team",
+      "primary_category": "missing_signature_or_signoff",
+      "secondary_categories": [
+        "activity_not_completed"
+      ],
+      "is_compound": true,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "pv dvp não está no easy",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "in work",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [
+        "activity_not_completed"
+      ],
+      "is_compound": true,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "no stack-up analysis mension in dfmea. moreover, the dimension in drawing is marked as cc s, but the matching characteristic in dfmea has severity of 5.",
+      "primary_category": "information_inconsistency",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "the commercial offer was not found.",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [
+        "required_document_or_artifact_unavailable"
+      ],
+      "is_compound": true,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "aguardando aprovação",
+      "primary_category": "missing_signature_or_signoff",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "need to upload in easydms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "'status at costumer' column is not filled",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "was considered just mahle test plan",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "drm was not done",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "dvp não contem informações sobre material",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "sem evidência de oferta comercial com r&d cost",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [
+        "repository_record_missing"
+      ],
+      "is_compound": true,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "desenhos foram submetidos no windchill após o início do soft tooling (jun/2024)",
+      "primary_category": "late_submission_or_update",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "falta a reunião final para finalização do dfmea",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "pv validation is not in easydms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não está no easy",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "faltam assinaturas do regional segment manager, global segment manager e head of r&d",
+      "primary_category": "missing_signature_or_signoff",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "contem pontos em aberto",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "3d drawings were uploaded after hard toolings",
+      "primary_category": "late_submission_or_update",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "custumer drawing was not done yet",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não foi realizado uploaded",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "bom is not in easy dms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "status of actions is in progress yet",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [
+        "analysis_or_check_not_completed"
+      ],
+      "is_compound": true,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "2d drawings last version is not in windchill",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "costumer agreement was not found in easydms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não encontrado informação de r&d cost",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "3d ́s was uploaded after hard toolings start",
+      "primary_category": "late_submission_or_update",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "há itens de teste com requerimento em tbd e sem análise completa",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [
+        "missing_or_incomplete_information"
+      ],
+      "is_compound": true,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "stackup não encontrado",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "desenhos 2d no ectr dl5 status 50 + dam assinado (nok)",
+      "primary_category": "missing_signature_or_signoff",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "signoff não está no easy",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não localizado essa informação no dvp",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "customer drawing was not analyzed",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não foi considerado pois não há o plano cae até o momento",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "foi considerado apenas o test plan no documento por não haver um plano cae até o momento",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não conte analise de normas mahle",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "está faltando severidade falhas tambem existem algumas que não estão lincadas",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "all material test results is not in easydms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não foi feito upload do drm signoff no easy",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "drawing checklist was not done",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "os desenhos estão no sap porém não foram alocados antes do hard tooling",
+      "primary_category": "late_submission_or_update",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "cronograma não foi definido",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "sem informação se vai ou não incluir lay-out test no r&d cost",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não encontrado no r&d costs",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "missing conclusion",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "material test report is not in easydms",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não existe dfmea",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "faltam informações na header",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "soft tooling started on fev/23, but 2ds was uploaded in easydms on dez/24",
+      "primary_category": "late_submission_or_update",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "not information about test plan by suppliers",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "contem itens sem preenchimento",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "was not done",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "severidades estão fora do estipulado no vda",
+      "primary_category": "information_inconsistency",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não incluso lay-out test",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não contem cae plan",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "faltando especificação de material",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "nem todos os pontos foram confirmados",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "lay-out test sem evidência de decisão de inclusão no advp&r",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "sem evidência de test plan dos fornecedores",
+      "primary_category": "missing_objective_evidence",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "sem informações sobre testes dos fornecedores",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "falta evidência de acordo com o cliente sobre os desvios",
+      "primary_category": "customer_alignment_missing",
+      "secondary_categories": [
+        "missing_objective_evidence"
+      ],
+      "is_compound": true,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "missing revision on cover sheet",
+      "primary_category": "revision_information_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não preenchido",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [
+        "analysis_or_check_not_completed"
+      ],
+      "is_compound": true,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não foi informado a materia prima dos limitadores",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "falta de informação de um dos testes",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "baseline não cumprida pois ainda não há desenho do cliente",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não existe o documento",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "não foi realizado",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:39:52.415Z"
+    },
+    {
+      "normalized_text": "desenho usage b series em status 10 após o fim do qg2",
+      "primary_category": "late_submission_or_update",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "last review was in qg2",
+      "primary_category": "revision_information_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "the drawing column was not filled in.",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "drm checklist was not done",
+      "primary_category": "analysis_or_check_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "project has just 1 design check list (2241566a00-020)",
+      "primary_category": "activity_not_completed",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "não houve stackup list a partir do dfmea/dvp",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "lp 3073: - 2286345a00-020 (2d and 3d are not in sap because de is defining which insert will use) - 2241566a00-020 (2d is not in sap) ld 0140: drawings are in status 17",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "cad check list was not done",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "não existe stuck up",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "not information about dfmea test plan",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "dam checklist was not done",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "desenhos não estão no sap (apenas desenho de conjunto)",
+      "primary_category": "repository_record_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "não foi aprovado pelo cliente pois estamos aguardando informações técnicas para atualização de alguns parâmetros de teste",
+      "primary_category": "customer_alignment_missing",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "plano cae preliminar não definido",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "não definido cae plan",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "lay-out test was not considered",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "missing material test report",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "não localizado carta comercial",
+      "primary_category": "required_document_or_artifact_unavailable",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "não encontrado nenhuma informação no r&d referente a lay-out test",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "resultados não presentes no dvp",
+      "primary_category": "missing_or_incomplete_information",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "não há evidências de assinatura do core team",
+      "primary_category": "missing_signature_or_signoff",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T00:55:53.313Z"
+    },
+    {
+      "normalized_text": "desenhos com status in work",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T01:13:40.264Z"
+    },
+    {
+      "normalized_text": "status 10 - in work",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T01:13:40.264Z"
+    },
+    {
+      "normalized_text": "it is still qg1.",
+      "primary_category": "gate_progression_issue",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T01:13:40.264Z"
+    },
+    {
+      "normalized_text": "neither any customer drawing was found nor mahle drawings were available before design freeze dl4 (ms1 due date).",
+      "primary_category": "late_submission_or_update",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T01:13:40.264Z"
+    },
+    {
+      "normalized_text": "não há dam e desenhos 3d não estão em status 50",
+      "primary_category": "workflow_status_not_released",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T01:13:40.264Z"
+    },
+    {
+      "normalized_text": "it is still qg0.",
+      "primary_category": "gate_progression_issue",
+      "secondary_categories": [],
+      "is_compound": false,
+      "needs_review": false,
+      "review_note": "",
+      "reviewed_at": "2026-06-23T01:22:15.859Z"
+    }
+  ],
+  "excluded": [
+    {
+      "normalized_text": "need to define weight of process losses",
+      "reason": "Essa pendência em específico não existira mais na auditoria, vamos desconsiderar"
+    },
+    {
+      "normalized_text": "contem 1 como 'new'",
+      "reason": "pendencia generica demais, ignorar"
+    },
+    {
+      "normalized_text": "it seems the global generic dfmea for oc.",
+      "reason": "pendencia generica demais"
+    },
+    {
+      "normalized_text": "item 5007104606000 com status eng. processo",
+      "reason": "essa pendência precisa ser reescrita, desconsiderar"
+    },
+    {
+      "normalized_text": "-",
+      "reason": "pendencia generica demais, desconsiderar"
+    },
+    {
+      "normalized_text": "there is no reference to them.",
+      "reason": "Pendência generica demais"
+    },
+    {
+      "normalized_text": "só foi realizado o stack up da mola devido a ser um design quase identico ao cc694",
+      "reason": "Essa pendência não está fazendo muito sentido, preciso reescrevela"
+    },
+    {
+      "normalized_text": "incompleto",
+      "reason": "essa pendência será refeita pois é genérica demais"
+    },
+    {
+      "normalized_text": "not results",
+      "reason": "essa pendência será refeita pois é genérica demais"
+    },
+    {
+      "normalized_text": "não foi definido",
+      "reason": "essa pendência será refeita pois é genérica demais"
+    },
+    {
+      "normalized_text": "não definido ainda",
+      "reason": "essa pendência será refeita pois é genérica demais"
+    },
+    {
+      "normalized_text": "not planned yet",
+      "reason": "generico demais"
+    },
+    {
+      "normalized_text": "there is no reference to it.",
+      "reason": "generico demais"
+    },
+    {
+      "normalized_text": "template in excel does not have action priority",
+      "reason": "No approved category"
+    },
+    {
+      "normalized_text": "não foi definid perda de processo",
+      "reason": "perda de processo é uma pendência que não existirá mais"
+    },
+    {
+      "normalized_text": "não definido",
+      "reason": "genérico demais"
+    },
+    {
+      "normalized_text": "not design freeze series",
+      "reason": "No approved category"
+    }
+  ]
+}

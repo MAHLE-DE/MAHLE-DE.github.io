@@ -1,0 +1,179 @@
+﻿{
+    "DE":  "Caio Oliveira",
+    "projeto":  "John Deere LA2093 Tractor 5000",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  6,
+                                                      "pendencias":  [
+                                                                         "Analisado somente ISO",
+                                                                         "Não esta no Easy"
+                                                                     ]
+                                                  },
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  9,
+                                       "pendencias":  [
+                                                          "Faltando Project Number "
+                                                      ]
+                                   },
+                       "CRM/CAM":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  0,
+                                       "pendencias":  [
+                                                          "Contem itens sem preenchimento",
+                                                          "Não assinado",
+                                                          "Não encontrado CAM"
+                                                      ]
+                                   },
+                       "ADVP\u0026R MS0":  {
+                                               "gate":  "MS0",
+                                               "pontuacao":  8,
+                                               "pendencias":  [
+                                                                  "Não definido CAE Plan"
+                                                              ]
+                                           },
+                       "R\u0026D Costs MS0":  {
+                                                  "gate":  "MS0",
+                                                  "pontuacao":  3,
+                                                  "pendencias":  [
+                                                                     "Não contem evidencia de CAE Plan",
+                                                                     "Não incluso lay-out test",
+                                                                     "Não encontrado informação de R\u0026D Cost"
+                                                                 ]
+                                              },
+                       "2D DL3":  {
+                                      "gate":  "MS0",
+                                      "pontuacao":  0,
+                                      "pendencias":  [
+                                                         "CRM Não assinado"
+                                                     ]
+                                  },
+                       "3D DL3":  {
+                                      "gate":  "MS0",
+                                      "pontuacao":  0,
+                                      "pendencias":  [
+                                                         "CAM Não assinado"
+                                                     ]
+                                  },
+                       "MAHLE Perf. Specif MS1":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "Não esta no Easy"
+                                                                     ]
+                                                  },
+                       "Special Caracteristic list MS1":  {
+                                                              "gate":  "MS1",
+                                                              "pontuacao":  7,
+                                                              "pendencias":  [
+                                                                                 "Não preenchido"
+                                                                             ]
+                                                          },
+                       "BOM MS1 (PN workflow)":  {
+                                                     "gate":  "MS1",
+                                                     "pontuacao":  4,
+                                                     "pendencias":  [
+                                                                        "Não avançou de Gate",
+                                                                        "Não contem desenho da Materia Prima",
+                                                                        "Item 5007104606000 com STATUS Eng. Processo",
+                                                                        "Não definido"
+                                                                    ]
+                                                 },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  0,
+                                          "pendencias":  [
+                                                             "Não contem evidencia de assinatura",
+                                                             "Falta de informação",
+                                                             "Não foi definido CAE Plan",
+                                                             "Não contem evidencia de assinatura do cliente",
+                                                             "Não definido",
+                                                             "Não contem assinatura"
+                                                         ]
+                                      },
+                       "Stack up (Mockup)":  {
+                                                 "gate":  "MS1",
+                                                 "pontuacao":  6,
+                                                 "pendencias":  [
+                                                                    "Não existe DFMEA",
+                                                                    "Nem todos os resultados estão em verde porem podem ter sido considerados no 2D "
+                                                                ]
+                                             },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  9,
+                                     "pendencias":  [
+                                                        "Não localizado"
+                                                    ]
+                                 },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  8,
+                                                      "pendencias":  [
+                                                                         "Contem 1 Material que esta parado no STATUS \u0027Eng. Processo\u0027, e o Hot Melt não contem cadastro",
+                                                                         "Não localizado no Easy"
+                                                                     ]
+                                                  },
+                       "DRM/DAM":  {
+                                       "gate":  "MS1",
+                                       "pontuacao":  8,
+                                       "pendencias":  [
+                                                          "não foi assinado",
+                                                          "Não esta no Easy"
+                                                      ]
+                                   },
+                       "2D DL4":  {
+                                      "gate":  "MS1",
+                                      "pontuacao":  9,
+                                      "pendencias":  [
+                                                         "DRM não existe"
+                                                     ]
+                                  },
+                       "3D DL4":  {
+                                      "gate":  "MS1",
+                                      "pontuacao":  8,
+                                      "pendencias":  [
+                                                         "Não contem DRM "
+                                                     ]
+                                  },
+                       "Rapid Proto Control Plan":  {
+                                                        "gate":  "MS1",
+                                                        "pontuacao":  9,
+                                                        "pendencias":  [
+                                                                           "Não está no easy"
+                                                                       ]
+                                                    },
+                       "Special Caracteristic list QG2":  {
+                                                              "gate":  "QG2",
+                                                              "pontuacao":  6,
+                                                              "pendencias":  [
+                                                                                 "Não tem os desenhos Series",
+                                                                                 "Não preenchido"
+                                                                             ]
+                                                          },
+                       "DFMEA concluded":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  4,
+                                               "pendencias":  [
+                                                                  "Não teve alteração de gate",
+                                                                  "Não contem revisão",
+                                                                  "Não foi assinado"
+                                                              ]
+                                           },
+                       "PV Validation concluded":  {
+                                                       "gate":  "QG3",
+                                                       "pontuacao":  0,
+                                                       "pendencias":  [
+                                                                          "Não existe o documento"
+                                                                      ]
+                                                   },
+                       "DFMEA signoff":  {
+                                             "gate":  "QG3",
+                                             "pontuacao":  6,
+                                             "pendencias":  [
+                                                                "Sem assinatura do DFMEA QG3"
+                                                            ]
+                                         }
+                   }
+}

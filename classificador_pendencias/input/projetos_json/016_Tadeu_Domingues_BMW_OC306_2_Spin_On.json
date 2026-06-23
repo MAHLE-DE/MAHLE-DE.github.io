@@ -1,0 +1,109 @@
+﻿{
+    "DE":  "Tadeu Domingues",
+    "projeto":  "BMW OC306/2 Spin-On",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  8,
+                                                      "pendencias":  [
+                                                                         "Foi analisado porém 1 item o da linha A53 não consta evidencias de analise",
+                                                                         "Loop encontrado no Easy/ não contem nenhum ponto de MPS"
+                                                                     ]
+                                                  },
+                       "ADVP\u0026R MS0":  {
+                                               "gate":  "MS0",
+                                               "pontuacao":  9,
+                                               "pendencias":  [
+                                                                  "Template desatualizado"
+                                                              ]
+                                           },
+                       "R\u0026D Costs MS0":  {
+                                                  "gate":  "MS0",
+                                                  "pontuacao":  6,
+                                                  "pendencias":  [
+                                                                     "Não consta custo de CAE",
+                                                                     "Não encontrado nenhuma informação no R\u0026D referente a lay-out test",
+                                                                     "Sem evidência de oferta comercial com R\u0026D Cost"
+                                                                 ]
+                                              },
+                       "MAHLE Perf. Specif MS1":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  0,
+                                                      "pendencias":  [
+                                                                         "Baseline não cumprida pois não há evidência de que todos os pontos foram fechados",
+                                                                         "Um dos pontos não consta evidência de análise ",
+                                                                         "Não consta evidencia de que todos os pontos foram concluidos",
+                                                                         "Não foi feito upload no Easy "
+                                                                     ]
+                                                  },
+                       "Special Caracteristic list MS1":  {
+                                                              "gate":  "MS1",
+                                                              "pontuacao":  7,
+                                                              "pendencias":  [
+                                                                                 "Template desatualizado",
+                                                                                 "Cabeçalho incompleto (Project number/application)",
+                                                                                 "Simbologia equivalente do desenho do cliente não foi preenchida"
+                                                                             ]
+                                                          },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  0,
+                                          "pendencias":  [
+                                                             "Baseline não cumprida pois não foi encontrada evidencia de assinatura do DVP\u0026R pelo cliente",
+                                                             "Template desatualizado",
+                                                             "Sem evidência de test plan dos fornecedores",
+                                                             "Não foi feito uploaded no Easy "
+                                                         ]
+                                      },
+                       "Stack up (Mockup)":  {
+                                                 "gate":  "MS1",
+                                                 "pontuacao":  0,
+                                                 "pendencias":  [
+                                                                    "Baseline não cumprida pois os itens do By pass valve e 2 itens do Filter element não consta analise não constam a análise ",
+                                                                    "Utilizado template da forma incorreta",
+                                                                    "Nem todos os itens do DFMEA foi realizado o Stack up ",
+                                                                    "Stackup results divergentes devido a utilização do template incorreta",
+                                                                    "Baseline não cumprida pois os itens do By pass valve e 2 itens do Filter element não consta analise não constam a análise ",
+                                                                    "Não foi feito upload no Easy "
+                                                                ]
+                                             },
+                       "Numerical Simulation":  {
+                                                    "gate":  "MS1",
+                                                    "pontuacao":  6,
+                                                    "pendencias":  [
+                                                                       "Falta de informação de um dos testes",
+                                                                       "No DVP\u0026R só contem a informação de aprovação de um teste, faltando a informação do outro"
+                                                                   ]
+                                                },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  0,
+                                     "pendencias":  [
+                                                        "Baseline não cumprida pois não está no Easy e não contem evidencia de assinatura",
+                                                        "Baseline não cumprida pois não está no Easy e não contem evidencia de assinatura"
+                                                    ]
+                                 },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "Não foi feito upload no Easy "
+                                                                     ]
+                                                  },
+                       "Design approved by customer":  {
+                                                           "gate":  "QG2",
+                                                           "pontuacao":  6,
+                                                           "pendencias":  [
+                                                                              "Desenho Usage B Series em status 10 após o fim do QG2",
+                                                                              "Desenho Usage B Series em status 10 após o fim do QG2"
+                                                                          ]
+                                                       },
+                       "PV Validation concluded":  {
+                                                       "gate":  "QG3",
+                                                       "pontuacao":  8,
+                                                       "pendencias":  [
+                                                                          "PV DVP não tem evidência de assinatura do cliente"
+                                                                      ]
+                                                   }
+                   }
+}

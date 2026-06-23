@@ -1,0 +1,127 @@
+Option Explicit
+
+' ============================================================
+' MAHLE - Pending Classifier Firebase Runner
+' ------------------------------------------------------------
+' This macro runs the Python classifier in Firebase mode:
+' 1. Downloads every document from Firestore collection "projetos"
+' 2. Classifies all pending items
+' 3. Generates one consolidated JSON
+' 4. Uploads it to classificado/classificador as jsonCompleto
+' ============================================================
+
+Private Const CLASSIFIER_FOLDER As String = "C:\PC\sitemahle\classificador_pendencias" ' <<< CORRIGIR AQUI
+Private Const PYTHON_EXE As String = "" ' Optional. Leave blank to use .venv or python from PATH.
+
+Private Const FIREBASE_API_KEY As String = "COLE_A_API_KEY_AQUI" ' <<< CORRIGIR AQUI
+Private Const FIREBASE_PROJECT_ID As String = "site-mahle"
+Private Const FIREBASE_EMAIL As String = "COLE_O_EMAIL_AQUI" ' <<< CORRIGIR AQUI
+Private Const FIREBASE_PASSWORD As String = "COLE_A_SENHA_AQUI" ' <<< CORRIGIR AQUI
+
+Private Const SOURCE_COLLECTION As String = "projetos"
+Private Const TARGET_COLLECTION As String = "classificado"
+Private Const TARGET_DOCUMENT As String = "classificador"
+
+Public Sub AtualizarClassificadorFirebase()
+
+    On Error GoTo TrataErro
+
+    Dim folder As String
+    folder = NormalizarPasta(CLASSIFIER_FOLDER)
+
+    If Dir(folder, vbDirectory) = vbNullString Then
+        Err.Raise vbObjectError + 1000, , "Classifier folder not found: " & folder
+    End If
+
+    If Dir(folder & "\run_classifier.py") = vbNullString Then
+        Err.Raise vbObjectError + 1001, , "run_classifier.py not found inside: " & folder
+    End If
+
+    If FIREBASE_API_KEY = "" Or FIREBASE_EMAIL = "" Or FIREBASE_PASSWORD = "" Then
+        Err.Raise vbObjectError + 1002, , "Firebase API key, email and password must be configured in the macro constants."
+    End If
+
+    Dim pythonPath As String
+    pythonPath = ResolverPython(folder)
+
+    Dim command As String
+    command = QuoteArg(pythonPath) & " " & _
+        QuoteArg(folder & "\run_classifier.py") & " " & _
+        "--from-firebase --upload-firebase " & _
+        "--firebase-api-key " & QuoteArg(FIREBASE_API_KEY) & " " & _
+        "--firebase-project-id " & QuoteArg(FIREBASE_PROJECT_ID) & " " & _
+        "--firebase-email " & QuoteArg(FIREBASE_EMAIL) & " " & _
+        "--firebase-password " & QuoteArg(FIREBASE_PASSWORD) & " " & _
+        "--source-collection " & QuoteArg(SOURCE_COLLECTION) & " " & _
+        "--target-collection " & QuoteArg(TARGET_COLLECTION) & " " & _
+        "--target-document " & QuoteArg(TARGET_DOCUMENT)
+
+    Dim shell As Object
+    Set shell = CreateObject("WScript.Shell")
+    shell.CurrentDirectory = folder
+
+    Application.StatusBar = "Running pending classifier..."
+
+    Dim exec As Object
+    Set exec = shell.Exec(command)
+
+    Dim stdoutText As String
+    Dim stderrText As String
+
+    Do While exec.Status = 0
+        DoEvents
+        Application.Wait Now + TimeSerial(0, 0, 1)
+    Loop
+
+    stdoutText = exec.StdOut.ReadAll
+    stderrText = exec.StdErr.ReadAll
+
+    Application.StatusBar = False
+
+    If exec.ExitCode <> 0 Then
+        Err.Raise vbObjectError + 1003, , _
+            "Classifier failed with exit code " & exec.ExitCode & vbCrLf & vbCrLf & _
+            "STDOUT:" & vbCrLf & stdoutText & vbCrLf & vbCrLf & _
+            "STDERR:" & vbCrLf & stderrText
+    End If
+
+    MsgBox "Classifier updated successfully!" & vbCrLf & vbCrLf & _
+        "Firestore target: " & TARGET_COLLECTION & "/" & TARGET_DOCUMENT & vbCrLf & vbCrLf & _
+        stdoutText, vbInformation
+
+    Exit Sub
+
+TrataErro:
+    Application.StatusBar = False
+    MsgBox "Classifier update failed:" & vbCrLf & vbCrLf & Err.Description, vbCritical
+
+End Sub
+
+Private Function ResolverPython(ByVal folder As String) As String
+
+    If Trim(PYTHON_EXE) <> "" Then
+        ResolverPython = PYTHON_EXE
+        Exit Function
+    End If
+
+    Dim venvPython As String
+    venvPython = folder & "\.venv\Scripts\python.exe"
+
+    If Dir(venvPython) <> vbNullString Then
+        ResolverPython = venvPython
+    Else
+        ResolverPython = "python"
+    End If
+
+End Function
+
+Private Function NormalizarPasta(ByVal folder As String) As String
+    NormalizarPasta = Trim(folder)
+    Do While Right(NormalizarPasta, 1) = "\" Or Right(NormalizarPasta, 1) = "/"
+        NormalizarPasta = Left(NormalizarPasta, Len(NormalizarPasta) - 1)
+    Loop
+End Function
+
+Private Function QuoteArg(ByVal value As String) As String
+    QuoteArg = """" & Replace(value, """", """""") & """"
+End Function

@@ -1,0 +1,150 @@
+﻿{
+    "DE":  "Thiago Amaral",
+    "projeto":  "Volvo OC1817 OES",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "Sem evidência de acordo dos desvios com o cliente"
+                                                                     ]
+                                                  },
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  7,
+                                       "pendencias":  [
+                                                          "Cabeçalho desatualizado",
+                                                          "Itens sem definição de MAKE or BUY",
+                                                          "Ultima revision não foi explicado o motivo"
+                                                      ]
+                                   },
+                       "CRM/CAM":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  8,
+                                       "pendencias":  [
+                                                          "Ponto Concept process accepted NOK"
+                                                      ]
+                                   },
+                       "ADVP\u0026R MS0":  {
+                                               "gate":  "MS0",
+                                               "pontuacao":  8,
+                                               "pendencias":  [
+                                                                  "Plano CAE preliminar não definido"
+                                                              ]
+                                           },
+                       "Patent Check":  {
+                                            "gate":  "MS0",
+                                            "pontuacao":  0,
+                                            "pendencias":  [
+                                                               "Não foi realizado"
+                                                           ]
+                                        },
+                       "Special Caracteristic list MS1":  {
+                                                              "gate":  "MS1",
+                                                              "pontuacao":  2,
+                                                              "pendencias":  [
+                                                                                 "Foi preenchido apenas o cabeçalho"
+                                                                             ]
+                                                          },
+                       "BOM MS1 (PN workflow)":  {
+                                                     "gate":  "MS1",
+                                                     "pontuacao":  9,
+                                                     "pendencias":  [
+                                                                        "Não foi feito upload no Easy antes do Design Freeze DL4"
+                                                                    ]
+                                                 },
+                       "Stack up (Mockup)":  {
+                                                 "gate":  "MS1",
+                                                 "pontuacao":  7,
+                                                 "pendencias":  [
+                                                                    "Não houve Stackup list a partir do DFMEA/DVP",
+                                                                    "Não foi feito upload no Easy antes do Design Freeze DL4"
+                                                                ]
+                                             },
+                       "Numerical Simulation":  {
+                                                    "gate":  "MS1",
+                                                    "pontuacao":  5,
+                                                    "pendencias":  [
+                                                                       "Resultados CAE sem evidência de aprovação pelo DE antes do design freeze DL4",
+                                                                       "Sem evidência dos resultados CAE no DVP",
+                                                                       "Não está no Easy"
+                                                                   ]
+                                                },
+                       "Traceability":  {
+                                            "gate":  "MS1",
+                                            "pontuacao":  8,
+                                            "pendencias":  [
+                                                               "Região de gravação não discutida e acordada com o PE"
+                                                           ]
+                                        },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  9,
+                                     "pendencias":  [
+                                                        "Não está assinado ou no Easy"
+                                                    ]
+                                 },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "Resultados de teste dos materiais não estão no Easy"
+                                                                     ]
+                                                  },
+                       "DRM/DAM":  {
+                                       "gate":  "MS1",
+                                       "pontuacao":  7,
+                                       "pendencias":  [
+                                                          "Sem evidência de aprovação de Design e Processos para protótipo",
+                                                          "DRM sem assinatura",
+                                                          "DRM assinado não está no Easy"
+                                                      ]
+                                   },
+                       "2D DL4":  {
+                                      "gate":  "MS1",
+                                      "pontuacao":  7,
+                                      "pendencias":  [
+                                                         "Revisão de desenho não registrada no Excel ECM 03.07",
+                                                         "Desenhos 2D no ECTR DL5 status 50 + DRM assinado (NOK)",
+                                                         "Desenhos 2D no SAP DL4 Status 70 (NOK)"
+                                                     ]
+                                  },
+                       "Special Caracteristic list QG2":  {
+                                                              "gate":  "QG2",
+                                                              "pontuacao":  8,
+                                                              "pendencias":  [
+                                                                                 "Gate não atualizado na header"
+                                                                             ]
+                                                          },
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  9,
+                                      "pendencias":  [
+                                                         "Desenhos 2D no ECTR DL5 status 50 + DAM assinado (NOK)"
+                                                     ]
+                                  },
+                       "3D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  8,
+                                      "pendencias":  [
+                                                         "Desenhos 3D no ECTR DL5 status 50 + DAM assinado (NOK)"
+                                                     ]
+                                  },
+                       "DVP\u0026R concluded":  {
+                                                    "gate":  "QG2",
+                                                    "pontuacao":  5,
+                                                    "pendencias":  [
+                                                                       "DV Test report não concluído",
+                                                                       "DV Test report não analisado e revisado pelo DE",
+                                                                       "Precisa subir o CAE para o EasyDMS"
+                                                                   ]
+                                                },
+                       "DFMEA concluded":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  8,
+                                               "pendencias":  [
+                                                                  "Falta a reunião final para finalização do DFMEA"
+                                                              ]
+                                           }
+                   }
+}

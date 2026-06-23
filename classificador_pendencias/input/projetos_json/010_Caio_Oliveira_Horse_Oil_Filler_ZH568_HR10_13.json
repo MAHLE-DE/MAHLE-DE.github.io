@@ -1,0 +1,124 @@
+﻿{
+    "DE":  "Caio Oliveira",
+    "projeto":  "Horse Oil Filler ZH568 HR10/13",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  5,
+                                                      "pendencias":  [
+                                                                         "Just LOR was analyzed",
+                                                                         "There is no evidence of alignment of some requirements",
+                                                                         "No evidence of agreement"
+                                                                     ]
+                                                  },
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  9,
+                                       "pendencias":  [
+                                                          "Document wasnt uploaded in EasyDMS"
+                                                      ]
+                                   },
+                       "CRM/CAM":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  9,
+                                       "pendencias":  [
+                                                          "Missing Project Number"
+                                                      ]
+                                   },
+                       "Special Caracteristic list MS1":  {
+                                                              "gate":  "MS1",
+                                                              "pontuacao":  9,
+                                                              "pendencias":  [
+                                                                                 "There is no explanation of modifications"
+                                                                             ]
+                                                          },
+                       "BOM MS1 (PN workflow)":  {
+                                                     "gate":  "MS1",
+                                                     "pontuacao":  8,
+                                                     "pendencias":  [
+                                                                        "The cadastre started after tooling construction",
+                                                                        "Revision 4 was not uploaded in Easy DMS"
+                                                                    ]
+                                                 },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  8,
+                                          "pendencias":  [
+                                                             "Some points of header is not filled",
+                                                             "Schedule columns were not filled"
+                                                         ]
+                                      },
+                       "Stack up (Mockup)":  {
+                                                 "gate":  "MS1",
+                                                 "pontuacao":  0,
+                                                 "pendencias":  [
+                                                                    "Collar screw lenght analysis was not approved",
+                                                                    "Stack up list was not uploaded in Easy DMS"
+                                                                ]
+                                             },
+                       "Numerical Simulation":  {
+                                                    "gate":  "MS1",
+                                                    "pontuacao":  0,
+                                                    "pendencias":  [
+                                                                       "Results were updated in Easy DMS after Design Freeze (08/04/2024)"
+                                                                   ]
+                                                },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "There is no evicence in Easy DMS"
+                                                                     ]
+                                                  },
+                       "DRM/DAM":  {
+                                       "gate":  "MS1",
+                                       "pontuacao":  9,
+                                       "pendencias":  [
+                                                          "It was uploaded in Easy DMS after Design Freeze"
+                                                      ]
+                                   },
+                       "Special Caracteristic list QG2":  {
+                                                              "gate":  "QG2",
+                                                              "pontuacao":  9,
+                                                              "pendencias":  [
+                                                                                 "It was uploaded in Easy DMS after Design Freeze"
+                                                                             ]
+                                                          },
+                       "3D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  9,
+                                      "pendencias":  [
+                                                         "3D drawings were uploaded after Hard Toolings"
+                                                     ]
+                                  },
+                       "BOM QG2":  {
+                                       "gate":  "QG2",
+                                       "pontuacao":  7,
+                                       "pendencias":  [
+                                                          "Updated template with no correction factor column",
+                                                          "BOM revision 7 was uploaded in Easy DMS after Design Freeze"
+                                                      ]
+                                   },
+                       "DFMEA concluded":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  8,
+                                               "pendencias":  [
+                                                                  "Status of actions is In progress yet"
+                                                              ]
+                                           },
+                       "PV Validation concluded":  {
+                                                       "gate":  "QG3",
+                                                       "pontuacao":  8,
+                                                       "pendencias":  [
+                                                                          "No evidence of signature"
+                                                                      ]
+                                                   },
+                       "DFMEA signoff":  {
+                                             "gate":  "QG3",
+                                             "pontuacao":  6,
+                                             "pendencias":  [
+                                                                "Last review was in QG2"
+                                                            ]
+                                         }
+                   }
+}

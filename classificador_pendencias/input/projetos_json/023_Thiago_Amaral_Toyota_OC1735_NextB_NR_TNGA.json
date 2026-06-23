@@ -1,0 +1,117 @@
+﻿{
+    "DE":  "Thiago Amaral",
+    "projeto":  "Toyota OC1735 NextB NR TNGA",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  8,
+                                                      "pendencias":  [
+                                                                         "Deviation column was not filled",
+                                                                         "Costumer agreement was not found in EasyDMS"
+                                                                     ]
+                                                  },
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  9,
+                                       "pendencias":  [
+                                                          "TINTA EM PÓ PRETO BRILHANTE SPIN-ON is missing definition of Make or Buy"
+                                                      ]
+                                   },
+                       "ADVP\u0026R MS0":  {
+                                               "gate":  "MS0",
+                                               "pontuacao":  8,
+                                               "pendencias":  [
+                                                                  "Fechado posterior ao GATE"
+                                                              ]
+                                           },
+                       "R\u0026D Costs MS0":  {
+                                                  "gate":  "MS0",
+                                                  "pontuacao":  8,
+                                                  "pendencias":  [
+                                                                     "Lay-out test was not considered"
+                                                                 ]
+                                              },
+                       "2D DL3":  {
+                                      "gate":  "MS0",
+                                      "pontuacao":  9,
+                                      "pendencias":  [
+                                                         "The oldest drawing available in SAP dates from 28/Aug/2024, where as the MSP Calculation due date was on 5/Jun/2023."
+                                                     ]
+                                  },
+                       "BOM MS1 (PN workflow)":  {
+                                                     "gate":  "MS1",
+                                                     "pontuacao":  9,
+                                                     "pendencias":  [
+                                                                        "Missing revision 8 explanation"
+                                                                    ]
+                                                 },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  8,
+                                          "pendencias":  [
+                                                             "Timing columns was not filled",
+                                                             "Was not signed"
+                                                         ]
+                                      },
+                       "Numerical Simulation":  {
+                                                    "gate":  "MS1",
+                                                    "pontuacao":  7,
+                                                    "pendencias":  [
+                                                                       "Was not uploaded in DVP",
+                                                                       "Found in the project folder."
+                                                                   ]
+                                                },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  8,
+                                     "pendencias":  [
+                                                        "Not planned yet",
+                                                        "DFMEA is missing Core Team signature and it is not in EasyDMS"
+                                                    ]
+                                 },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "Missing material test report"
+                                                                     ]
+                                                  },
+                       "2D DL4":  {
+                                      "gate":  "MS1",
+                                      "pontuacao":  8,
+                                      "pendencias":  [
+                                                         "CAD Check list was not done",
+                                                         "Soft Tooling started on fev/23, but 2Ds was uploaded in EasyDMS on dez/24"
+                                                     ]
+                                  },
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  9,
+                                      "pendencias":  [
+                                                         "Desenhos com status IN WORK"
+                                                     ]
+                                  },
+                       "3D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  8,
+                                      "pendencias":  [
+                                                         "confirmar assinatura no DAM"
+                                                     ]
+                                  },
+                       "Design approved by customer":  {
+                                                           "gate":  "QG2",
+                                                           "pontuacao":  8,
+                                                           "pendencias":  [
+                                                                              "DAM not signoff"
+                                                                          ]
+                                                       },
+                       "DFMEA concluded":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  7,
+                                               "pendencias":  [
+                                                                  "Aguardando assinatura",
+                                                                  "not design freeze Series"
+                                                              ]
+                                           }
+                   }
+}

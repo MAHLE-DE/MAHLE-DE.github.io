@@ -1,0 +1,102 @@
+﻿{
+    "DE":  "Tadeu Domingues",
+    "projeto":  "Volvo KC800 OES",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "Não houve nenhum desvio"
+                                                                     ]
+                                                  },
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  7,
+                                       "pendencias":  [
+                                                          "Está completo porém não está com a data atualizada",
+                                                          "Nem todos estão definidos, e não há nenhuma evidência de aprovação no CRM/CAM",
+                                                          "Está faltando a explicação de modificações da revisão 05"
+                                                      ]
+                                   },
+                       "ADVP\u0026R MS0":  {
+                                               "gate":  "MS0",
+                                               "pontuacao":  8,
+                                               "pendencias":  [
+                                                                  "Foi considerado apenas o Test Plan no documento por não haver um plano CAE até o momento"
+                                                              ]
+                                           },
+                       "R\u0026D Costs MS0":  {
+                                                  "gate":  "MS0",
+                                                  "pontuacao":  8,
+                                                  "pendencias":  [
+                                                                     "Não foi considerado pois não há o plano CAE até o momento"
+                                                                 ]
+                                              },
+                       "BOM MS1 (PN workflow)":  {
+                                                     "gate":  "MS1",
+                                                     "pontuacao":  9,
+                                                     "pendencias":  [
+                                                                        "BOM não está no EasyDMS"
+                                                                    ]
+                                                 },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  8,
+                                          "pendencias":  [
+                                                             "Cronograma não foi definido",
+                                                             "Não foi aprovado pelo cliente pois estamos aguardando informações técnicas para atualização de alguns parâmetros de teste"
+                                                         ]
+                                      },
+                       "Stack up (Mockup)":  {
+                                                 "gate":  "MS1",
+                                                 "pontuacao":  7,
+                                                 "pendencias":  [
+                                                                    "Documento ainda não está aprovado",
+                                                                    "Documento não está no EasyDMS"
+                                                                ]
+                                             },
+                       "Traceability":  {
+                                            "gate":  "MS1",
+                                            "pontuacao":  8,
+                                            "pendencias":  [
+                                                               "Não há evidência de aprovação do PE pois DRM não está assinado"
+                                                           ]
+                                        },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  9,
+                                     "pendencias":  [
+                                                        "Ainda não foi realizada a reunião com o Core Team"
+                                                    ]
+                                 },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  8,
+                                                      "pendencias":  [
+                                                                         "Existe um componente que esta com status \u0027solicitante\u0027"
+                                                                     ]
+                                                  },
+                       "DRM/DAM":  {
+                                       "gate":  "MS1",
+                                       "pontuacao":  7,
+                                       "pendencias":  [
+                                                          "Não há evidência de aceitação pois DRM não está assinado",
+                                                          "Não há evidências de assinatura do Core Team"
+                                                      ]
+                                   },
+                       "DVP\u0026R concluded":  {
+                                                    "gate":  "QG2",
+                                                    "pontuacao":  9,
+                                                    "pendencias":  [
+                                                                       "Precisa subir o CAE para o EasyDMS"
+                                                                   ]
+                                                },
+                       "DFMEA concluded":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  8,
+                                               "pendencias":  [
+                                                                  "Falta a reunião final para finalização do DFMEA"
+                                                              ]
+                                           }
+                   }
+}

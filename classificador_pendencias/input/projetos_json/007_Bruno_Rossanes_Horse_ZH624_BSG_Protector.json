@@ -1,0 +1,109 @@
+﻿{
+    "DE":  "Bruno Rossanes",
+    "projeto":  "Horse ZH624 BSG Protector",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  8,
+                                                      "pendencias":  [
+                                                                         "Loop não consta no Easy"
+                                                                     ]
+                                                  },
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  7,
+                                       "pendencias":  [
+                                                          "Não foi informado a materia prima dos limitadores",
+                                                          "Não foi definido"
+                                                      ]
+                                   },
+                       "MAHLE Perf. Specif MS1":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  0,
+                                                      "pendencias":  [
+                                                                         "Não contem preenchimento do campo"
+                                                                     ]
+                                                  },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  7,
+                                          "pendencias":  [
+                                                             "Não definido ainda",
+                                                             "Não localizado essa informação no DVP"
+                                                         ]
+                                      },
+                       "Numerical Simulation":  {
+                                                    "gate":  "MS1",
+                                                    "pontuacao":  0,
+                                                    "pendencias":  [
+                                                                       "Não contem evidencia de resultados"
+                                                                   ]
+                                                },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  0,
+                                     "pendencias":  [
+                                                        "Não contem assinatura do core team",
+                                                        "Contem falhas nas ligações pois alguns itens estão faltando informações",
+                                                        "Não foi definido",
+                                                        "-"
+                                                    ]
+                                 },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  0,
+                                                      "pendencias":  [
+                                                                         "somente o componente 5047101895500 foi cadastrado mas o mesmo consta com status \u0027solicitante\u0027"
+                                                                     ]
+                                                  },
+                       "DRM/DAM":  {
+                                       "gate":  "MS1",
+                                       "pontuacao":  8,
+                                       "pendencias":  [
+                                                          "Não contem evidencia de assinatura"
+                                                      ]
+                                   },
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  9,
+                                      "pendencias":  [
+                                                         "DAM não assinado"
+                                                     ]
+                                  },
+                       "3D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  8,
+                                      "pendencias":  [
+                                                         "DAM não assinado"
+                                                     ]
+                                  },
+                       "BOM QG2":  {
+                                       "gate":  "QG2",
+                                       "pontuacao":  8,
+                                       "pendencias":  [
+                                                          "Ultimo nível possui correction factor = 1.1 na cover"
+                                                      ]
+                                   },
+                       "Design approved by customer":  {
+                                                           "gate":  "QG2",
+                                                           "pontuacao":  8,
+                                                           "pendencias":  [
+                                                                              "DAM não assinado"
+                                                                          ]
+                                                       },
+                       "DAM QG2 signoff":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  7,
+                                               "pendencias":  [
+                                                                  "DAM não assinado"
+                                                              ]
+                                           },
+                       "DFMEA concluded":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  8,
+                                               "pendencias":  [
+                                                                  "Falta assinatura do DFMEA no Easy"
+                                                              ]
+                                           }
+                   }
+}

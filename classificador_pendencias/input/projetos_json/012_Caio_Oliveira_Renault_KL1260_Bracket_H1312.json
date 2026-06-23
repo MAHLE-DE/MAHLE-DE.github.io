@@ -1,0 +1,100 @@
+﻿{
+    "DE":  "Caio Oliveira",
+    "projeto":  "Renault KL1260 Bracket H1312",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "Não localizado carta comercial"
+                                                                     ]
+                                                  },
+                       "CRM/CAM":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  3,
+                                       "pendencias":  [
+                                                          "Cabeçalho com Gate desatualizado",
+                                                          "Não assinado ",
+                                                          "Não foi realizado uploaded",
+                                                          "CAM não encontrado"
+                                                      ]
+                                   },
+                       "R\u0026D Costs MS0":  {
+                                                  "gate":  "MS0",
+                                                  "pontuacao":  8,
+                                                  "pendencias":  [
+                                                                     "Não encontrado no R\u0026D Costs"
+                                                                 ]
+                                              },
+                       "Special Caracteristic list MS1":  {
+                                                              "gate":  "MS1",
+                                                              "pontuacao":  8,
+                                                              "pendencias":  [
+                                                                                 "Template desatualizado",
+                                                                                 "1 item faltando"
+                                                                             ]
+                                                          },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  9,
+                                          "pendencias":  [
+                                                             "Falta de informações"
+                                                         ]
+                                      },
+                       "Stack up (Mockup)":  {
+                                                 "gate":  "MS1",
+                                                 "pontuacao":  7,
+                                                 "pendencias":  [
+                                                                    "Resultado com WC Status \u0027NOK\u0027",
+                                                                    "Não está no Easy"
+                                                                ]
+                                             },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  8,
+                                     "pendencias":  [
+                                                        "Incompleto",
+                                                        "Não contem evidencia de assinatura"
+                                                    ]
+                                 },
+                       "2D DL4":  {
+                                      "gate":  "MS1",
+                                      "pontuacao":  6,
+                                      "pendencias":  [
+                                                         "Não contem evidencia",
+                                                         "Não contem evidencia de aprovação ",
+                                                         "DRM não assinado"
+                                                     ]
+                                  },
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  7,
+                                      "pendencias":  [
+                                                         "DAM Não assinado"
+                                                     ]
+                                  },
+                       "3D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  7,
+                                      "pendencias":  [
+                                                         "DAM Não assinado"
+                                                     ]
+                                  },
+                       "BOM QG2":  {
+                                       "gate":  "QG2",
+                                       "pontuacao":  8,
+                                       "pendencias":  [
+                                                          "Não avançou de Gate"
+                                                      ]
+                                   },
+                       "Design approved by customer":  {
+                                                           "gate":  "QG2",
+                                                           "pontuacao":  1,
+                                                           "pendencias":  [
+                                                                              "DAM Não assinado",
+                                                                              "Não esta com status 50",
+                                                                              "IN WORK"
+                                                                          ]
+                                                       }
+                   }
+}

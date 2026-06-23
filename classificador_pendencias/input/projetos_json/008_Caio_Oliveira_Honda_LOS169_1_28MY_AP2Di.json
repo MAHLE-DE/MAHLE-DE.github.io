@@ -1,0 +1,122 @@
+﻿{
+    "DE":  "Caio Oliveira",
+    "projeto":  "Honda LOS169/1 28MY AP2Di",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  8,
+                                                      "pendencias":  [
+                                                                         "Ainda tem pontos em aberto, necessário confirmar se o cliente concorda com os possíveis desvios"
+                                                                     ]
+                                                  },
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  9,
+                                       "pendencias":  [
+                                                          "Não esta no Easy "
+                                                      ]
+                                   },
+                       "CRM/CAM":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  7,
+                                       "pendencias":  [
+                                                          "Assinatura do CRM não está no Easy",
+                                                          "Item 2.1 do CAM não preenchido",
+                                                          "Assinatura do CAM não está no Easy"
+                                                      ]
+                                   },
+                       "Patent Check":  {
+                                            "gate":  "MS0",
+                                            "pontuacao":  0,
+                                            "pendencias":  [
+                                                               "Patent Check não realizado"
+                                                           ]
+                                        },
+                       "MAHLE Perf. Specif MS1":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  8,
+                                                      "pendencias":  [
+                                                                         "Há itens de teste com requerimento em TBD e sem análise completa"
+                                                                     ]
+                                                  },
+                       "Special Caracteristic list MS1":  {
+                                                              "gate":  "MS1",
+                                                              "pontuacao":  0,
+                                                              "pendencias":  [
+                                                                                 "Não há SCL Brasil"
+                                                                             ]
+                                                          },
+                       "BOM MS1 (PN workflow)":  {
+                                                     "gate":  "MS1",
+                                                     "pontuacao":  0,
+                                                     "pendencias":  [
+                                                                        "Baseline não cumprida pois PNs SAP não foram definidos",
+                                                                        "BOM MS1 não existe"
+                                                                    ]
+                                                 },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  8,
+                                          "pendencias":  [
+                                                             "Test plan identificado no DFMEA (DFMEA Brasil não existe)",
+                                                             "Sem evidência de test plan dos fornecedores"
+                                                         ]
+                                      },
+                       "Stack up (Mockup)":  {
+                                                 "gate":  "MS1",
+                                                 "pontuacao":  0,
+                                                 "pendencias":  [
+                                                                    "Stackup não encontrado"
+                                                                ]
+                                             },
+                       "Numerical Simulation":  {
+                                                    "gate":  "MS1",
+                                                    "pontuacao":  8,
+                                                    "pendencias":  [
+                                                                       "DVP não contém os resultados CAE"
+                                                                   ]
+                                                },
+                       "Traceability":  {
+                                            "gate":  "MS1",
+                                            "pontuacao":  0,
+                                            "pendencias":  [
+                                                               "Não encontrada evidência de definição de Traceability"
+                                                           ]
+                                        },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  0,
+                                     "pendencias":  [
+                                                        "DFMEA Brasil não existe"
+                                                    ]
+                                 },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  0,
+                                                      "pendencias":  [
+                                                                         "Baseline não cumprida pois não há evidência de teste de materiais do fornecedor"
+                                                                     ]
+                                                  },
+                       "DRM/DAM":  {
+                                       "gate":  "MS1",
+                                       "pontuacao":  9,
+                                       "pendencias":  [
+                                                          "Itens de CRM/CAM não foram preenchidos como fechados no LOOP"
+                                                      ]
+                                   },
+                       "Rapid Proto Control Plan":  {
+                                                        "gate":  "MS1",
+                                                        "pontuacao":  8,
+                                                        "pendencias":  [
+                                                                           "DVP results não contém os resultados de teste de protótipo"
+                                                                       ]
+                                                    },
+                       "Special Caracteristic list QG2":  {
+                                                              "gate":  "QG2",
+                                                              "pontuacao":  0,
+                                                              "pendencias":  [
+                                                                                 "SCL Brasil não existe"
+                                                                             ]
+                                                          }
+                   }
+}

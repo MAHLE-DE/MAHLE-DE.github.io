@@ -1,0 +1,82 @@
+﻿{
+    "DE":  "José Bazaneli",
+    "projeto":  "VW CCD0013 MQB 37 PL8",
+    "documentos":  {
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  8,
+                                       "pendencias":  [
+                                                          "Não definido fator de correção para todos os componentes injetados",
+                                                          "Não há revisão detalhada na BOM"
+                                                      ]
+                                   },
+                       "CRM/CAM":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  7,
+                                       "pendencias":  [
+                                                          "Template desatualizado",
+                                                          "Falta de informação - project number",
+                                                          "Falta de preenchimento do item 2.11"
+                                                      ]
+                                   },
+                       "R\u0026D Costs MS0":  {
+                                                  "gate":  "MS0",
+                                                  "pontuacao":  7,
+                                                  "pendencias":  [
+                                                                     "Sem informação de CAE Costs",
+                                                                     "Sem informação se vai ou não incluir lay-out test no R\u0026D Cost"
+                                                                 ]
+                                              },
+                       "Special Caracteristic list MS1":  {
+                                                              "gate":  "MS1",
+                                                              "pontuacao":  7,
+                                                              "pendencias":  [
+                                                                                 "Não está no template",
+                                                                                 "Não está no Easy"
+                                                                             ]
+                                                          },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  0,
+                                     "pendencias":  [
+                                                        "Não contém evidência de assinaturas",
+                                                        "Faltam informações na Header",
+                                                        "Não está no Easy"
+                                                    ]
+                                 },
+                       "DRM/DAM":  {
+                                       "gate":  "MS1",
+                                       "pontuacao":  5,
+                                       "pendencias":  [
+                                                          "Sem evidência de assinatura do DRM",
+                                                          "Signoff não está no easy",
+                                                          "Sem evidência de assinatura do DAM"
+                                                      ]
+                                   },
+                       "Special Caracteristic list QG2":  {
+                                                              "gate":  "QG2",
+                                                              "pontuacao":  0,
+                                                              "pendencias":  [
+                                                                                 "Não esta no local correto",
+                                                                                 "Não contem explicação da revisão",
+                                                                                 "Não temos evidencia de aprovação"
+                                                                             ]
+                                                          },
+                       "BOM QG2":  {
+                                       "gate":  "QG2",
+                                       "pontuacao":  6,
+                                       "pendencias":  [
+                                                          "Esta com o Gate incorreto"
+                                                      ]
+                                   },
+                       "DFMEA concluded":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  3,
+                                               "pendencias":  [
+                                                                  "Não contem evidencia da atualização",
+                                                                  "Não temos evidencia na capa",
+                                                                  "Não esta no local correto"
+                                                              ]
+                                           }
+                   }
+}

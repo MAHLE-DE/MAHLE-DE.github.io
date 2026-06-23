@@ -1,0 +1,188 @@
+﻿{
+    "DE":  "Tadeu Domingues",
+    "projeto":  "POLARIS Oil Filter Spin On OC1799",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  8,
+                                                      "pendencias":  [
+                                                                         "Missing the agreement of costumer about cleanliness criteria",
+                                                                         "There is no evidence of agreement in EasyDMS"
+                                                                     ]
+                                                  },
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  9,
+                                       "pendencias":  [
+                                                          "BOM is not in EasyDMS"
+                                                      ]
+                                   },
+                       "CRM/CAM":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  8,
+                                       "pendencias":  [
+                                                          "Header revision don´t meet with document revision",
+                                                          "Missing CAM sign off in EasyDMS"
+                                                      ]
+                                   },
+                       "ADVP\u0026R MS0":  {
+                                               "gate":  "MS0",
+                                               "pontuacao":  8,
+                                               "pendencias":  [
+                                                                  "Template is not the same",
+                                                                  "ADVP\u0026R is not in EasyDMS"
+                                                              ]
+                                           },
+                       "Patent Check":  {
+                                            "gate":  "MS0",
+                                            "pontuacao":  0,
+                                            "pendencias":  [
+                                                               "Patent Check was not done because we don´t have a Patent for Spin-On, and POLARIS asked for a shelf part to MAHLE"
+                                                           ]
+                                        },
+                       "MAHLE Perf. Specif MS1":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  8,
+                                                      "pendencias":  [
+                                                                         "Missing the agreement of costumer about cleanliness criteria"
+                                                                     ]
+                                                  },
+                       "Special Caracteristic list MS1":  {
+                                                              "gate":  "MS1",
+                                                              "pontuacao":  4,
+                                                              "pendencias":  [
+                                                                                 "Template is not the same",
+                                                                                 "Used template does not have Components column",
+                                                                                 "Used template does not have Failure Mode column",
+                                                                                 "Used template does not have Costumer Symbol column",
+                                                                                 "Used template does not have revision",
+                                                                                 "Special Characteristic List is not in EasyDMS"
+                                                                             ]
+                                                          },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  6,
+                                          "pendencias":  [
+                                                             "Template is not the same",
+                                                             "Application is not correct",
+                                                             "There is no evidence of sign in document",
+                                                             "DVP\u0026R template is not in EasyDMS"
+                                                         ]
+                                      },
+                       "Numerical Simulation":  {
+                                                    "gate":  "MS1",
+                                                    "pontuacao":  5,
+                                                    "pendencias":  [
+                                                                       "CAE results were approved after 2023/Nov",
+                                                                       "CAE results were approved after DVP realize",
+                                                                       "Was not uploaded in EasyDMS"
+                                                                   ]
+                                                },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  5,
+                                     "pendencias":  [
+                                                        "DFMEA last level is not in APIS",
+                                                        "Template in Excel does not have Structure Analysis",
+                                                        "Template in Excel does not have Action Priority",
+                                                        "Missing signatures and need to upload in EasyDMS"
+                                                    ]
+                                 },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "Was not uploaded in EasyDMS"
+                                                                     ]
+                                                  },
+                       "DRM/DAM":  {
+                                       "gate":  "MS1",
+                                       "pontuacao":  0,
+                                       "pendencias":  [
+                                                          "DRM checklist was not done",
+                                                          "DRM sign off was not done",
+                                                          "DAM checklist was not done",
+                                                          "DAM sign off was not done"
+                                                      ]
+                                   },
+                       "Special Caracteristic list QG2":  {
+                                                              "gate":  "QG2",
+                                                              "pontuacao":  9,
+                                                              "pendencias":  [
+                                                                                 "Was not uploaded in EasyDMS"
+                                                                             ]
+                                                          },
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  7,
+                                      "pendencias":  [
+                                                         "Missing some 2D designs",
+                                                         "Drawings is not in Status 70"
+                                                     ]
+                                  },
+                       "3D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  7,
+                                      "pendencias":  [
+                                                         "DAM sign off was not done",
+                                                         "3D´s was uploaded after Hard Toolings start"
+                                                     ]
+                                  },
+                       "BOM QG2":  {
+                                       "gate":  "QG2",
+                                       "pontuacao":  9,
+                                       "pendencias":  [
+                                                          "Was not uploaded in EasyDMS"
+                                                      ]
+                                   },
+                       "Design approved by customer":  {
+                                                           "gate":  "QG2",
+                                                           "pontuacao":  3,
+                                                           "pendencias":  [
+                                                                              "DOC 003 is in status 80",
+                                                                              "DOC 004 is not in SAP"
+                                                                          ]
+                                                       },
+                       "DAM QG2 signoff":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  0,
+                                               "pendencias":  [
+                                                                  "DAM itens was not aswered"
+                                                              ]
+                                           },
+                       "DVP\u0026R concluded":  {
+                                                    "gate":  "QG2",
+                                                    "pontuacao":  7,
+                                                    "pendencias":  [
+                                                                       "Does not have any sign",
+                                                                       "Was not uploaded in EasyDMS"
+                                                                   ]
+                                                },
+                       "DFMEA concluded":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  5,
+                                               "pendencias":  [
+                                                                  "Excel template does not have revision on cover",
+                                                                  "There is no evidence of the meeting in EasyDMS",
+                                                                  "Was not uploaded in EasyDMS"
+                                                              ]
+                                           },
+                       "PV Validation concluded":  {
+                                                       "gate":  "QG3",
+                                                       "pontuacao":  9,
+                                                       "pendencias":  [
+                                                                          "PV DVP não está no Easy"
+                                                                      ]
+                                                   },
+                       "DFMEA signoff":  {
+                                             "gate":  "QG3",
+                                             "pontuacao":  3,
+                                             "pendencias":  [
+                                                                "Cover sheet nao tem revisão de QG3",
+                                                                "Não há assinaturas, e não está no Easy",
+                                                                "Não está assinado",
+                                                                "Não está no easy"
+                                                            ]
+                                         }
+                   }
+}

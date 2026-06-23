@@ -1,0 +1,99 @@
+﻿{
+    "DE":  "Thiago Hora",
+    "projeto":  "Ford LMA0024 Tank Shield Ranger",
+    "documentos":  {
+                       "CRM/CAM":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  8,
+                                       "pendencias":  [
+                                                          "Não localizado assinatura",
+                                                          "Não foi feito upload no Easy"
+                                                      ]
+                                   },
+                       "ADVP\u0026R MS0":  {
+                                               "gate":  "MS0",
+                                               "pontuacao":  9,
+                                               "pendencias":  [
+                                                                  "Não foi feito upload no Easy"
+                                                              ]
+                                           },
+                       "Special Caracteristic list MS1":  {
+                                                              "gate":  "MS1",
+                                                              "pontuacao":  9,
+                                                              "pendencias":  [
+                                                                                 "SCL não tem descrição de revisão e nem assinatura"
+                                                                             ]
+                                                          },
+                       "Stack up (Mockup)":  {
+                                                 "gate":  "MS1",
+                                                 "pontuacao":  0,
+                                                 "pendencias":  [
+                                                                    "Baseline não cumprida pois StackUp não foi feito"
+                                                                ]
+                                             },
+                       "Numerical Simulation":  {
+                                                    "gate":  "MS1",
+                                                    "pontuacao":  9,
+                                                    "pendencias":  [
+                                                                       "Não foi feito upload no Easy"
+                                                                   ]
+                                                },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "Resultados de teste de materiais não estão no Easy"
+                                                                     ]
+                                                  },
+                       "DRM/DAM":  {
+                                       "gate":  "MS1",
+                                       "pontuacao":  9,
+                                       "pendencias":  [
+                                                          "Não foi feito upload  do DRM Signoff no Easy"
+                                                      ]
+                                   },
+                       "Special Caracteristic list QG2":  {
+                                                              "gate":  "QG2",
+                                                              "pontuacao":  7,
+                                                              "pendencias":  [
+                                                                                 "Não há revisão clara das alterações",
+                                                                                 "Não há assinatura"
+                                                                             ]
+                                                          },
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  0,
+                                      "pendencias":  [
+                                                         "Baseline não cumprida pois desenho está Status 10 in work"
+                                                     ]
+                                  },
+                       "3D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  0,
+                                      "pendencias":  [
+                                                         "Baseline não cumprida pois desenho está Status 10 in work"
+                                                     ]
+                                  },
+                       "Design approved by customer":  {
+                                                           "gate":  "QG2",
+                                                           "pontuacao":  0,
+                                                           "pendencias":  [
+                                                                              "Baseline não cumprida pois ainda não há desenho do cliente"
+                                                                          ]
+                                                       },
+                       "PV Validation concluded":  {
+                                                       "gate":  "QG3",
+                                                       "pontuacao":  0,
+                                                       "pendencias":  [
+                                                                          "Sem evidência de report"
+                                                                      ]
+                                                   },
+                       "DFMEA signoff":  {
+                                             "gate":  "QG3",
+                                             "pontuacao":  6,
+                                             "pendencias":  [
+                                                                "Sem assinaturas"
+                                                            ]
+                                         }
+                   }
+}

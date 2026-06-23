@@ -1,0 +1,122 @@
+﻿{
+    "DE":  "Bruno Caetano",
+    "projeto":  "Hyundai Kia LM852-4 Kappa 1.0 FFV",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  6,
+                                                      "pendencias":  [
+                                                                         "Just LOR was analysed",
+                                                                         "Some open points was not tranferred to Loop",
+                                                                         "\u0027Status at costumer\u0027 column is not filled"
+                                                                     ]
+                                                  },
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  8,
+                                       "pendencias":  [
+                                                          "Gate is not correct",
+                                                          "Missing some definitions"
+                                                      ]
+                                   },
+                       "2D DL3":  {
+                                      "gate":  "MS0",
+                                      "pontuacao":  9,
+                                      "pendencias":  [
+                                                         "Drawing is not in SAP"
+                                                     ]
+                                  },
+                       "MAHLE Perf. Specif MS1":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  4,
+                                                      "pendencias":  [
+                                                                         "\u0027Runner length\u0027 has no comment of analysis",
+                                                                         "Some  deviations has no solution strategy",
+                                                                         "\u0027Status at costumer\u0027 column is not filled"
+                                                                     ]
+                                                  },
+                       "BOM MS1 (PN workflow)":  {
+                                                     "gate":  "MS1",
+                                                     "pontuacao":  9,
+                                                     "pendencias":  [
+                                                                        "Cadastre started on Fev/23. Tooling construction started on Out/22"
+                                                                    ]
+                                                 },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  9,
+                                          "pendencias":  [
+                                                             "DVP was not uploaded in EasyDMS before Design Freeze"
+                                                         ]
+                                      },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  8,
+                                     "pendencias":  [
+                                                        "DFMEA is in Excel format",
+                                                        "We don´t have any evidence of this meeting"
+                                                    ]
+                                 },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "All material test results is not in EasyDMS"
+                                                                     ]
+                                                  },
+                       "2D DL4":  {
+                                      "gate":  "MS1",
+                                      "pontuacao":  6,
+                                      "pendencias":  [
+                                                         "Drawing checklist was not done",
+                                                         "2D Drawings last version is not in Windchill",
+                                                         "2D Drawings is not in SAP"
+                                                     ]
+                                  },
+                       "3D DL4":  {
+                                      "gate":  "MS1",
+                                      "pontuacao":  9,
+                                      "pendencias":  [
+                                                         "Soft toolings started in Out/22"
+                                                     ]
+                                  },
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  0,
+                                      "pendencias":  [
+                                                         "2D Drawings is not in SAP"
+                                                     ]
+                                  },
+                       "Design approved by customer":  {
+                                                           "gate":  "QG2",
+                                                           "pontuacao":  7,
+                                                           "pendencias":  [
+                                                                              "Drawings is not in SAP"
+                                                                          ]
+                                                       },
+                       "DFMEA concluded":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  4,
+                                               "pendencias":  [
+                                                                  "Modified date noted in DFMEA is 28/Oct/22, but QG2 started on Jan/22",
+                                                                  "DFMEA review was not done",
+                                                                  "No evidence of this meeting "
+                                                              ]
+                                           },
+                       "PV Validation concluded":  {
+                                                       "gate":  "QG3",
+                                                       "pontuacao":  9,
+                                                       "pendencias":  [
+                                                                          "PV Validation is not in EasyDMS"
+                                                                      ]
+                                                   },
+                       "DFMEA signoff":  {
+                                             "gate":  "QG3",
+                                             "pontuacao":  4,
+                                             "pendencias":  [
+                                                                "DFMEA review was not done",
+                                                                "No evidence of this meeting "
+                                                            ]
+                                         }
+                   }
+}

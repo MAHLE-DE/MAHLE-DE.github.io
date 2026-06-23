@@ -1,0 +1,100 @@
+﻿{
+    "DE":  "Caio Oliveira",
+    "projeto":  "Honda  ZH250/9 28MY AP2Di",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "Não há evidência de aceitação do cliente para o MPS"
+                                                                     ]
+                                                  },
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  9,
+                                       "pendencias":  [
+                                                          "BOM br está na pasta errada, 4.2.1 -\u003e 4.1"
+                                                      ]
+                                   },
+                       "Special Caracteristic list MS1":  {
+                                                              "gate":  "MS1",
+                                                              "pontuacao":  0,
+                                                              "pendencias":  [
+                                                                                 "Não existe SCL japonesa"
+                                                                             ]
+                                                          },
+                       "BOM MS1 (PN workflow)":  {
+                                                     "gate":  "MS1",
+                                                     "pontuacao":  0,
+                                                     "pendencias":  [
+                                                                        "Há itens na BOM sem PN definido",
+                                                                        "Gate não está atualizado na Header da BOM",
+                                                                        "PNs não definidos na BOM também precisam ser cadastrados no SAP (workflow)",
+                                                                        "BOM ultimo nível não está no Easy"
+                                                                    ]
+                                                 },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  0,
+                                          "pendencias":  [
+                                                             "Não localizada a assinatura do cliente no Easy/Pasta projeto",
+                                                             "Testes adicionais vindos do DFMEA não constatados",
+                                                             "Sem informações sobre testes dos fornecedores"
+                                                         ]
+                                      },
+                       "Stack up (Mockup)":  {
+                                                 "gate":  "MS1",
+                                                 "pontuacao":  0,
+                                                 "pendencias":  [
+                                                                    "Não existe Stuck Up"
+                                                                ]
+                                             },
+                       "Numerical Simulation":  {
+                                                    "gate":  "MS1",
+                                                    "pontuacao":  8,
+                                                    "pendencias":  [
+                                                                       "Resultados não presentes no DVP"
+                                                                   ]
+                                                },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  5,
+                                     "pendencias":  [
+                                                        "Faltam informações na Header",
+                                                        "Severidades fora de conformidade com o DFMEA genérico",
+                                                        "Contém itens sem preenchimento na severidade, ocorrência e detecção"
+                                                    ]
+                                 },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  0,
+                                                      "pendencias":  [
+                                                                         "Itens na BOM sem cadastro no NOTES",
+                                                                         "DVP não contem informações sobre material"
+                                                                     ]
+                                                  },
+                       "DRM/DAM":  {
+                                       "gate":  "MS1",
+                                       "pontuacao":  0,
+                                       "pendencias":  [
+                                                          "Item 1.1 não preenchido",
+                                                          "Faltam assinaturas do Regional Segment Manager, Global Segment Manager e Head of R\u0026D"
+                                                      ]
+                                   },
+                       "Rapid Proto Control Plan":  {
+                                                        "gate":  "MS1",
+                                                        "pontuacao":  3,
+                                                        "pendencias":  [
+                                                                           "Sem evidências de desenhos de protótipo",
+                                                                           "Sem evidências de prototype results no DVP"
+                                                                       ]
+                                                    },
+                       "Special Caracteristic list QG2":  {
+                                                              "gate":  "QG2",
+                                                              "pontuacao":  0,
+                                                              "pendencias":  [
+                                                                                 "SCL QG2 Não existe"
+                                                                             ]
+                                                          }
+                   }
+}

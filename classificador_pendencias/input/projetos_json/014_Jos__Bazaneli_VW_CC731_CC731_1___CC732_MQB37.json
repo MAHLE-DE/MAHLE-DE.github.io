@@ -1,0 +1,86 @@
+﻿{
+    "DE":  "José Bazaneli",
+    "projeto":  "VW CC731, CC731/1 \u0026 CC732 MQB37",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  5,
+                                                      "pendencias":  [
+                                                                         "Não contem analise dos topicos de requerimento ",
+                                                                         "Não conte analise de normas MAHLE",
+                                                                         "Não contem nenhum desvio devido a falta de analise do MPS"
+                                                                     ]
+                                                  },
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  7,
+                                       "pendencias":  [
+                                                          "Contem pontos em aberto",
+                                                          "Contem 1 como \u0027NEW\u0027",
+                                                          "Somente a BOM Ddo CC0732 as outras duas não estão no Easy"
+                                                      ]
+                                   },
+                       "CRM/CAM":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  9,
+                                       "pendencias":  [
+                                                          "Não contem assinatura do CoC"
+                                                      ]
+                                   },
+                       "ADVP\u0026R MS0":  {
+                                               "gate":  "MS0",
+                                               "pontuacao":  7,
+                                               "pendencias":  [
+                                                                  "Não contem CAE Plan",
+                                                                  "Não esta no easy"
+                                                              ]
+                                           },
+                       "BOM MS1 (PN workflow)":  {
+                                                     "gate":  "MS1",
+                                                     "pontuacao":  5,
+                                                     "pendencias":  [
+                                                                        "Não avançou de gate",
+                                                                        "Não contem todos os workflow"
+                                                                    ]
+                                                 },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  0,
+                                                      "pendencias":  [
+                                                                         "Nem todos foram criados"
+                                                                     ]
+                                                  },
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  0,
+                                      "pendencias":  [
+                                                         "Desenhos ainda não estão em Status 50 antes do Hard tooling",
+                                                         "Nem todos os desenhos estão em estado 17 (nos 3 CC)",
+                                                         "DAM não existe"
+                                                     ]
+                                  },
+                       "3D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  0,
+                                      "pendencias":  [
+                                                         "Não há desenhos 3D do 731/1",
+                                                         "Não há DAM e desenhos 3D não estão em status 50"
+                                                     ]
+                                  },
+                       "Design approved by customer":  {
+                                                           "gate":  "QG2",
+                                                           "pontuacao":  0,
+                                                           "pendencias":  [
+                                                                              "Não há evidências de aprovação do cliente"
+                                                                          ]
+                                                       },
+                       "DAM QG2 signoff":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  7,
+                                               "pendencias":  [
+                                                                  "Sem assinatura do DAM",
+                                                                  "Não está no Easy"
+                                                              ]
+                                           }
+                   }
+}

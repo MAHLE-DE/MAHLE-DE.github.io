@@ -1,0 +1,151 @@
+﻿{
+    "DE":  "Bruno Caetano",
+    "projeto":  "Rochling LX5801 EA211 1.0 MPI",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  4,
+                                                      "pendencias":  [
+                                                                         "Just LOR analyzed",
+                                                                         "Loop was not done",
+                                                                         "Was no send",
+                                                                         "Was not agreeded with costumer"
+                                                                     ]
+                                                  },
+                       "ADVP\u0026R MS0":  {
+                                               "gate":  "MS0",
+                                               "pontuacao":  9,
+                                               "pendencias":  [
+                                                                  "Template is not the same."
+                                                              ]
+                                           },
+                       "Patent Check":  {
+                                            "gate":  "MS0",
+                                            "pontuacao":  0,
+                                            "pendencias":  [
+                                                               "Was not done"
+                                                           ]
+                                        },
+                       "MAHLE Perf. Specif MS1":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  6,
+                                                      "pendencias":  [
+                                                                         "Loop was not done",
+                                                                         "Was not agreeded with costumer"
+                                                                     ]
+                                                  },
+                       "Special Caracteristic list MS1":  {
+                                                              "gate":  "MS1",
+                                                              "pontuacao":  9,
+                                                              "pendencias":  [
+                                                                                 "Need to upload in EasyDMS"
+                                                                             ]
+                                                          },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  9,
+                                          "pendencias":  [
+                                                             "Template is not the same."
+                                                         ]
+                                      },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  9,
+                                     "pendencias":  [
+                                                        "Need to upload in EasyDMS"
+                                                    ]
+                                 },
+                       "DRM/DAM":  {
+                                       "gate":  "MS1",
+                                       "pontuacao":  6,
+                                       "pendencias":  [
+                                                          "Missing all Core Team signature",
+                                                          "Need to upload in EasyDMS"
+                                                      ]
+                                   },
+                       "2D DL4":  {
+                                      "gate":  "MS1",
+                                      "pontuacao":  3,
+                                      "pendencias":  [
+                                                         "Two checklists are missing and information is missing from the assembly checklist",
+                                                         "Drawing revision is not in Excel ECM 03.07",
+                                                         "Custumer drawing was not done yet",
+                                                         "Need to upload in ECTR / Windchill",
+                                                         "Need to upload in SAP"
+                                                     ]
+                                  },
+                       "3D DL4":  {
+                                      "gate":  "MS1",
+                                      "pontuacao":  7,
+                                      "pendencias":  [
+                                                         "DRM was not done"
+                                                     ]
+                                  },
+                       "Special Caracteristic list QG2":  {
+                                                              "gate":  "QG2",
+                                                              "pontuacao":  9,
+                                                              "pendencias":  [
+                                                                                 "Need to upload in EasyDMS"
+                                                                             ]
+                                                          },
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  5,
+                                      "pendencias":  [
+                                                         "Need to upload in SAP",
+                                                         "DAM was not done"
+                                                     ]
+                                  },
+                       "3D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  7,
+                                      "pendencias":  [
+                                                         "DAM was not done"
+                                                     ]
+                                  },
+                       "BOM QG2":  {
+                                       "gate":  "QG2",
+                                       "pontuacao":  0,
+                                       "pendencias":  [
+                                                          "Need to define weight of process losses"
+                                                      ]
+                                   },
+                       "Design approved by customer":  {
+                                                           "gate":  "QG2",
+                                                           "pontuacao":  0,
+                                                           "pendencias":  [
+                                                                              "Was not done"
+                                                                          ]
+                                                       },
+                       "DAM QG2 signoff":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  0,
+                                               "pendencias":  [
+                                                                  "Was not done"
+                                                              ]
+                                           },
+                       "DVP\u0026R concluded":  {
+                                                    "gate":  "QG2",
+                                                    "pontuacao":  7,
+                                                    "pendencias":  [
+                                                                       "Missing all signature",
+                                                                       "Need to upload in EasyDMS"
+                                                                   ]
+                                                },
+                       "Patent check/issues concluded":  {
+                                                             "gate":  "QG2",
+                                                             "pontuacao":  0,
+                                                             "pendencias":  [
+                                                                                "Was not done"
+                                                                            ]
+                                                         },
+                       "DFMEA concluded":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  7,
+                                               "pendencias":  [
+                                                                  "Missing revision on Cover sheet",
+                                                                  "Need to upload in EasyDMS"
+                                                              ]
+                                           }
+                   }
+}

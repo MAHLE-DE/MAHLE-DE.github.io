@@ -1,0 +1,63 @@
+﻿{
+    "DE":  "Bruno Caetano",
+    "projeto":  "Nissan LM682/4 P02/L02DG AIM",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  5,
+                                                      "pendencias":  [
+                                                                         "Customer drawing was not analyzed",
+                                                                         "International Norms (norm (commum)) were not analyzed",
+                                                                         "Open points were not transferred to Loop",
+                                                                         "No evidence of agreement"
+                                                                     ]
+                                                  },
+                       "MAHLE Perf. Specif MS1":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  0,
+                                                      "pendencias":  [
+                                                                         "Missing conclusion",
+                                                                         "No evidence of agreement in MPS"
+                                                                     ]
+                                                  },
+                       "BOM MS1 (PN workflow)":  {
+                                                     "gate":  "MS1",
+                                                     "pontuacao":  0,
+                                                     "pendencias":  [
+                                                                        "Missing definitions",
+                                                                        "There is no revision in MS1",
+                                                                        "BOM is not in Easy DMS"
+                                                                    ]
+                                                 },
+                       "DVP\u0026R":  {
+                                          "gate":  "MS1",
+                                          "pontuacao":  8,
+                                          "pendencias":  [
+                                                             "Was considered just MAHLE Test Plan"
+                                                         ]
+                                      },
+                       "Numerical Simulation":  {
+                                                    "gate":  "MS1",
+                                                    "pontuacao":  8,
+                                                    "pendencias":  [
+                                                                       "Results were not uploaded in DVP"
+                                                                   ]
+                                                },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "Material test report is not in EasyDMS"
+                                                                     ]
+                                                  },
+                       "2D DL4":  {
+                                      "gate":  "MS1",
+                                      "pontuacao":  6,
+                                      "pendencias":  [
+                                                         "There is no design check list",
+                                                         "2Ds are not in Windchill",
+                                                         "2Ds are not in SAP"
+                                                     ]
+                                  }
+                   }
+}

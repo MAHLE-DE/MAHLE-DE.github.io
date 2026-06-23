@@ -1,0 +1,67 @@
+﻿{
+    "DE":  "Bruno Caetano",
+    "projeto":  "Honda LM1093 \u0026 LM1093/1 AP2Di",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "Customer agreement do MPS não está no Easy"
+                                                                     ]
+                                                  },
+                       "ADVP\u0026R MS0":  {
+                                               "gate":  "MS0",
+                                               "pontuacao":  8,
+                                               "pendencias":  [
+                                                                  "Lay-out test sem evidência de decisão de inclusão no ADVP\u0026R"
+                                                              ]
+                                           },
+                       "MAHLE Perf. Specif MS1":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  4,
+                                                      "pendencias":  [
+                                                                         "Nem todos os pontos foram confirmados",
+                                                                         "A estratégia para solução não foi preenchida",
+                                                                         "Falta evidência de acordo com o cliente sobre os desvios"
+                                                                     ]
+                                                  },
+                       "2D DL4":  {
+                                      "gate":  "MS1",
+                                      "pontuacao":  6,
+                                      "pendencias":  [
+                                                         "Não possui nenhum check list de desenho",
+                                                         "Desenhos 2D não estão no Windchill, apenas 3D",
+                                                         "Desenhos não estão no SAP (apenas desenho de conjunto)"
+                                                     ]
+                                  },
+                       "3D DL4":  {
+                                      "gate":  "MS1",
+                                      "pontuacao":  9,
+                                      "pendencias":  [
+                                                         "Desenhos foram submetidos no Windchill após o início do Soft Tooling (Jun/2024)"
+                                                     ]
+                                  },
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  0,
+                                      "pendencias":  [
+                                                         "Não localizado no One PLM"
+                                                     ]
+                                  },
+                       "BOM QG2":  {
+                                       "gate":  "QG2",
+                                       "pontuacao":  0,
+                                       "pendencias":  [
+                                                          "Não preenchido",
+                                                          "Não teve avanço de gate"
+                                                      ]
+                                   },
+                       "Design approved by customer":  {
+                                                           "gate":  "QG2",
+                                                           "pontuacao":  1,
+                                                           "pendencias":  [
+                                                                              "DAM Não existe"
+                                                                          ]
+                                                       }
+                   }
+}

@@ -1,0 +1,35 @@
+﻿{
+    "DE":  "Tadeu Domingues",
+    "projeto":  "Volvo OC1817 OES",
+    "documentos":  {
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  7,
+                                       "pendencias":  [
+                                                          "Cabeçalho desatualizado (Consultar B2)",
+                                                          "Ultima atualização não foi explicado o motivo (Consultar I2) "
+                                                      ]
+                                   },
+                       "Stack up (Mockup)":  {
+                                                 "gate":  "MS1",
+                                                 "pontuacao":  7,
+                                                 "pendencias":  [
+                                                                    "Não existe documento DFMEA"
+                                                                ]
+                                             },
+                       "DVP\u0026R concluded":  {
+                                                    "gate":  "QG2",
+                                                    "pontuacao":  5,
+                                                    "pendencias":  [
+                                                                       "Precisa subir o CAE para o EasyDMS"
+                                                                   ]
+                                                },
+                       "DFMEA concluded":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  8,
+                                               "pendencias":  [
+                                                                  "Falta a reunião final para finalização do DFMEA"
+                                                              ]
+                                           }
+                   }
+}

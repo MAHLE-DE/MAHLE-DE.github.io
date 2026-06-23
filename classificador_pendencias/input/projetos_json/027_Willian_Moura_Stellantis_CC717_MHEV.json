@@ -1,0 +1,128 @@
+﻿{
+    "DE":  "Willian Moura",
+    "projeto":  "Stellantis CC717 MHEV",
+    "documentos":  {
+                       "MAHLE Perf. Specif MS0":  {
+                                                      "gate":  "MS0",
+                                                      "pontuacao":  7,
+                                                      "pendencias":  [
+                                                                         "Does not analyzed MAHLE WNA",
+                                                                         "Does not agreement customer upload in EasyDMS"
+                                                                     ]
+                                                  },
+                       "BOM MS0":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  7,
+                                       "pendencias":  [
+                                                          "Template desatualizado",
+                                                          "Faltando especificação de material",
+                                                          "Documento na pasta projeto"
+                                                      ]
+                                   },
+                       "CRM/CAM":  {
+                                       "gate":  "MS0",
+                                       "pontuacao":  6,
+                                       "pendencias":  [
+                                                          "Não contem assinatura"
+                                                      ]
+                                   },
+                       "Stack up (Mockup)":  {
+                                                 "gate":  "MS1",
+                                                 "pontuacao":  6,
+                                                 "pendencias":  [
+                                                                    "Só foi realizado o stack up da mola devido a ser um design quase identico ao CC694",
+                                                                    "Informações com Status \u0027NOK\u0027"
+                                                                ]
+                                             },
+                       "DFMEA":  {
+                                     "gate":  "MS1",
+                                     "pontuacao":  6,
+                                     "pendencias":  [
+                                                        "Step 3 não esta completo",
+                                                        "Está faltando severidade falhas tambem existem algumas que não estão lincadas",
+                                                        "Severidades estão fora do estipulado no VDA",
+                                                        "Step 6 não esta completo"
+                                                    ]
+                                 },
+                       "(Raw) Material Release":  {
+                                                      "gate":  "MS1",
+                                                      "pontuacao":  9,
+                                                      "pendencias":  [
+                                                                         "Não consta no Easy"
+                                                                     ]
+                                                  },
+                       "DRM/DAM":  {
+                                       "gate":  "MS1",
+                                       "pontuacao":  8,
+                                       "pendencias":  [
+                                                          "Não assinado",
+                                                          "Não foi assinado "
+                                                      ]
+                                   },
+                       "Special Caracteristic list QG2":  {
+                                                              "gate":  "QG2",
+                                                              "pontuacao":  6,
+                                                              "pendencias":  [
+                                                                                 "Não avaçou gate",
+                                                                                 "Não teve modificação "
+                                                                             ]
+                                                          },
+                       "2D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  9,
+                                      "pendencias":  [
+                                                         "DAM não foi assinado"
+                                                     ]
+                                  },
+                       "3D DL5":  {
+                                      "gate":  "QG2",
+                                      "pontuacao":  8,
+                                      "pendencias":  [
+                                                         "DAM não foi assinado"
+                                                     ]
+                                  },
+                       "BOM QG2":  {
+                                       "gate":  "QG2",
+                                       "pontuacao":  8,
+                                       "pendencias":  [
+                                                          "BOM sem avanço de gate: MS2"
+                                                      ]
+                                   },
+                       "Design approved by customer":  {
+                                                           "gate":  "QG2",
+                                                           "pontuacao":  8,
+                                                           "pendencias":  [
+                                                                              "DAM não foi assinado"
+                                                                          ]
+                                                       },
+                       "DAM QG2 signoff":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  6,
+                                               "pendencias":  [
+                                                                  "Não contem assinatura"
+                                                              ]
+                                           },
+                       "DVP\u0026R concluded":  {
+                                                    "gate":  "QG2",
+                                                    "pontuacao":  8,
+                                                    "pendencias":  [
+                                                                       "Não contem assinatura"
+                                                                   ]
+                                                },
+                       "DFMEA concluded":  {
+                                               "gate":  "QG2",
+                                               "pontuacao":  4,
+                                               "pendencias":  [
+                                                                  "Não contem revisão ",
+                                                                  "Não contem assinatura"
+                                                              ]
+                                           },
+                       "PV Validation concluded":  {
+                                                       "gate":  "QG3",
+                                                       "pontuacao":  3,
+                                                       "pendencias":  [
+                                                                          "Ainda existem resultados que não foram liberados devido ao cronograma de teste"
+                                                                      ]
+                                                   }
+                   }
+}
