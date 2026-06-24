@@ -63,6 +63,7 @@ function exportarElementoComoPng(selector, fileName, button) {
         item.style.opacity = "1";
         item.style.transform = "none";
       });
+      prepararPendingClassifierParaExportacao(clonedTarget, fileName);
       prepararLosangosAuditParaExportacao(clonedDoc, clonedTarget);
       clonedTarget.querySelectorAll(".export-png-btn").forEach(item => {
         item.style.display = "none";
@@ -86,6 +87,13 @@ function exportarElementoComoPng(selector, fileName, button) {
 }
 
 function calcularTamanhoExportacao(target) {
+  if (target.matches("#pendingClassifierKpi")) {
+    return {
+      width: 1500,
+      height: 780
+    };
+  }
+
   if (target.matches(".audit-schedule-calendar-board")) {
     return calcularTamanhoCalendario(target);
   }
@@ -104,6 +112,61 @@ function calcularTamanhoExportacao(target) {
     width: Math.ceil(width),
     height: Math.ceil(height)
   };
+}
+
+function prepararPendingClassifierParaExportacao(clonedTarget, fileName) {
+  if (!clonedTarget.matches("#pendingClassifierKpi") || fileName !== "pending-classifier-kpis") {
+    return;
+  }
+
+  clonedTarget.classList.add("pending-kpi-export-layout");
+  clonedTarget.style.display = "grid";
+  clonedTarget.style.gridTemplateColumns = "minmax(0, 1fr) minmax(0, 1fr)";
+  clonedTarget.style.gap = "24px";
+  clonedTarget.style.padding = "24px";
+  clonedTarget.style.background = "#ffffff";
+
+  Array.from(clonedTarget.children).forEach(child => {
+    child.style.display = "none";
+  });
+
+  const grids = clonedTarget.querySelectorAll(".pending-kpi-grid, .pending-kpi-secondary-grid");
+  if (!grids.length) return;
+
+  grids.forEach(grid => {
+    grid.style.display = "contents";
+  });
+
+  const cards = Array.from(clonedTarget.querySelectorAll(".pending-kpi-panel"));
+  cards.forEach(card => {
+    const title = card.querySelector("h3")?.textContent?.trim() || "";
+    const keep = title === "Main pending types" || title === "Development Engineer workload";
+    card.style.display = keep ? "block" : "none";
+    if (!keep) return;
+
+    card.style.minHeight = "700px";
+    card.style.padding = "30px";
+    card.style.borderRadius = "28px";
+    card.style.boxShadow = "none";
+    card.style.border = "1px solid #dce5f5";
+
+    const chart = card.querySelector(".pending-kpi-chart-wrap");
+    if (chart) {
+      chart.style.height = "560px";
+    }
+
+    const deScroll = card.querySelector(".pending-de-chart-scroll");
+    const deChart = card.querySelector(".pending-de-chart");
+    if (deScroll) {
+      deScroll.style.overflow = "visible";
+      deScroll.style.paddingTop = "18px";
+    }
+    if (deChart) {
+      deChart.style.height = "560px";
+      deChart.style.minWidth = "100%";
+      deChart.style.gap = "18px";
+    }
+  });
 }
 
 function prepararLosangosAuditParaExportacao(clonedDoc, clonedTarget) {

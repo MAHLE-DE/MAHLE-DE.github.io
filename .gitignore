@@ -1,6 +1,7 @@
 backup_*/
 backups/
 firebase_exports/
+prototipo_ia_pendencias/
 prototipo_ia_pendencias/data/
 prototipo_ia_pendencias/models/
 prototipo_ia_pendencias/output/
@@ -17,6 +18,7 @@ info_dash/*
 !info_dash/bas/Dash_json.bas
 !info_dash/bas/macro_acquisition.txt
 !info_dash/bas/Classificador_firebase.txt
+!info_dash/prompt_atualizacao_json_pendencias.txt
 site_atual/
 audit_schedule.json
 _calendar_wip_preview/

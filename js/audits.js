@@ -1100,7 +1100,10 @@ function _renderAuditDocumentBar(doc, project) {
 function _renderAuditBacklogTooltip(tooltip) {
   return `
     <span class="audit-backlog-tooltip ${_escapeHtml(tooltip.tone || "")}" role="tooltip">
-      <span class="audit-backlog-tooltip-kicker">${_escapeHtml(tooltip.kicker)}</span>
+      <span class="audit-backlog-tooltip-head">
+        <span class="audit-backlog-tooltip-kicker">${_escapeHtml(tooltip.kicker)}</span>
+        ${tooltip.scoreLabel ? `<span class="audit-backlog-tooltip-score">${_escapeHtml(tooltip.scoreLabel)}</span>` : ""}
+      </span>
       <strong>${_escapeHtml(tooltip.title)}</strong>
       <span class="audit-backlog-tooltip-list">
         ${tooltip.items.slice(0, 5).map(item => `
@@ -1113,6 +1116,9 @@ function _renderAuditBacklogTooltip(tooltip) {
 }
 
 function _getAuditDocumentTooltip(project, auditDoc, effectiveScore) {
+  const scoreLabel =
+    _formatAuditTooltipScore(auditDoc);
+
   if (Number(auditDoc.status) === 4) {
     const justification =
       _getAuditNAJustification(project, auditDoc);
@@ -1121,6 +1127,7 @@ function _getAuditDocumentTooltip(project, auditDoc, effectiveScore) {
       kicker: "N/A justification",
       title: "Reason registered for this document",
       tone: "is-na",
+      scoreLabel,
       items: [
         justification ||
         "N/A justification has not been specified for this document."
@@ -1133,6 +1140,7 @@ function _getAuditDocumentTooltip(project, auditDoc, effectiveScore) {
       kicker: "Backlog findings",
       title: "Document fully resolved",
       tone: "is-resolved",
+      scoreLabel,
       items: [
         "All backlog findings for this document are resolved."
       ]
@@ -1146,10 +1154,22 @@ function _getAuditDocumentTooltip(project, auditDoc, effectiveScore) {
     kicker: "Backlog findings",
     title: "Open items for this document",
     tone: "is-open",
+    scoreLabel,
     items: findings.length
       ? findings
       : ["Backlog finding not specified for this document."]
   };
+}
+
+function _formatAuditTooltipScore(auditDoc) {
+  const rawScore = Number.isFinite(Number(auditDoc.rawScore))
+    ? Number(auditDoc.rawScore)
+    : Number(auditDoc.score);
+
+  if (!Number.isFinite(rawScore)) return "";
+
+  const normalized = Math.max(0, Math.min(1, rawScore));
+  return `Score: ${Math.round(normalized * 100)}%`;
 }
 
 function _getAuditNAJustification(project, auditDoc) {
@@ -1244,7 +1264,12 @@ function _getAuditBacklogFindings(project, auditDoc) {
   }
 
   return best.backlogDoc.pendencias
-    .map(item => String(item || "").trim())
+    .map(item => {
+      if (typeof getBacklogPendingText === "function") {
+        return getBacklogPendingText(item);
+      }
+      return String(item || "").trim();
+    })
     .filter(Boolean);
 }
 

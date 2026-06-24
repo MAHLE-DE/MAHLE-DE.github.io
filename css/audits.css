@@ -903,14 +903,35 @@
   transform: translate(-50%, -100%) scale(1);
 }
 
+.audit-backlog-tooltip-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 5px;
+}
+
 .audit-backlog-tooltip-kicker {
-  display: block;
+  display: inline-flex;
   color: var(--mahle-blue);
   font-size: 12px;
   font-weight: 950;
   letter-spacing: .08em;
   text-transform: uppercase;
-  margin-bottom: 5px;
+}
+
+.audit-backlog-tooltip-score {
+  flex: 0 0 auto;
+  color: #0f172a;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 3px 7px;
+  border: 1px solid rgba(120, 134, 156, .42);
+  border-radius: 6px;
+  background: rgba(226, 232, 240, .42);
 }
 
 .audit-backlog-tooltip strong {

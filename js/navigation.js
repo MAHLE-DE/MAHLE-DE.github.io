@@ -160,6 +160,9 @@ document.addEventListener(
               console.error("KPI overview chart error:", error);
             }
           }
+          if (typeof carregarPendingClassifierKpis === "function") {
+            carregarPendingClassifierKpis();
+          }
 			  }, 50);
 			  setTimeout(() => {
           if (typeof recalcularDashboard === "function") {

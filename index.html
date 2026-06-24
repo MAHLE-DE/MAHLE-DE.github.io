@@ -158,15 +158,30 @@
 
           <div class="kpi-chart-header">
             <h2>Overall Analysis by Development Engineer</h2>
-            <button class="export-png-btn" type="button" data-export-selector=".kpi-chart-card" data-export-name="overall-analysis-development-engineer">
-              <i class="fa-regular fa-image"></i>
-            </button>
+            <div class="de-overview-actions">
+              <div class="de-overview-scope-tabs" role="tablist" aria-label="Overall Analysis by Development Engineer scope">
+                <button type="button" class="active" data-de-overview-scope="current">Current</button>
+                <button type="button" data-de-overview-scope="overall">Overall</button>
+                <button type="button" data-de-overview-scope="completed">Completed</button>
+              </div>
+              <button class="export-png-btn" type="button" data-export-selector=".kpi-chart-card" data-export-name="overall-analysis-development-engineer">
+                <i class="fa-regular fa-image"></i>
+              </button>
+            </div>
           </div>
 
           <div class="kpi-chart-wrap">
             <canvas id="deOverviewChart"></canvas>
           </div>
 
+        </div>
+
+        <div id="pendingClassifierKpi" class="pending-kpi-shell">
+          <div class="site-loading compact">
+            <div class="site-loader"></div>
+            <strong>Loading classified pending KPIs</strong>
+            <span>Reading classificado/classificador from Firestore.</span>
+          </div>
         </div>
 
         <!-- ================= DASHBOARD ================= -->

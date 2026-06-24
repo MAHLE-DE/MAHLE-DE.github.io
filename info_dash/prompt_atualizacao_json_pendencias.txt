@@ -1,0 +1,111 @@
+Prompt para atualizar a macro geradora do JSON de pendencias
+============================================================
+
+Preciso atualizar a macro VBA que gera o JSON de pendencias de auditoria.
+
+Formato atual gerado:
+
+{
+  "DE": "...",
+  "projeto": "...",
+  "documentos": {
+    "NOME DO DOCUMENTO": {
+      "gate": "MS0",
+      "pontuacao": 8,
+      "pendencias": [
+        "Texto da pendencia"
+      ]
+    }
+  }
+}
+
+Quero manter a mesma estrutura geral, mas alterar o conteudo de "pendencias" para que cada pendencia deixe de ser uma string simples e passe a ser um objeto com informacoes do criterio que originou aquela pendencia.
+
+Novo formato desejado:
+
+{
+  "DE": "...",
+  "projeto": "...",
+  "documentos": {
+    "NOME DO DOCUMENTO": {
+      "gate": "MS0",
+      "pontuacao": 8,
+      "pendencias": [
+        {
+          "text": "Texto da pendencia escrito pelo auditor",
+          "criterion": "Texto do criterio relacionado a pendencia",
+          "criterionWeight": 1
+        }
+      ]
+    }
+  }
+}
+
+Regras para montar cada pendencia:
+
+1. A macro deve continuar identificando documentos, gate e pontuacao como ja faz hoje.
+
+2. Para cada documento da auditoria, existem 10 criterios no total abaixo do nome do documento.
+
+3. O nome do documento fica na coluna D.
+
+4. Os criterios ficam tambem na coluna D, nas linhas abaixo do nome do documento.
+
+5. A pendencia escrita pelo auditor fica na coluna G da mesma linha do criterio quando aquele criterio nao foi cumprido/NOK.
+
+6. Se a celula da coluna G estiver vazia, nao gerar pendencia para aquele criterio.
+
+7. Se a celula da coluna G tiver texto, gerar um objeto dentro de "pendencias".
+
+8. O campo "text" deve receber exatamente o texto da coluna G, escapado corretamente para JSON.
+
+9. O campo "criterion" deve receber o texto do criterio correspondente da coluna D.
+
+10. O campo "criterionWeight" deve representar o peso daquele criterio.
+
+Regra de peso do criterio:
+
+- Por padrao, cada criterio vale 1.
+- Quando houver uma ou mais setas "->" nas linhas abaixo de um criterio, essas setas pertencem ao criterio imediatamente acima.
+- Cada seta aumenta o peso daquele criterio em +1.
+- Portanto:
+  - criterio sem setas abaixo: criterionWeight = 1
+  - criterio com 1 seta abaixo: criterionWeight = 2
+  - criterio com 2 setas abaixo: criterionWeight = 3
+  - e assim por diante.
+
+Exemplo:
+
+Linha 20, coluna D: "Evidence of customer agreement"
+Linha 21, coluna D: "->"
+Linha 22, coluna D: "->"
+Linha 20, coluna G: "Customer agreement not available"
+
+Resultado:
+
+{
+  "text": "Customer agreement not available",
+  "criterion": "Evidence of customer agreement",
+  "criterionWeight": 3
+}
+
+Importante:
+
+- Nao criar pendencias para linhas que sao apenas setas.
+- Setas servem apenas para aumentar o peso do criterio acima.
+- Se por algum motivo nao for possivel identificar o peso, usar criterionWeight = 1, nunca 0.
+- O JSON deve continuar valido mesmo com aspas, quebras de linha, acentos e caracteres especiais no texto da pendencia ou do criterio.
+- Manter os nomes dos campos exatamente assim:
+  - text
+  - criterion
+  - criterionWeight
+
+Tambem preciso que a macro mantenha compatibilidade com o restante da estrutura atual do JSON, sem alterar os campos:
+
+- DE
+- projeto
+- documentos
+- gate
+- pontuacao
+
+A unica mudanca estrutural deve ser dentro de "pendencias", que deixa de ser lista de strings e passa a ser lista de objetos.

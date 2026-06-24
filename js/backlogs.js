@@ -494,10 +494,12 @@ function criarCardProjeto(
 
             doc.pendencias
               .forEach(p => {
+                const pendingText =
+                  getBacklogPendingText(p);
 
                 html += `
                   <li>
-                    ${p}
+                    ${escapeLoadingText(pendingText)}
                   </li>
                 `;
               });
@@ -676,6 +678,20 @@ function escapeLoadingText(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+function getBacklogPendingText(value) {
+  if (value && typeof value === "object") {
+    return String(
+      value.text ??
+      value.pendingText ??
+      value.finding ??
+      value.description ??
+      ""
+    ).trim();
+  }
+
+  return String(value ?? "").trim();
 }
 
 function esconderLoading() {
